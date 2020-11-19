@@ -9,6 +9,7 @@ import './Support/CSS-Utils/utils.css';
 
 import Navbar from './Component/Navbar';
 import ListProduct from './Pages/ListProduct/ListProduct';
+import CheckoutForm from './Component/CheckoutForm';
 
 
 
@@ -20,7 +21,7 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
           <Switch>
-            <Route path='/list-product' component={ListProduct} />
+          <Route path='/list-product' component={ListProduct} />
           </Switch>
       </BrowserRouter>
     </Provider>
