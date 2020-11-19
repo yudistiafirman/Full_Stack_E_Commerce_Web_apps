@@ -9,6 +9,7 @@ import './Support/CSS-Utils/Utils.css';
 
 import Navbar from './Component/Navbar/Navbar';
 import ListProduct from './Pages/ListProduct/ListProduct';
+import CheckoutForm from './Component/CheckoutForm';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
@@ -18,7 +19,7 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
           <Switch>
-            <Route path='/list-product' component={ListProduct} />
+          <Route path='/list-product' component={ListProduct} />
           </Switch>
       </BrowserRouter>
     </Provider>
