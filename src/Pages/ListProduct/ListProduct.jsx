@@ -1,81 +1,68 @@
-import React from 'react'
-import './ListProduct.css'
+import { faCheck, faChevronCircleDown, faChevronDown, faStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from 'react'
+import CardProduct from '../../Component/CardProduct'
+import './CardProduct.css'
+import './SortProduct.css'
+import {  Button, CardBody, Card, Collapse } from 'reactstrap';
+
 
 
 const ListProduct = () => {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => setIsOpen(!isOpen);
+
+    
     return (
-        <div className='container'>
+        <div className='container mt-5'>
+            {/* <div style={{display : 'flex', alignItems : 'center'}}>
+                <span className='border container-check-box' >
+                    <FontAwesomeIcon icon={faCheck} style={{fontSize : 12, margin : 0, padding : 0}}/>
+                </span>
+                <span style={{marginLeft : 5 ,display : 'flex', justifyContent : 'center', alignItems : 'center'}} >
+                    <FontAwesomeIcon icon={faStar} style={{fontSize : 14, color : 'orange'}}/>
+                    <p style={{fontSize : 14, marginLeft : 5}}>5 ke atas</p>
+                </span>
+            </div> */}
             <div className='row'>
-                <div className='col-md-3 border' style={{padding : 10, backgroundSize: 'cover',backgroundPosition: 'center'}}>
-                    <div className='border'>
-                    <div className=' container-image w-100' style={{padding : 10}}>
-                        <img 
-                        className=''
-                        style={{maxWidth : '100%', height : 'auto', position: 'relative' }}
-                        src='https://images.freshop.com/00041383090363/7f213cf018f31573c7f942fd564d255a_large.png'
-                        
-                        />
-                    </div>
-                    <span style={{position : 'absolute',top : 11, left : 11,backgroundColor : 'salmon', padding : 5, fontSize : 12, color : 'white'}}>
-                        Best Seller
-                    </span>
-                    <div style={{marginTop : 10, padding : 10}}>
-                        <p style={{fontSize : 14}}>
-                            Hometown fresh milk 1 lt
-                        </p>
-                        <p>
-                            Rp. 13.500
-                        </p>
-                        <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 15}}/>
-                        <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 15}}/>
-                        <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 15}}/>
-                        <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 15}}/>
-                    </div>
-                    </div>
-                </div>
-
-                <div className='col-md-3 border' style={{padding : 10}}>
-                    <div className=' container-image w-100' style={{padding : 10}}>
-                        <img 
-                        className=''
-                        style={{maxWidth : '100%', height : 'auto', }}
-                        src='https://assets.sainsburys-groceries.co.uk/gol/181402/1/640x640.jpg'
-                        
-                        />
-                    </div>
-                    <span style={{position : 'absolute',top : 11, left : 11,backgroundColor : 'salmon', padding : 5, fontSize : 12, color : 'white'}}>
-                        Best Seller
-                    </span>
-                    <div style={{marginTop : 15, }}>
-                        <p>
-                            Hometown fresh milk 1 lt
-                        </p>
-                        <p>
-                            Rp. 13.500
-                        </p>
-                        
-                    </div>
-                </div>
-
-                <div className='col-md-2'>
-                    <div className='border'>
-                        <div>
-                            jajaja
+                <div className='col-md-3'>
+                    <div>
+                        <div onClick={toggle} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between', paddingBottom : 10}} >
+                            <p>Kategori</p>
+                            <FontAwesomeIcon icon={faChevronDown} style={{fontSize : 14}}/>
                         </div>
+                        <Collapse isOpen={isOpen}>
+                            <div>Sayuran</div>
+                            <div>Buah-buahan</div>
+                            <div>Sembako</div>
+                            <div>Sayuran</div>
+                            <div>Sayuran</div>
+                            <div>Sayuran</div>
+                            <div>Sayuran</div>
+                        </Collapse>
                     </div>
-                </div>
-
-                <div className='col-md-2'>
-                    <div className='border'>
-                        <div>
-                            jajaja
+                    <div>
+                        <div onClick={toggle} className='border-top' style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between', paddingBottom : 10, paddingTop : 10}} >
+                            <p>Kategori</p>
+                            <FontAwesomeIcon icon={faChevronDown} style={{fontSize : 14}}/>
                         </div>
+                        <Collapse>
+                            <div>Sayuran</div>
+                            <div>Buah-buahan</div>
+                            <div>Sembako</div>
+                            <div>Sayuran</div>
+                            <div>Sayuran</div>
+                            <div>Sayuran</div>
+                            <div>Sayuran</div>
+                        </Collapse>
                     </div>
                 </div>
-
-               
+                <CardProduct />
+                <CardProduct />
+                <CardProduct />
+                
             </div>
         </div>
     )

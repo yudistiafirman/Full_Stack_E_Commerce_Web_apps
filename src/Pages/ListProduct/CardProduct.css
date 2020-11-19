@@ -1,0 +1,48 @@
+.card-container {
+    border-radius: 10px;
+    padding: 20px 0;
+}
+.card-container:hover {
+    border-radius: 10;
+    box-shadow: 0px 0px 7px 0px rgba(173,173,173,1);
+    cursor: pointer;
+    position: 'absolute';
+}
+
+.container-image {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.a-button {
+    border: 0.5px solid salmon;
+    width: fit-content;
+    padding: 1px 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: salmon;
+}
+
+.a-button-inner {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.a-button-inner:hover {
+    background-color: salmon;
+    color: cornsilk;
+}
+
+
+.a-button-text {
+    font-size: 12px;
+}
+
+.button-container {
+    /* margin: 10px 0; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
