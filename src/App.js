@@ -5,11 +5,14 @@ import thunk from 'redux-thunk';
 import rootReducer from './Redux/Reducer';
 import {BrowserRouter,Route,Switch} from 'react-router-dom';
 
-import './Support/CSS-Utils/Utils.css';
+import './Support/CSS-Utils/utils.css';
 
 import Navbar from './Component/Navbar/Navbar';
-import ListProduct from './Pages/ListProduct/ListProduct';
 import CheckoutForm from './Component/CheckoutForm';
+import ListProduct from './Pages/ListProduct/ListProduct';
+
+
+
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
@@ -19,7 +22,8 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
           <Switch>
-          <Route path='/list-product' component={ListProduct} />
+            <Route path='/list-product' component={ListProduct} />
+            <Route path='/checkout-form' component={CheckoutForm} />
           </Switch>
       </BrowserRouter>
     </Provider>

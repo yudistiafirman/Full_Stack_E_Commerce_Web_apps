@@ -12,8 +12,11 @@ const ListProduct = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const [cek, setCek] = useState(0)
+
     const toggle = () => setIsOpen(!isOpen);
 
+    console.log(cek)
     
     return (
         <div className='container mt-5'>
@@ -34,13 +37,42 @@ const ListProduct = () => {
                             <FontAwesomeIcon icon={faChevronDown} style={{fontSize : 14}}/>
                         </div>
                         <Collapse isOpen={isOpen}>
-                            <div>Sayuran</div>
-                            <div>Buah-buahan</div>
-                            <div>Sembako</div>
-                            <div>Sayuran</div>
-                            <div>Sayuran</div>
-                            <div>Sayuran</div>
-                            <div>Sayuran</div>
+                            <span style={{display : 'flex', alignItems : 'center'}}>
+                                <input 
+                                type="checkbox" 
+                                checked={cek} 
+                                onChange={() => setCek(!cek)}  
+                                style={{width : 16, height : 16}}
+                                />
+                                <p style={{marginLeft : 10}}>Sayuran</p>
+                            </span>
+                            <span style={{display : 'flex', alignItems : 'center'}}>
+                                <input 
+                                type="checkbox" 
+                                checked={cek} 
+                                onChange={() => setCek(!cek)}  
+                                style={{width : 16, height : 16}}
+                                />
+                                <p style={{marginLeft : 10}}>Sayuran</p>
+                            </span>
+                            <span style={{display : 'flex', alignItems : 'center'}}>
+                                <input 
+                                type="checkbox" 
+                                checked={cek} 
+                                onChange={() => setCek(!cek)}  
+                                style={{width : 16, height : 16}}
+                                />
+                                <p style={{marginLeft : 10}}>Sayuran</p>
+                            </span>
+                            <span style={{display : 'flex', alignItems : 'center'}}>
+                                <input 
+                                type="checkbox" 
+                                checked={cek} 
+                                onChange={() => setCek(!cek)}  
+                                style={{width : 16, height : 16}}
+                                />
+                                <p style={{marginLeft : 10}}>Sayuran</p>
+                            </span>
                         </Collapse>
                     </div>
                     <div>
@@ -49,13 +81,7 @@ const ListProduct = () => {
                             <FontAwesomeIcon icon={faChevronDown} style={{fontSize : 14}}/>
                         </div>
                         <Collapse>
-                            <div>Sayuran</div>
-                            <div>Buah-buahan</div>
-                            <div>Sembako</div>
-                            <div>Sayuran</div>
-                            <div>Sayuran</div>
-                            <div>Sayuran</div>
-                            <div>Sayuran</div>
+                            
                         </Collapse>
                     </div>
                 </div>

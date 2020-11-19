@@ -1,3 +1,8 @@
+p {
+	margin: 0;
+	padding: 0;
+}
+
 :root{
     --main-light : #0095da;
     --main-dark : #007eb8;
