@@ -1,0 +1,9 @@
+.container-card {
+    border: 1px solid black;
+}
+
+.container-image {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
