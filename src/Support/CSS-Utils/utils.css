@@ -4,8 +4,8 @@
     --light : #fdfdfd;
     --dark : #303841;
     --secondary : #f37021;
-    --light-grey : #fafafa;
-    --dark-grey : #e4e3e3;
+    --light-grey : #e4e3e3;
+    --dark-grey : #6c757d;
     --info : #00b35e;
     --danger : #fe4A49;
 }
@@ -37,7 +37,7 @@
 }
 
 .pa-bg-dark-grey{
-    background-color: var(--grey);
+    background-color: var(--dark-grey);
 }
 
 .pa-bg-info{
@@ -75,7 +75,7 @@
 }
 
 .pa-dark-grey{
-    color: var(--grey)
+    color: var(--dark-grey)
 }
 
 .pa-info{
@@ -143,6 +143,16 @@
     text-decoration: none;
 }
 
-.pa-input:focus{
-    outline: none;
+.pa-clickable-element{
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.pa-input:focus, .pa-input.form-control:focus {
+    outline: none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
 }
