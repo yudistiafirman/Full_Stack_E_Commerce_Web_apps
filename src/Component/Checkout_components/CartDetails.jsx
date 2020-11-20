@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import Toggle from "../Toggle.jsx";
-import PiImg from '../../assets/images/Raspberry_Pi.png';
-import PiLcdImg from '../../assets/images/Raspberry_Pi_LCD.png';
+import PiImg from '../../Support/Images/Raspberry_Pi.png';
+import PiLcdImg from '../../Support/Images/Raspberry_Pi_LCD.png';
 
 export default class CartDetails extends Component {
   constructor(props) {

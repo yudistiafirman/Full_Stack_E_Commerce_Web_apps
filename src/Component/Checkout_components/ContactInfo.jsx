@@ -4,7 +4,7 @@ import Toggle from '../Toggle.jsx';
 import ProvinsiOptions from './input_options/provinsiOptions.jsx';
 import KotaOptions from './input_options/kotaOptions.jsx';
 import DaerahOptions from './input_options/daerahOptions.jsx';
-import PlusIcon from '../../assets/images/_ionicons_svg_md-add.png';
+import PlusIcon from '../../Support/Images/_ionicons_svg_md-add.png';
 
 export default class FormContactInfo extends React.Component {
   render() {
