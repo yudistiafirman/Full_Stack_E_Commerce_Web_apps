@@ -8,6 +8,7 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import './Support/CSS-Utils/utils.css';
 
 import Navbar from './Component/Navbar/Navbar';
+import LandingPage from './Pages/LandingPage/LandingPage';
 import CheckoutForm from './Component/CheckoutForm';
 import ListProduct from './Pages/ListProduct/ListProduct';
 
@@ -22,6 +23,7 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
           <Switch>
+            <Route exact path='/' component={LandingPage} />
             <Route path='/list-product' component={ListProduct} />
             <Route path='/checkout-form' component={CheckoutForm} />
           </Switch>
