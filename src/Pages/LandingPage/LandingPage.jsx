@@ -1,40 +1,402 @@
-import React from 'react'
-import { UncontrolledCarousel } from 'reactstrap';
+import React, { Component }  from 'react';
+import Slider from 'react-slick';
 
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import './LandingPage.css';
 
-const LandingPage = () => {
 
-    const items = [
-        {
-          src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-          altText: 'Slide 1',
-          caption: 'Slide 1',
-          header: 'Slide 1 Header',
-          key: '1'
-        },
-        {
-          src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-          altText: 'Slide 2',
-          caption: 'Slide 2',
-          header: 'Slide 2 Header',
-          key: '2'
-        },
-        {
-          src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22277%22%20y%3D%22218.3%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
-          altText: 'Slide 3',
-          caption: 'Slide 3',
-          header: 'Slide 3 Header',
-          key: '3'
-        }
-    ]
-      
+import TShirtIcon from './../../Support/Images/T-Shirt.png';
+import PantsIcon from './../../Support/Images/Trousers.png';
+import ShirtIcon from './../../Support/Images/Shirt.png';
+import JacketIcon from './../../Support/Images/Jacket.png';
+import ShoesIcon from './../../Support/Images/Shoes.png';
+import Newsletter from './../../Support/Images/Newsletter.jpg';
+import FlashIcon from './../../Support/Images/Flash.png';
 
-    return(
+export class LandingPage extends Component {
+    render(){
+
+      const mobileSettings = {
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        dots: true
+      }
+
+      const desktopSettings = {
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        dots: false
+      }
+
+      return(
+        // LANDING PAGE
         <div>
-            <UncontrolledCarousel items={items} className="pa-jumbotron" />
+          {/* JUMBOTRON SECTION */}
+          <div>
+            <div className="px-0 py-5 pa-jumbotron">
+              <div className="container w-100 h-100">
+                <div className="row justify-content-center align-items-end align-items-md-center h-100">
+                  <div className="col-12 pa-light">
+                      <h1 className="text-center text-md-right font-weight-bold pa-font-size-50 pa-light">
+                          Flash Sale : <br />
+                          <span className="text-center text-md-right font-weight-light pa-font-size-50 pa-light">
+                              25 - 50%
+                          </span>
+                      </h1>
+                      <h1 className="text-center text-md-right pa-font-size-18 pa-light">
+                          * Only On December!
+                      </h1>
+                      <div className="text-center text-md-right mt-0 mb-0 mt-md-4 mb-md-0">
+                          <input type="button" value="Shop Now" className="btn btn-light rounded-0 px-5 py-2 px-md-5 py-md-2" />
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          {/* FAVOURITE SECTION */}
+          <div>
+            <div className="container px-0 pt-0 pb-3 pa-favourite-card-desktop-display">
+              <div className="px-0 pt-1 pb-0">
+                <h3>
+                  Favorit Kamu
+                </h3>
+              </div>
+
+              {/* Desktop Section */}
+              <div className="pa-favourite-card-desktop-display">
+                <div className="row justify-content-between mx-0 my-3"> 
+                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                    <div>
+                      <img src={TShirtIcon} width="30" />
+                    </div>
+                    <div className="align-self-center mx-3 my-0">
+                      T-Shirt
+                    </div>
+                  </div>
+                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                    <div>
+                      <img src={ShirtIcon} width="30" />
+                    </div>
+                    <div className="align-self-center mx-3 my-0">
+                      Shirt
+                    </div>
+                  </div>
+                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                    <div>
+                      <img src={JacketIcon} width="30" />
+                    </div>
+                    <div className="align-self-center mx-3 my-0">
+                      Jacket
+                    </div>
+                  </div>
+                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                    <div>
+                      <img src={PantsIcon} width="30" />
+                    </div>
+                    <div className="align-self-center mx-3 my-0">
+                      Pants
+                    </div>
+                  </div>
+                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                    <div>
+                      <img src={ShoesIcon} width="30" />
+                    </div>
+                    <div className="align-self-center mx-3 my-0">
+                      Shoes
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="d-none d-md-block px-3 pt-3 pb-1 px-md-0 pt-md-4 pb-md-2">
+                <img src={Newsletter} width="100%" alt="Newsletter Banner" style={{borderRadius: 5}} />
+              </div>
+            </div>
+          </div>
+
+
+
+          {/* FLASH SALE SECTION */}
+          {/* Mobile Section */}
+          <div className="d-block d-md-none">
+            <div className="px-0 py-0 pa-bg-main-light">
+              <div className="container px-3 py-3">
+                <div>
+                  <span>
+                    <img src={FlashIcon} width="35" style={{marginTop: -14, marginBottom: 0}} />
+                  </span>
+                  <span className="mx-3 my-0 pa-font-size-30 pa-light">
+                    Flash Sale
+                  </span>
+                </div>
+                <div className="pt-3 pb-3">
+                  <Slider {...mobileSettings}>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium/MTA-6328992/marhen-j_marhen-j-rico-mini-tas-wanita---jester-red_full03.jpg?output-format=webp" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://dynamic.zacdn.com/ehUIYiPQxlq_gU8VtaGpqF4W4l8=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium/MTA-6328992/marhen-j_marhen-j-rico-mini-tas-wanita---jester-red_full03.jpg?output-format=webp" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium/MTA-6328992/marhen-j_marhen-j-rico-mini-tas-wanita---jester-red_full03.jpg?output-format=webp" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium/MTA-6328992/marhen-j_marhen-j-rico-mini-tas-wanita---jester-red_full03.jpg?output-format=webp" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/medium/MTA-6328992/marhen-j_marhen-j-rico-mini-tas-wanita---jester-red_full03.jpg?output-format=webp" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Slider>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          {/* Desktop Section */}
+          <div className="d-none d-md-block">
+            <div className="px-0 pa-bg-main-light">
+              <div className="container px-0 py-3">
+                <div>
+                  <span>
+                    <img src={FlashIcon} width="35" style={{marginTop: -14, marginBottom: 0}} />
+                  </span>
+                  <span className="mx-3 my-0 pa-font-size-30 pa-light">
+                    Flash Sale
+                  </span>
+                </div>
+                <div className="pt-3 pb-3">
+                  <Slider {...desktopSettings}>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="px-1 py-0">
+                      <div>
+                        <img src="https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                        <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                          <p className="pa-font-size-16">
+                            MARHEN J Rico Mini Tas...
+                          </p>
+                          <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                            Rp.1.019.000
+                          </p>
+                          <div className="progress mx-0 my-2" style={{height: 5}}>
+                            <div className="progress-bar bg-success" role="progressbar" style={{width: "25%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p className="pa-font-size-12 pa-dark-grey" style={{marginTop: -6}}>
+                            Stock Tersedia
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Slider>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    )
+      )
+    }
 }
 
 export default LandingPage

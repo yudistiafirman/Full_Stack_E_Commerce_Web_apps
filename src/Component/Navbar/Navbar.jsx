@@ -13,7 +13,7 @@ import TShirtIcon from './../../Support/Images/T-Shirt.png';
 import PantsIcon from './../../Support/Images/Trousers.png';
 import ShirtIcon from './../../Support/Images/Shirt.png';
 import JacketIcon from './../../Support/Images/Jacket.png';
-import WalletIcon from './../../Support/Images/Wallet.png';
+import ShoesIcon from './../../Support/Images/Shoes.png';
 import HatIcon from './../../Support/Images/Hat.png';
 import EmptyCart from './../../Support/Images/Empty Cart.webp';
 import HistoryTransactionIcon from './../../Support/Images/Invoice.png';
@@ -26,7 +26,8 @@ export class Navbar extends Component {
         loginErrorMessage: '',
         openDropdown: false,
         openCart: false,
-        openAccount: false
+        openAccount: false,
+        openSideBar: false
     }
 
     render(){
@@ -37,10 +38,10 @@ export class Navbar extends Component {
                 <div className="pa-navbar-mobile-display px-0 py-4">
                     <div className="container">
                         <div className="row justify-content-center align-items-center">
-                            <div className="col-1" style={{zIndex: 1}}>
-                                <img src={MenuIcon} width="20" />
+                            <div onClick={() => this.setState({openSideBar: !this.state.openSideBar})} className="col-1 pa-clickable-element">
+                                <img src={MenuIcon} width="30" />
                             </div>
-                            <div className="col-10 col-md-11">
+                            <div className="col-11">
                                 <div className="input-group">
                                     <input type="text" placeholder="Kamu lagi cari apa?" className="form-control bg-light border border-light pa-input" style={{width: 0, height: 37, borderRadius: "5px 0px 0px 5px", zIndex: 1}} />
                                     <div className="input-group-prepend">
@@ -61,7 +62,7 @@ export class Navbar extends Component {
 
 
                 {/* Desktop Section */}
-                <div className="pa-navbar-desktop-display px-0 py-4 pa-bg-main-light">
+                <div className="pa-navbar-desktop-display px-0 py-3 pa-bg-main-light">
                     <div className="container">
                         <div className="row justify-content-center align-items-center">
                             <div className="col-2 align-self-center">
@@ -78,7 +79,7 @@ export class Navbar extends Component {
                                                     {
                                                         this.state.openDropdown?
                                                             <div className="navbar-search-dropdown-content">
-                                                                <div>
+                                                                <div className="px-3 py-0">
                                                                     <p className="font-weight-bold pa-dark">Cari Kategori</p>
                                                                 </div>
                                                                 <div className="row justify-content-center ml-5 mr-0">
@@ -111,10 +112,10 @@ export class Navbar extends Component {
                                                                         </div>
                                                                         <div className="row align-items-center px-3 py-3">
                                                                             <div>
-                                                                                <img src={WalletIcon} width="30" />
+                                                                                <img src={ShoesIcon} width="32" />
                                                                             </div>
                                                                             <div className="px-3 py-0">
-                                                                                Wallet
+                                                                                Shoes
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -132,7 +133,7 @@ export class Navbar extends Component {
                                                                                 <img src={HatIcon} width="30" />
                                                                             </div>
                                                                             <div className="px-3 py-0">
-                                                                                Hat
+                                                                                Accecories
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -157,10 +158,11 @@ export class Navbar extends Component {
                                     this.state.openCart?
                                         <div className="navbar-cart-dropdown-content">
                                             <img src={EmptyCart} alt="Empty Cart Image" width="300px" />
-                                            <div className="pa-font-size-20 font-weight-bold">
+
+                                            <div className="px-0 pt-3 pb-0 pa-font-size-20 font-weight-bold">
                                                 Lho, Kok Sepi?
                                             </div>
-                                            <div className="pa-dark-grey">
+                                            <div className="pt-0 pb-3 pa-dark-grey">
                                                 Mau diisi apa ya Bag sebesar ini?
                                             </div>
                                         </div>
@@ -234,6 +236,22 @@ export class Navbar extends Component {
                         </div>
                     </div>
                 </div>
+
+
+
+                {/* SIDEBAR SECTION */}
+                {
+                    this.state.openSideBar?
+                        <div class="sidebar">
+                            <a href="#" class="closebtn" onclick={() => this.setState({openSideBar: false})}>&times;</a>
+                            <a href="#">About</a>
+                            <a href="#">Services</a>
+                            <a href="#">Clients</a>
+                            <a href="#">Contact</a>
+                        </div>
+                    :
+                        null
+                }
             </div>
         )
     }
