@@ -1,4 +1,4 @@
-import { faChevronDown, faChevronUp, faSlidersH, faStar} from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faSlidersH, faSquare, faStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import CardProduct from '../../Component/CardProduct'
@@ -11,7 +11,10 @@ const ListProduct = () => {
 
     const [isOpen, setIsOpen] = useState({
         child_1 : false,
-        child_2 : false
+        child_2 : false,
+        child_3 : false,
+        child_4 : false,
+        child_5 : false
     });
     const [cek, setCek] = useState([
         {
@@ -74,7 +77,7 @@ const ListProduct = () => {
 
     
     return (
-        <div className='container mt-5'>
+        <div className='container' style={{paddingTop : 120}}>
             <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', marginBottom : 60}}>
                 <img 
                 style={{width : '100%', height : 250, objectFit : 'cover'}}
@@ -123,7 +126,7 @@ const ListProduct = () => {
                     
 
                     <div>
-                        <div onClick={() => setIsOpen({...isOpen, child_2 : !isOpen.child_2})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
+                        <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_2 : !isOpen.child_2})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
                             <p>Rating</p>
                             <FontAwesomeIcon icon={isOpen.child_2 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
                         </div>
@@ -158,12 +161,135 @@ const ListProduct = () => {
                         </Collapse>
                         </div>
                     </div>
+                    <div>
+                        <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_3 : !isOpen.child_3})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
+                            <p>Price</p>
+                            <FontAwesomeIcon icon={isOpen.child_3 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
+                        </div>
+                        <div style={{padding : 10}}>
+                        <Collapse isOpen={isOpen.child_3}>                            
+                            <span style={{paddingTop : 5,display : 'flex', flexWrap : 'wrap', justifyContent : 'space-between', alignItems : 'center'}}>
+                                <span>
+                                    <p style={{fontSize : 14, marginBottom : 3}} for="formControlRange">Min-Price</p>
+                                    <input type='number' style={{width : 80, fontSize : 12}} />
+                                </span>
+                                <span>-</span>
+                                <span>
+                                    <p style={{fontSize : 14, marginBottom : 3}} for="formControlRange">Max-Price</p>
+                                    <input type='number' style={{width : 80, fontSize : 12}} />
+                                </span>
+                            </span>
+                                  
+                        </Collapse>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_4 : !isOpen.child_4})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
+                            <p>Colors</p>
+                            <FontAwesomeIcon icon={isOpen.child_4 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
+                        </div>
+                        <div style={{padding : 10}}>
+                            <Collapse isOpen={isOpen.child_4}>                            
+                                <div className='container-colors'>
+                                    
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                    <span className='container-icon-colors'>
+                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
+                                    </span>
+                                        
+                                </div>
+                            </Collapse>
+                        </div>
+
+                        <div>
+                        <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_5 : !isOpen.child_5})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
+                            <p>Brands</p>
+                            <FontAwesomeIcon icon={isOpen.child_5 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
+                        </div>
+                        <div style={{padding : 10}}>
+                        <Collapse isOpen={isOpen.child_5}>                            
+                            {
+                                rating.map((val,index) => {
+                                    return(
+                                        <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
+                                            <input 
+                                            type="checkbox" 
+                                            checked={val.isChecked}
+                                            onClick={(e) => onHandleCheckRating(e)}
+                                            style={{width : 16, height : 16}}
+                                            value={val.name}
+                                            />
+
+                                            <span style={{marginLeft : 10}}>
+                                            {
+                                            Array.apply(null, {length: val.star}).map(Number.call, Number).map((val) => {
+                                                return(
+                                                    <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 12}} />
+                                                )
+                                            })
+                                            }
+                                            </span>
+                                            
+                                        </span>
+                                    )
+                                })
+                            }
+                        </Collapse>
+                        </div>
+                    </div>
+
+                    </div>
+                    
                     
                 </div>
                 <CardProduct />
                 <CardProduct />
                 <CardProduct />
                 
+            </div>
+            <div>
+                <p>page</p>
+                <p>page</p>
+                <p>page</p>
+                <p>page</p>
+                <p>page</p>
+                <p>page</p>
+                <p>page</p>
+                <p>page</p>
+                <p>page</p>
             </div>
         </div>
     )
