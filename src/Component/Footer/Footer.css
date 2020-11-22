@@ -1,0 +1,19 @@
+.chat-icon {
+    width: 150px;
+    position: fixed;
+    cursor: pointer;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1;
+}
+
+.chat-popup {
+    width: 300px;
+    background-color: #fdfdfd;
+    position: fixed;
+    display: none;
+    bottom: 75px;
+    right: 30px;
+    border-radius: 5px;
+    z-index: 1;
+  }

@@ -9,6 +9,7 @@ import ScrollFunction from './../../Support/Functions/NavbarScroll.js';
 import './../../Support/CSS-Utils/utils.css';
 import './Navbar.css';
 
+import PejoyLogo from './../../Support/Images/Pejoy Logo.png';
 import MenuIcon from './../../Support/Images/Menu.png';
 import ShoppingBag from './../../Support/Images/Shopping Bag.png';
 import TShirtIcon from './../../Support/Images/T-Shirt.png';
@@ -80,7 +81,7 @@ export class Navbar extends Component {
                     <div className="container">
                         <div className="row justify-content-center align-items-center">
                             <div className="col-2 align-self-center">
-                                <img src="https://www.static-src.com/frontend/static/img/logo-blibli-white.f8255fc.svg" width="150" />
+                                <img src={PejoyLogo} width="150" />
                             </div>
                             <div className="col-7">
                                 <div className="input-group">

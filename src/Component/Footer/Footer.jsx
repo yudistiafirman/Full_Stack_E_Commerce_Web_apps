@@ -1,12 +1,42 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faEnvelopeOpenText, faTimes } from '@fortawesome/free-solid-svg-icons';
+
+import './Footer.css';
+
+import PejoyLogo from './../../Support/Images/Pejoy Logo.png';
+import CustomerCareIcon from './../../Support/Images/Customer Care Icon.png';
 
 export class Footer extends React.Component {
+
+    openChatRoom = () => {
+        this.refs.chatRoom.style.display = "block";
+      }
+      
+    closeChatRoom = () => {
+        this.refs.chatRoom.style.display = "none";
+    }
+
     render(){
         return(
             <div>
                 {/* FOOTER SECTION */}
+                <img src={CustomerCareIcon} onClick={() => this.openChatRoom()} className="chat-icon" />
+
+                <div ref="chatRoom" className="chat-popup">
+                    <div className="row justify-content-between px-3 py-3 pa-bg-main-light" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}}>
+                        <div className="col-6">
+                            <img src={PejoyLogo} width="100%" />
+                        </div>
+                        <div>
+                            <FontAwesomeIcon icon={faTimes} onClick={() => this.closeChatRoom()} className="pa-clickable-element pa-light" />
+                        </div>
+                    </div>
+                    <div className="px-3 py-5">
+                        Chat Room
+                    </div>
+                </div>
+                
                 <div className="container-fluid border-top border-primary">
                     <div className="row justify-content-center px-0 py-5">
                         <div className="col-md-5 px-5 py-0">
@@ -16,10 +46,10 @@ export class Footer extends React.Component {
                                 Pejoy Siap Memenuhi Kebutuhan Fashion Anda, Mulai Dari Atasan Hingga Bawahan.
                             </p>
                             <p className="mt-3 mb-0"> 
-                                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-md pa-danger" /> Address 1 : Sidoarjo, Jawa Timur, 61273.
+                                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-md pa-danger" /> Warehouse 1 : Sidoarjo, Jawa Timur, 61273.
                             </p>
                             <p className="mt-0 mb-0"> 
-                                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-md pa-danger" /> Address 2 : Kota Bandung, Jawa Barat, 40125.
+                                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-md pa-danger" /> Warehouse 2 : Kota Bandung, Jawa Barat, 40125.
                             </p>
                             <p className="mt-3 mb-0"> 
                                 <FontAwesomeIcon icon={faEnvelopeOpenText} className="fa-md" /> pejoyidid@pejoy.com
