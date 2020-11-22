@@ -1,6 +1,8 @@
 import React, { Component }  from 'react';
 import Slider from 'react-slick';
 
+import RecomendedProductLoading from './RecomendedProductLoading';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './LandingPage.css';
@@ -15,8 +17,62 @@ import Newsletter from './../../Support/Images/Newsletter.jpg';
 import FlashIcon from './../../Support/Images/Flash.png';
 
 export class LandingPage extends Component {
-    render(){
+    
+    state = {
+      data: null,
+      visible: 4
+    }
+  
+    componentDidMount(){
+      this.setState({data:
+        [
+          {id: 1, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 2, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 3, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 4, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 5, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 6, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 7, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 8, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 9, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 10, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 11, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+          {id: 12, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"}
+        ]
+      })
+    }
 
+    mapRecomendedProduct = () => {
+      return this.state.data.slice(0, this.state.visible).map((value, id) => {
+          return(
+            <div className="col-6 col-md-3 px-3 py-3">
+              <div className="pa-recomended-card">
+                <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                <div className="px-3 pt-2 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                  {value.product}
+                  <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                    Rp.{value.price.toLocaleString('id-ID')}
+                  </p>
+                  <p className="pa-font-size-14 pa-dark-grey">
+                    <del>
+                      Rp.{value.price.toLocaleString('id-ID')}
+                    </del>
+                    <span className="mx-1 my-0 pa-secondary">
+                      15% OFF
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )
+      })
+  }
+
+  showMoreProducts = () => {
+    this.setState({visible: this.state.visible + 4})
+  }
+
+    render(){
       const mobileSettings = {
         autoplay: true,
         infinite: true,
@@ -399,100 +455,31 @@ export class LandingPage extends Component {
 
           {/* BEST SELLER SECTION */}
           <div>
-            <div className="container px-3 pt-0 pb-3 px-md-0 pt-md-0 pb-md-3">
+            <div className="container px-3 pt-0 pb-5 px-md-0 pt-md-0 pb-md-5">
               <div className="px-0 pt-3 pb-0">
                 <h3>
                   Rekomendasi Untuk Kamu
                 </h3>
               </div>
-              <div className="row">
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
+              {
+                this.state.data?
+                  <div className="row">
+                    {this.mapRecomendedProduct()}
                   </div>
-                </div>
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-6 col-md-3 px-3 py-3">
-                  <div className="pa-recomended-card">
-                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-                      MAHER J Rico Mini Tas...
-                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                        Rp.1.019.000
-                      </p>
-                    </div>
-                  </div>
+                :
+                  <RecomendedProductLoading />
+              }
+            </div>
+          </div>
+
+
+
+          {/* LOAD MORE SECTION */}
+          <div>
+            <div className="container px-3 pt-0 pb-5 px-md-0 pt-md-0 pb-md-5">
+              <div className="row justify-content-center">
+                <div onClick={() => this.showMoreProducts()} className="btn px-5 py-2 font-weight-bold pa-button-load-more pa-main-light" style={{borderRadius: 10}}>
+                  Load More
                 </div>
               </div>
             </div>

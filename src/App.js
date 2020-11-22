@@ -11,6 +11,7 @@ import Navbar from './Component/Navbar/Navbar';
 import LandingPage from './Pages/LandingPage/LandingPage';
 import CheckoutForm from './Component/CheckoutForm';
 import ListProduct from './Pages/ListProduct/ListProduct';
+import Footer from './Component/Footer/Footer';
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
@@ -25,6 +26,7 @@ const App = () => {
             <Route path='/list-product' component={ListProduct} />
             <Route path='/checkout-form' component={CheckoutForm} />
           </Switch>
+        <Footer />
       </BrowserRouter>
     </Provider>
   )

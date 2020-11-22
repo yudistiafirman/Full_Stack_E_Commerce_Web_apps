@@ -28,7 +28,7 @@ body{
 }
 
 .slick-prev:before {
-    margin-left: -16px;
+    margin-left: -17px;
     margin-right: 0px;
     font-size: 40px;
     color: #fdfdfd;
@@ -43,22 +43,25 @@ body{
     z-index: 3;
 }
 
-.cropped {
-    width: 150px; /* width of container */
-    height: 150px; /* height of container */
-    overflow: hidden;
-    border: 5px solid black;
-}
-
-.cropped img {
-    margin: -10px 0px 0px -180px;
-}
-
 .pa-recomended-card {
     background-color: #fdfdfd;
     box-shadow: 0px 8px 36px 0px rgba(0,0,0,0.1);
     border-radius: 5px;
     z-index: 1;
+}
+
+.pa-button-load-more {
+    border-width: 3px;
+    border-color: #e4e3e3;
+    color: #0095da;
+    transition-duration: 0.4s;
+  }
+  
+.pa-button-load-more:hover {
+    background-color: #ebf7fc;
+    border-width: 3px;
+    border-color: #0095da;
+    color: #0095da;
 }
 
 @media (min-width: 1195px) {
@@ -91,7 +94,7 @@ body{
     }
 
     .slick-prev:before {
-        margin-left: -16px;
+        margin-left: -17px;
         margin-right: 0px;
         font-size: 40px;
         color: #fdfdfd;
