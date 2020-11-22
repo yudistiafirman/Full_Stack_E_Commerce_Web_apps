@@ -16,6 +16,30 @@
     width: 100%;
 }
 
+.image-card {
+    max-width: 100%;
+    height : 'auto'; 
+    position: 'relative';
+    
+}
+
+.fade-in:hover {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
 .a-button {
     border: 0.5px solid salmon;
     width: fit-content;
