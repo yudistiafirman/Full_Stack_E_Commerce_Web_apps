@@ -4,6 +4,8 @@ import Link from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 
+import ScrollFunction from './../../Support/Functions/NavbarScroll.js';
+
 import './../../Support/CSS-Utils/utils.css';
 import './Navbar.css';
 
@@ -30,6 +32,10 @@ export class Navbar extends Component {
         openSideBar: false
     }
 
+    componentDidMount(){
+        window.onscroll = function() { ScrollFunction() }
+    }
+
     onOpenSidebar = () => {
         this.refs.sidebar.style.width = "250px";
     }
@@ -43,9 +49,9 @@ export class Navbar extends Component {
             // NAVBAR
             <div>
                 {/* Mobile Section */}
-                <div className="pa-navbar-mobile-display px-0 py-4">
+                <div id="navbar" className="px-0 py-3 pa-navbar-mobile-display" style={{transition: '0.3s', zIndex: 1}}>
                     <div className="container">
-                        <div className="row justify-content-center align-items-center">
+                        <div  className="row justify-content-center align-items-center">
                             <div onClick={() => this.onOpenSidebar()} className="col-1 pa-clickable-element">
                                 <img src={MenuIcon} width="30" />
                             </div>
@@ -70,7 +76,7 @@ export class Navbar extends Component {
 
 
                 {/* Desktop Section */}
-                <div className="pa-navbar-desktop-display px-0 py-3 pa-bg-main-light">
+                <div className="w-100 px-0 py-3 position-fixed pa-navbar-desktop-display pa-bg-main-light" style={{zIndex: 10}}>
                     <div className="container">
                         <div className="row justify-content-center align-items-center">
                             <div className="col-2 align-self-center">
@@ -261,58 +267,58 @@ export class Navbar extends Component {
                     <div className="px-3 pt-4 pb-0 sidebar-menu">
                         Kategori
                     </div>
-                    <div className="px-5 py-3">
+                    <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
                         T-Shirt
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
-                    <div className="px-5 py-3">
+                    <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
                         Shirt
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
-                    <div className="px-5 py-3">
+                    <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
                         Jacket
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
-                    <div className="px-5 py-3">
+                    <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
                         Pants
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
-                    <div className="px-5 py-3">
+                    <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
                         Shoes
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
-                    <div className="px-5 py-3">
+                    <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
                         Accecories
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
                     <div className="row justify-content-between align-items-center px-3 py-0">
-                        <div className="px-3 pt-4 sidebar-menu">
+                        <div className="px-3 pt-4 pa-clickable-element sidebar-menu">
                             Cart
                         </div>
                         <div>
                             <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
                                 <span className="px-3 py-1 pa-font-size-12 pa-light">
-                                    100
+                                    5
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div className="row justify-content-between align-items-center px-3 py-0">
-                        <div className="px-3 pt-4 sidebar-menu">
+                        <div className="px-3 pt-4 pa-clickable-element sidebar-menu">
                             Wishlist
                         </div>
                         <div>
                             <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
                                 <span className="px-3 py-1 pa-font-size-12 pa-light">
-                                    100
+                                    10
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div className="px-3 pt-4 pb-2 sidebar-menu">
+                    <div className="px-3 pt-4 pb-2 pa-clickable-element sidebar-menu">
                         Transaction
                     </div>
-                    <div className="px-3 pt-4 pb-0 sidebar-menu">
+                    <div className="px-3 pt-4 pb-0 pa-clickable-element sidebar-menu">
                         Profile
                     </div>
                 </div>

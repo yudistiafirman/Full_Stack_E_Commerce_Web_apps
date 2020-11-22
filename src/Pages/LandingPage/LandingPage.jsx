@@ -394,6 +394,109 @@ export class LandingPage extends Component {
               </div>
             </div>
           </div>
+
+
+
+          {/* BEST SELLER SECTION */}
+          <div>
+            <div className="container px-3 pt-0 pb-3 px-md-0 pt-md-0 pb-md-3">
+              <div className="px-0 pt-3 pb-0">
+                <h3>
+                  Rekomendasi Untuk Kamu
+                </h3>
+              </div>
+              <div className="row">
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3 px-3 py-3">
+                  <div className="pa-recomended-card">
+                    <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                    <div className="px-3 pt-1 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                      MAHER J Rico Mini Tas...
+                      <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                        Rp.1.019.000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )
     }
