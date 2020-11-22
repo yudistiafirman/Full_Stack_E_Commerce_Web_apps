@@ -1,0 +1,15 @@
+.parent-image {
+    max-width: 100%;
+    height: 'auto';
+}
+
+.child-image {
+    width: 70px;
+    margin-bottom: 10px;
+}
+
+.more-color-image {
+    width: 70px;
+    height: 'auto';
+    margin: 0 5px;
+}

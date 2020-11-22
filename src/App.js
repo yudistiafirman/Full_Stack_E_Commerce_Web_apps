@@ -12,6 +12,7 @@ import LandingPage from './Pages/LandingPage/LandingPage';
 import CheckoutForm from './Component/CheckoutForm';
 import ListProduct from './Pages/ListProduct/ListProduct';
 import Footer from './Component/Footer/Footer';
+import DetailProduct from './Pages/DetailProduct/DetailProduct';
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
@@ -25,6 +26,7 @@ const App = () => {
             <Route exact path='/' component={LandingPage} />
             <Route path='/list-product' component={ListProduct} />
             <Route path='/checkout-form' component={CheckoutForm} />
+            <Route path='/detail-product' component={DetailProduct} />
           </Switch>
         <Footer />
       </BrowserRouter>

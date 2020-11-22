@@ -83,14 +83,7 @@ const ListProduct = () => {
                 style={{width : '100%', height : 250, objectFit : 'cover'}}
                 src='https://images.unsplash.com/photo-1513617332477-a365e97b52a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80' />
             </div>
-            <div>
-                <span>
-                    Home
-                </span>
-                <span>
-                    Home
-                </span>
-            </div>
+            
             <div className='row'>
                 <div className='col-md-3' style={{paddingRight : 30, paddingTop : 5}} >
                     <div style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between', marginBottom : 20}}>
