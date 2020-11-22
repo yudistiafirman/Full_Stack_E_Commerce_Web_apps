@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faChevronDown, faStream } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import './../../Support/CSS-Utils/utils.css';
 import './Navbar.css';
@@ -30,6 +30,14 @@ export class Navbar extends Component {
         openSideBar: false
     }
 
+    onOpenSidebar = () => {
+        this.refs.sidebar.style.width = "250px";
+    }
+
+    onCloseSidebar = () => {
+        this.refs.sidebar.style.width = "0px";
+    }
+
     render(){
         return(
             // NAVBAR
@@ -38,7 +46,7 @@ export class Navbar extends Component {
                 <div className="pa-navbar-mobile-display px-0 py-4">
                     <div className="container">
                         <div className="row justify-content-center align-items-center">
-                            <div onClick={() => this.setState({openSideBar: !this.state.openSideBar})} className="col-1 pa-clickable-element">
+                            <div onClick={() => this.onOpenSidebar()} className="col-1 pa-clickable-element">
                                 <img src={MenuIcon} width="30" />
                             </div>
                             <div className="col-11">
@@ -240,18 +248,74 @@ export class Navbar extends Component {
 
 
                 {/* SIDEBAR SECTION */}
-                {
-                    this.state.openSideBar?
-                        <div class="sidebar">
-                            <a href="#" class="closebtn" onclick={() => this.setState({openSideBar: false})}>&times;</a>
-                            <a href="#">About</a>
-                            <a href="#">Services</a>
-                            <a href="#">Clients</a>
-                            <a href="#">Contact</a>
+                <div ref="sidebar" className="pa-sidebar-display sidebar">
+                    <div className="row">
+                        <div className="text-align-center menu-title">
+                            Menu
                         </div>
-                    :
-                        null
-                }
+                        <div>
+                            <FontAwesomeIcon icon={faTimes} onClick={() => this.onCloseSidebar()} className="close-icon pa-clickable-element" />
+                        </div>
+                    </div>
+                    <hr style={{marginTop: -25, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="px-3 pt-4 pb-0 sidebar-menu">
+                        Kategori
+                    </div>
+                    <div className="px-5 py-3">
+                        T-Shirt
+                    </div>
+                    <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="px-5 py-3">
+                        Shirt
+                    </div>
+                    <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="px-5 py-3">
+                        Jacket
+                    </div>
+                    <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="px-5 py-3">
+                        Pants
+                    </div>
+                    <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="px-5 py-3">
+                        Shoes
+                    </div>
+                    <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="px-5 py-3">
+                        Accecories
+                    </div>
+                    <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="row justify-content-between align-items-center px-3 py-0">
+                        <div className="px-3 pt-4 sidebar-menu">
+                            Cart
+                        </div>
+                        <div>
+                            <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
+                                <span className="px-3 py-1 pa-font-size-12 pa-light">
+                                    100
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row justify-content-between align-items-center px-3 py-0">
+                        <div className="px-3 pt-4 sidebar-menu">
+                            Wishlist
+                        </div>
+                        <div>
+                            <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
+                                <span className="px-3 py-1 pa-font-size-12 pa-light">
+                                    100
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="px-3 pt-4 pb-2 sidebar-menu">
+                        Transaction
+                    </div>
+                    <div className="px-3 pt-4 pb-0 sidebar-menu">
+                        Profile
+                    </div>
+                </div>
             </div>
         )
     }
