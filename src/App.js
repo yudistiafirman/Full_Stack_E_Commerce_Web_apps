@@ -13,8 +13,6 @@ import CheckoutForm from './Component/CheckoutForm';
 import ListProduct from './Pages/ListProduct/ListProduct';
 
 
-
-
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 const App = () => {
