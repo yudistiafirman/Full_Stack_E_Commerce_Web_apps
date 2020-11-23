@@ -9,10 +9,11 @@ import './Support/CSS-Utils/utils.css';
 
 import Navbar from './Component/Navbar/Navbar';
 import LandingPage from './Pages/LandingPage/LandingPage';
-import CheckoutForm from './Component/CheckoutForm';
 import ListProduct from './Pages/ListProduct/ListProduct';
-import Footer from './Component/Footer/Footer';
 import DetailProduct from './Pages/DetailProduct/DetailProduct';
+import CheckoutForm from './Component/CheckoutForm';
+import UserProfile from './Pages/UserProfile/UserProfile';
+import Footer from './Component/Footer/Footer';
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
@@ -25,8 +26,9 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={LandingPage} />
             <Route path='/list-product' component={ListProduct} />
-            <Route path='/checkout-form' component={CheckoutForm} />
             <Route path='/detail-product' component={DetailProduct} />
+            <Route path='/checkout-form' component={CheckoutForm} />
+            <Route path='/member' component={UserProfile} />
           </Switch>
         <Footer />
       </BrowserRouter>

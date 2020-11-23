@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Link from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -19,9 +19,10 @@ import JacketIcon from './../../Support/Images/Jacket.png';
 import ShoesIcon from './../../Support/Images/Shoes.png';
 import HatIcon from './../../Support/Images/Hat.png';
 import EmptyCart from './../../Support/Images/Empty Cart.webp';
-import HistoryTransactionIcon from './../../Support/Images/Invoice.png';
 import UserIcon from './../../Support/Images/User.png';
+import HistoryTransactionIcon from './../../Support/Images/Invoice.png';
 import Wishlist from './../../Support/Images/Wishlist.png';
+import UploadIcon from './../../Support/Images/Upload.png';
 
 export class Navbar extends Component {
     state = {
@@ -29,8 +30,7 @@ export class Navbar extends Component {
         loginErrorMessage: '',
         openDropdown: false,
         openCart: false,
-        openAccount: false,
-        openSideBar: false
+        openAccount: false
     }
 
     componentDidMount(){
@@ -81,7 +81,9 @@ export class Navbar extends Component {
                     <div className="container">
                         <div className="row justify-content-center align-items-center">
                             <div className="col-2 align-self-center">
-                                <img src={PejoyLogo} width="150" />
+                                <Link to="/" className="pa-clickable-element pa-link">
+                                    <img src={PejoyLogo} width="150" />
+                                </Link>
                             </div>
                             <div className="col-7">
                                 <div className="input-group">
@@ -153,6 +155,13 @@ export class Navbar extends Component {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div className="w-100 text-center font-weight-bold pa-secondary">
+                                                                    <Link to='/list-product' className="pa-link">
+                                                                        <span className="font-weight-bold pa-secondary">
+                                                                            See All Products
+                                                                        </span>
+                                                                    </Link>
+                                                                </div>
                                                             </div>
                                                         :
                                                             null
@@ -204,7 +213,9 @@ export class Navbar extends Component {
                                                                     <img src={UserIcon} width="30" />
                                                                 </div>
                                                                 <div className="px-3 py-0 align-self-center">
-                                                                    Profile
+                                                                    <Link to='/member' onClick={() => this.setState({openAccount: false})} className="pa-link">
+                                                                        Profile
+                                                                    </Link>
                                                                 </div>
                                                             </div>
                                                             <div className="row px-0 py-2 pa-dark">
@@ -226,6 +237,14 @@ export class Navbar extends Component {
                                                                     <span className="px-3 py-0 pa-font-size-12 pa-light">
                                                                         1
                                                                     </span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row px-0 py-2 pa-dark">
+                                                                <div>
+                                                                    <img src={UploadIcon} width="30" />
+                                                                </div>
+                                                                <div className="px-3 py-0 align-self-center">
+                                                                    Upload
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -265,6 +284,11 @@ export class Navbar extends Component {
                         </div>
                     </div>
                     <hr style={{marginTop: -25, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
+                    <div className="px-3 pt-4 pb-0 pa-clickable-element sidebar-menu">
+                        <Link to='/' onClick={() => this.onCloseSidebar()} className="pa-link" >
+                            Home
+                        </Link>
+                    </div>
                     <div className="px-3 pt-4 pb-0 sidebar-menu">
                         Kategori
                     </div>
@@ -316,11 +340,18 @@ export class Navbar extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="px-3 pt-4 pb-2 sidebar-menu">
+                        Payment Upload
+                    </div>
                     <div className="px-3 pt-4 pb-2 pa-clickable-element sidebar-menu">
-                        Transaction
+                        <Link onClick={() => this.onCloseSidebar(), () => window.location = '/member/transactions'} className="pa-link" >
+                            Transactions
+                        </Link>
                     </div>
                     <div className="px-3 pt-4 pb-0 pa-clickable-element sidebar-menu">
-                        Profile
+                        <Link onClick={() => this.onCloseSidebar(), () => window.location = '/member'} className="pa-link" >
+                            Profile
+                        </Link>
                     </div>
                 </div>
             </div>

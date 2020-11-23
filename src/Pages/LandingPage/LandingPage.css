@@ -55,7 +55,7 @@ body{
     border-color: #e4e3e3;
     color: #0095da;
     transition-duration: 0.4s;
-  }
+}
   
 .pa-button-load-more:hover {
     background-color: #ebf7fc;
@@ -77,7 +77,7 @@ body{
         background-position-y: bottom;
         background-repeat: no-repeat;
         background-size: cover;
-        height: 475px;
+        height: 550px;
         margin-top: 0px;
         margin-bottom: 0px;
     }

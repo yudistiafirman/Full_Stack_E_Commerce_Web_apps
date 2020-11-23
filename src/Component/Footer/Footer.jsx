@@ -24,7 +24,7 @@ export class Footer extends React.Component {
                 <img src={CustomerCareIcon} onClick={() => this.openChatRoom()} className="chat-icon" />
 
                 <div ref="chatRoom" className="chat-popup">
-                    <div className="row justify-content-between px-3 py-3 pa-bg-main-light" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}}>
+                    <div className="row justify-content-between mx-0 my-0 px-3 py-3 pa-bg-main-light" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}}>
                         <div className="col-6">
                             <img src={PejoyLogo} width="100%" />
                         </div>
@@ -32,8 +32,15 @@ export class Footer extends React.Component {
                             <FontAwesomeIcon icon={faTimes} onClick={() => this.closeChatRoom()} className="pa-clickable-element pa-light" />
                         </div>
                     </div>
-                    <div className="px-3 py-5">
-                        Chat Room
+                    <div className="px-4 py-3">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email Address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Mulai Chatting</button>
+                        </form>
                     </div>
                 </div>
                 
