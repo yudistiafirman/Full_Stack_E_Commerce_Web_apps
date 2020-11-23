@@ -4,12 +4,31 @@
 }
 
 .child-image {
-    width: 70px;
+    width: 100px;
     margin-bottom: 10px;
 }
 
 .more-color-image {
-    width: 70px;
+    width: 50px;
     height: 'auto';
     margin: 0 5px;
+}
+
+.choice-size {
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.button-add-to-cart {
+    transition: 0.5s;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+.button-add-to-cart:hover {
+    background-color: white ;
+    color: black;
 }

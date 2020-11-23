@@ -1,6 +1,6 @@
 import { faChevronDown, faChevronUp, faSlidersH, faSquare, faStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CardProduct from '../../Component/CardProduct'
 import './CardProduct.css'
 import './SortProduct.css'
@@ -8,6 +8,14 @@ import { Collapse } from 'reactstrap';
 
 
 const ListProduct = () => {
+
+    const [hap, setHap] = useState(0)
+    useEffect(() => {
+        window.addEventListener('scroll', listenToScroll)
+        return function (){
+            window.removeEventListener('scroll', listenToScroll)
+          };
+    }, [])
 
     const [isOpen, setIsOpen] = useState({
         child_1 : false,
@@ -62,7 +70,6 @@ const ListProduct = () => {
             val.isChecked =  e.target.checked
         })
         setCek(handle)
-        console.log(cek)
     }
     const onHandleCheckRating = (e) => {
         
@@ -72,12 +79,27 @@ const ListProduct = () => {
             val.isChecked =  e.target.checked
         })
         setRating(handle)
-        console.log(rating)
     }
 
+    const listenToScroll = () => {
+        const winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop
+      
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight
+      
+        const scrolled = winScroll / height
+      
+        setHap(scrolled)
+      }
+    
+    console.log(hap)
+    
+    
     
     return (
-        <div className='container' style={{paddingTop : 120}}>
+        <div className='container' style={{paddingTop : 120, paddingBottom : 120}}>
             <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', marginBottom : 60}}>
                 <img 
                 style={{width : '100%', height : 250, objectFit : 'cover'}}
@@ -85,7 +107,7 @@ const ListProduct = () => {
             </div>
             
             <div className='row'>
-                <div className='col-md-3' style={{paddingRight : 30, paddingTop : 5}} >
+                <div className='col-md-3' style={{paddingRight : 30, paddingTop : 5, width : 270, }}>
                     <div style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between', marginBottom : 20}}>
                         <p style={{fontSize : 20}}>Filter</p>
                         <FontAwesomeIcon icon={faSlidersH} />
@@ -268,22 +290,24 @@ const ListProduct = () => {
                     
                     
                 </div>
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
+                <div className='col-md-9 row border'>
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    <CardProduct />
+                    
+
+                </div>
                 
             </div>
-            <div>
-                <p>page</p>
-                <p>page</p>
-                <p>page</p>
-                <p>page</p>
-                <p>page</p>
-                <p>page</p>
-                <p>page</p>
-                <p>page</p>
-                <p>page</p>
-            </div>
+            
         </div>
     )
 }

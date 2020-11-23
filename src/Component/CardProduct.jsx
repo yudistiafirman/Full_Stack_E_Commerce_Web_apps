@@ -19,7 +19,7 @@ const CardProduct = () => {
 
 
     return (
-        <div className='col-md-3 ' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center'}}>
+        <div className='col-md-4 ' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center', marginBottom : 30}}>
             <div className='card-container' onMouseEnter={() => {setOnhover(true)}} onMouseLeave={() => {setOnhover(false)}} >
                 <div className=' container-image w-100' style={{padding : 10}} >
                     <img 
@@ -35,11 +35,11 @@ const CardProduct = () => {
                     src={flash} 
                     />
                 </span>
-                <span onMouseEnter={() => setColorHeart(true)} onMouseLeave={() => setColorHeart(false)} style={{position : 'absolute',bottom : 133, left : 25,}}>
+                <span onMouseEnter={() => setColorHeart(true)} onMouseLeave={() => setColorHeart(false)} style={{position : 'absolute',bottom : 148, left : 25,}}>
                     <MdHeart shake={colorHeart}  style={{width : 25, height : 25}} onClick={() => setColorHeart(!colorHeart)} fontSize="60px" color={ colorHeart ?  "#c44536" : 'rgba(52,52,52,0.7)' } />
                 </span>
 
-                <span onMouseEnter={() => setBagHover(true)} onMouseLeave={() => setBagHover(false)} style={{visibility : onHover ? 'visible' : 'hidden',position : 'absolute',bottom : 160, right : 25, backgroundColor : bagHover ? 'black' : 'white', paddingTop : 4, paddingBottom : 4, paddingLeft : 8, paddingRight : 8}}>
+                <span onMouseEnter={() => setBagHover(true)} onMouseLeave={() => setBagHover(false)} style={{visibility : onHover ? 'visible' : 'hidden',position : 'absolute',bottom : 180, right : 25, backgroundColor : bagHover ? 'black' : 'white', paddingTop : 4, paddingBottom : 4, paddingLeft : 8, paddingRight : 8}}>
                     <span style={{display : 'flex', justifyContent : 'center'}}>
                         <p style={{color : bagHover ? 'white' : 'black', fontSize : 14, marginRight : 8}}>Add to Cart</p>
                         <img alt='bag' src={bagHover ? sbagWhite : sbag} style={{ height : 20, width : 20}}/>
