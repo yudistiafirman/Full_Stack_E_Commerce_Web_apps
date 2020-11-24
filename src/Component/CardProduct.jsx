@@ -19,7 +19,7 @@ const CardProduct = () => {
 
 
     return (
-        <div className='col-md-4 ' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center', marginBottom : 30}}>
+        <div className='col-md-4 ' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center', marginBottom : 70}}>
             <div className='card-container' onMouseEnter={() => {setOnhover(true)}} onMouseLeave={() => {setOnhover(false)}} >
                 <div className=' container-image w-100' style={{padding : 10}} >
                     <img 

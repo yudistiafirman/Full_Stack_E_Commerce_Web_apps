@@ -290,7 +290,7 @@ const ListProduct = () => {
                     
                     
                 </div>
-                <div className='col-md-9 row border'>
+                <div className='col-md-9 row'>
                     <CardProduct />
                     <CardProduct />
                     <CardProduct />

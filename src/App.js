@@ -14,6 +14,7 @@ import DetailProduct from './Pages/DetailProduct/DetailProduct';
 import CheckoutForm from './Component/CheckoutForm';
 import UserProfile from './Pages/UserProfile/UserProfile';
 import Footer from './Component/Footer/Footer';
+import CardSimilarProduct from './Pages/DetailProduct/DetailProductComponent/CardSimilarProduct';
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
@@ -29,6 +30,7 @@ const App = () => {
             <Route path='/detail-product' component={DetailProduct} />
             <Route path='/checkout-form' component={CheckoutForm} />
             <Route path='/member' component={UserProfile} />
+            <Route path='/test' component={CardSimilarProduct} />
           </Switch>
         <Footer />
       </BrowserRouter>

@@ -2,7 +2,7 @@ import React from 'react'
 
 export const ImageGroup = () => {
     return (
-        <div className='col-md-7' style={{display : 'flex'}}>
+        <div style={{display : 'flex'}}>
             <div style={{display : 'flex', flexDirection : 'column', marginRight : 13}}>
                 <span>
                     <img 
