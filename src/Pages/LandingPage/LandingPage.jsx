@@ -29,17 +29,26 @@ export class LandingPage extends Component {
           {id: 1, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
           {id: 2, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
           {id: 3, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 4, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 5, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 6, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 7, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 8, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 9, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 10, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 11, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
-          {id: 12, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"}
+          {id: 4, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"}
         ]
       })
+
+      // this.setState({data:
+      //   [
+      //     {id: 1, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 2, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 3, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 4, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 5, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 6, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 7, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 8, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 9, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 10, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 11, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      //     {id: 12, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"}
+      //   ]
+      // })
     }
 
     mapRecomendedProduct = () => {
@@ -69,7 +78,26 @@ export class LandingPage extends Component {
   }
 
   showMoreProducts = () => {
-    this.setState({visible: this.state.visible + 4})
+    let addData = [
+      {id: 5, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      {id: 6, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      {id: 7, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      {id: 8, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      {id: 9, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      {id: 10, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      {id: 11, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"},
+      {id: 12, product: "MARHEN J Rico Mini Tas...", price: 1019000, url: "https://dynamic.zacdn.com/1j1M9PhuhmK0IMKMh2H4Mka8Vzk=/fit-in/692x1000/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/bombboogie-1008-4945181-3.jpg"}
+    ]
+    
+    let dataAdded = [...this.state.data, ...addData]
+
+    console.log(dataAdded)
+
+    setTimeout(() => {
+      this.setState({data: dataAdded})
+    }, 2000);
+
+    // this.setState({visible: this.state.visible + 4})
   }
 
     render(){

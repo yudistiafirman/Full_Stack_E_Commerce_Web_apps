@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Link, Route, Switch, BrowserRouter as Router, useLocation } from "react-router-dom";
 
 import Profile from './Profile';
 import Transactions from './Transactions';
 import ShippingAddress from './ShippingAddress';
+import AdminDashboard from './Admin/Admin';
 
 import DefaultUserProfile from './../../Support/Images/Default User Profile.png';
 
@@ -23,6 +24,10 @@ export class UserProfile extends Component{
             {
                 path: "/member/shipping-address",
                 page: () => <ShippingAddress />
+            },
+            {
+                path: "/member/admin-dashboard",
+                page: () => <AdminDashboard />
             }
         ],
         activeLink: null
@@ -67,6 +72,13 @@ export class UserProfile extends Component{
                                             <Link to="/member/shipping-address" onClick={() => this.setState({activeLink: 'Shipping Address'})} className="pa-link">
                                                 <span className={this.state.activeLink === 'Shipping Address'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
                                                     Shipping Address
+                                                </span>
+                                            </Link>
+                                        </div>
+                                        <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                            <Link to="/member/admin-dashboard" onClick={() => this.setState({activeLink: 'Dashboard'})} className="pa-link">
+                                                <span className={this.state.activeLink === 'Dashboard'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                    Dashboard
                                                 </span>
                                             </Link>
                                         </div>

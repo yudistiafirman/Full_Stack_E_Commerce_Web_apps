@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +9,37 @@ import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import './UserProfile.css';
 
 export class AddShippingAddress extends Component{
+
+    state = {
+        address: '',
+
+        showingInfoWindow: false,
+        activeMarker: {},
+        selectedPlace: {},
+    
+        mapCenter: {
+          lat: 49.2827291,
+          lng: -123.1207375
+        }
+      }
+
+      handleChange = address => {
+        this.setState({ address });
+      }
+     
+      handleSelect = address => {
+        this.setState({ address });
+        geocodeByAddress(address)
+          .then(results => getLatLng(results[0]))
+          .then(latLng => {
+            console.log('Success', latLng);
+    
+            // Update Center State Of Maps
+            this.setState({ mapCenter: latLng });
+          })
+          .catch(error => console.error('Error', error));
+      }
+
     render(){
         return(
             // ADD SHIPPING ADDRESS
@@ -41,17 +74,54 @@ export class AddShippingAddress extends Component{
                             <label  className="pa-main-light">Address</label>
                             <input type="text" className="form-control" placeholder="Ex. Jalan Bandung No. 01" />
                         </div>
-                        <div className="form-group">
-                            <label  className="pa-main-light">City</label>
-                            <input type="text" className="form-control" placeholder="Ex. Kota Bandung" />
-                        </div>
-                        <div className="form-group">
-                            <label  className="pa-main-light">Province</label>
-                            <input type="text" className="form-control" placeholder="Ex. Jawa Barat" />
-                        </div>
+                        <PlacesAutocomplete
+                            value={this.state.address}
+                            onChange={this.handleChange}
+                            onSelect={this.handleSelect}
+                        >
+                            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                <div className="form-group">
+                                    <label  className="pa-main-light">City</label>
+                                    <input
+                                        {...getInputProps({
+                                        placeholder: "Ex. Bandung",
+                                        className: "form-control",
+                                        })}
+                                    />
+                                    <div>
+                                        {
+                                            loading && <div> Loading... </div>
+                                        }
+                                        {
+                                            suggestions.map(suggestion => {
+                                                const className = suggestion.active
+                                                    ? 'suggestion-item--active'
+                                                    : 'suggestion-item'
+                                            
+                                                const style = suggestion.active
+                                                    ? { backgroundColor: '#fff', cursor: 'pointer' }
+                                                    : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                                                return (
+                                                    <div
+                                                        {...getSuggestionItemProps(suggestion, {
+                                                            className,
+                                                            style,
+                                                        })}
+                                                    >
+                                                        <span className="pa-font-size-20">{suggestion.description}</span>
+                                                    </div>
+                                                )
+                                            }
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </PlacesAutocomplete>
                     </form>
-                    <div className="btn mx-0 my-2 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
-                        Add Address
+                    <div>
+                        <div className="btn mx-0 my-2 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
+                            Add Address
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,4 +129,4 @@ export class AddShippingAddress extends Component{
     }
 }
 
-export default AddShippingAddress
+export default GoogleApiWrapper({ apiKey: ('AIzaSyBLVHqBpK4pTUHkxRLctTj6a3nHrt1d-uI') })(AddShippingAddress)
