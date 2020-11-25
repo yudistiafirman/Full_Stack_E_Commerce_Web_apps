@@ -15,7 +15,7 @@ import CheckoutForm from './Component/CheckoutForm';
 import UserProfile from './Pages/UserProfile/UserProfile';
 import Footer from './Component/Footer/Footer';
 import CardSimilarProduct from './Pages/DetailProduct/DetailProductComponent/CardSimilarProduct';
-import Registration from './Pages/Registration/Registration/Registration'
+
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
