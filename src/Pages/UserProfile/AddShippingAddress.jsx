@@ -5,6 +5,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import Loader from 'react-loader-spinner'
 
 import './UserProfile.css';
 
@@ -57,67 +58,68 @@ export class AddShippingAddress extends Component{
                     </div>
                 </div>
                 <div className="px-0 py-4">
-                    <form>
-                        <div className="form-group">
-                            <label className="pa-main-light">Address Label</label>
-                            <input type="text" className="form-control" placeholder="Ex. Home, Office, Restaurant" />
-                        </div>
-                        <div className="form-group">
-                            <label  className="pa-main-light">Consignee</label>
-                            <input type="text" className="form-control" placeholder="Ex. Sutiyono Lamso" />
-                        </div>
-                        <div className="form-group">
-                            <label  className="pa-main-light">Phone Number</label>
-                            <input type="text" className="form-control" placeholder="Ex. 081118140006" />
-                        </div>
-                        <div className="form-group">
-                            <label  className="pa-main-light">Address</label>
-                            <input type="text" className="form-control" placeholder="Ex. Jalan Bandung No. 01" />
-                        </div>
-                        <PlacesAutocomplete
-                            value={this.state.address}
-                            onChange={this.handleChange}
-                            onSelect={this.handleSelect}
-                        >
-                            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                                <div className="form-group">
-                                    <label  className="pa-main-light">City</label>
-                                    <input
-                                        {...getInputProps({
-                                        placeholder: "Ex. Bandung",
-                                        className: "form-control",
-                                        })}
-                                    />
-                                    <div>
-                                        {
-                                            loading && <div> Loading... </div>
+                    <div className="form-group">
+                        <label className="pa-main-light">Address Label</label>
+                        <input type="text" className="form-control" placeholder="Ex. Home, Office, Restaurant" />
+                    </div>
+                    <div className="form-group">
+                        <label  className="pa-main-light">Consignee</label>
+                        <input type="text" className="form-control" placeholder="Ex. Sutiyono Lamso" />
+                    </div>
+                    <div className="form-group">
+                        <label  className="pa-main-light">Phone Number</label>
+                        <input type="text" className="form-control" placeholder="Ex. 081118140006" />
+                    </div>
+                    <div className="form-group">
+                        <label  className="pa-main-light">Address</label>
+                        <input type="text" className="form-control" placeholder="Ex. Jalan Bandung No. 01" />
+                    </div>
+                    <PlacesAutocomplete
+                        value={this.state.address}
+                        onChange={this.handleChange}
+                        onSelect={this.handleSelect}
+                    >
+                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                            <div className="form-group">
+                                <label  className="pa-main-light">City</label>
+                                <input
+                                    {...getInputProps({
+                                    placeholder: "Ex. Bandung",
+                                    className: "form-control",
+                                    })}
+                                />
+                                <div>
+                                    {
+                                        loading && 
+                                        <div>
+                                            <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
+                                        </div>
+                                    }
+                                    {
+                                        suggestions.map(suggestion => {
+                                            const className = suggestion.active
+                                                ? 'mx-0 my-3 pt-0 pb-3 border-bottom border-primary suggestion-item--active'
+                                                : 'mx-0 my-3 pt-0 pb-3 border-bottom suggestion-item'
+                                        
+                                            const style = suggestion.active
+                                                ? { backgroundColor: '#fff', cursor: 'pointer' }
+                                                : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                                            return (
+                                                <div
+                                                    {...getSuggestionItemProps(suggestion, {
+                                                        className,
+                                                        style,
+                                                    })}
+                                                >
+                                                    <span className="pa-font-size-18">{suggestion.description}</span>
+                                                </div>
+                                            )
                                         }
-                                        {
-                                            suggestions.map(suggestion => {
-                                                const className = suggestion.active
-                                                    ? 'suggestion-item--active'
-                                                    : 'suggestion-item'
-                                            
-                                                const style = suggestion.active
-                                                    ? { backgroundColor: '#fff', cursor: 'pointer' }
-                                                    : { backgroundColor: '#ffffff', cursor: 'pointer' }
-                                                return (
-                                                    <div
-                                                        {...getSuggestionItemProps(suggestion, {
-                                                            className,
-                                                            style,
-                                                        })}
-                                                    >
-                                                        <span className="pa-font-size-20">{suggestion.description}</span>
-                                                    </div>
-                                                )
-                                            }
-                                        )}
-                                    </div>
+                                    )}
                                 </div>
-                            )}
-                        </PlacesAutocomplete>
-                    </form>
+                            </div>
+                        )}
+                    </PlacesAutocomplete>
                     <div>
                         <div className="btn mx-0 my-2 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
                             Add Address

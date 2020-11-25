@@ -26,7 +26,7 @@ import UploadIcon from './../../Support/Images/Upload.png';
 
 export class Navbar extends Component {
     state = {
-        loginStatus: false,
+        loginStatus: true,
         loginErrorMessage: '',
         openDropdown: false,
         openCart: false,
@@ -259,7 +259,9 @@ export class Navbar extends Component {
                                     :
                                         <div className="row justify-content-center">
                                             <div  className="btn px-3 py-0 ml-0 mr-2" style={{borderWidth: 2, borderColor: "#fdfdfd", color: "#fdfdfd"}}>
-                                                <Link to='/register'>sign in</Link>
+                                                <Link to='/register' className="pa-link">
+                                                    Masuk
+                                                </Link>
                                             </div>
                                             <div className="btn px-3 py-0 pa-bg-light" style={{borderWidth: 2, borderColor: "#fdfdfd", color: "#0095da"}}>
                                                 Daftar

@@ -22,7 +22,7 @@
     width: 100%;
     padding: 10px 0px 0px 13px;
   }
-  label{
+  .input-field label{
     position: absolute;
     top:50%;
     left:15px;
@@ -35,15 +35,15 @@
   
 }
 
-input:focus{
+.input-field input:focus{
     border: 1px solid #4481eb;
     border-radius: 20px;
     box-shadow:1px 1px 4px 4px rgba(92,99,105, .2);
 
 }
 
-input:focus+label,
-input:valid+label{
+.input-field input:focus+label,
+.input-field input:valid+label{
     font-size: 15px;
       top:0;
       margin-top:10px;
