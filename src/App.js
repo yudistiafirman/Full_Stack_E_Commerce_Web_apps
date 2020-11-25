@@ -33,7 +33,7 @@ const App = () => {
             <Route path='/checkout-form' component={CheckoutForm} />
             <Route path='/member' component={UserProfile} />
             <Route path='/test' component={CardSimilarProduct} />
-            <Route path='/registration' component={Registration} />
+   
 
           </Switch>
         <Footer />

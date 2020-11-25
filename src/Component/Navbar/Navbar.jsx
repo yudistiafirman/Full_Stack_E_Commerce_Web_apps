@@ -259,7 +259,7 @@ export class Navbar extends Component {
                                     :
                                         <div className="row justify-content-center">
                                             <div  className="btn px-3 py-0 ml-0 mr-2" style={{borderWidth: 2, borderColor: "#fdfdfd", color: "#fdfdfd"}}>
-                                                <Link to="/registration">sign in</Link>
+                                                Masuk
                                             </div>
                                             <div className="btn px-3 py-0 pa-bg-light" style={{borderWidth: 2, borderColor: "#fdfdfd", color: "#0095da"}}>
                                                 Daftar
