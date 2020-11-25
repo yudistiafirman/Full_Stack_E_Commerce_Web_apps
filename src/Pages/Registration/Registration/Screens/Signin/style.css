@@ -1,0 +1,70 @@
+.title {
+    font-size: 2.2rem;
+    color: #444;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+.forgot-text-container{
+  display: flex;
+
+  width: 70%;
+  justify-content: flex-end;
+  color: blue;
+}
+  .social-text {
+    padding: 0.7rem 0;
+    font-size: 1rem;
+  }
+
+    
+  .social-media {
+    display: flex;
+    justify-content: center;
+    width: 75%;
+  }
+
+  .hide-password{
+    position: absolute;
+    top: 20px;
+    right:5px;
+    color:#839b97;
+    cursor: pointer;
+  
+}
+
+.reset-input{
+    position: absolute;
+    top: 20px;
+    right: 5px;
+    color:#839b97;
+    display: none;
+}
+
+.reset-input.display-inline{
+  display: inline
+}
+
+@media (max-width: 870px) {
+    .forgot-text-container{
+        width: 60%;
+        margin-left:15px
+    }
+
+
+}
+
+@media (max-width: 570px) {
+    form {
+        padding: 0 1.5rem;
+      }
+    
+      .forgot-text-container{
+          width: 80%;
+          padding-right :10px;
+      
+      }
+      
+   
+   
+
+}
