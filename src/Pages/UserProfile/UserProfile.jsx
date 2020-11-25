@@ -83,7 +83,7 @@ export class UserProfile extends Component{
                                             </Link>
                                         </div>
                                         <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
-                                            <Link to="" onClick={() => this.setState({activeLink: 'Logout'})} className="pa-link">
+                                            <Link to="/" onClick={() => this.setState({activeLink: 'Logout'})} className="pa-link">
                                                 <span className={this.state.activeLink === 'Logout'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
                                                     Logout
                                                 </span>

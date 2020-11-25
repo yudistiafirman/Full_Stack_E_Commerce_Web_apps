@@ -54,7 +54,7 @@ export class LandingPage extends Component {
     mapRecomendedProduct = () => {
       return this.state.data.slice(0, this.state.visible).map((value, id) => {
           return(
-            <div className="col-6 col-md-3 px-3 py-3">
+            <div key={id} className="col-6 col-md-3 px-3 py-3">
               <div className="pa-recomended-card">
                 <img src="https://dynamic.zacdn.com/FzaBpJ57D39_XS13BM6ferdCB_g=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/levi-s-6477-3636532-4.jpg" width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
                 <div className="px-3 pt-2 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>

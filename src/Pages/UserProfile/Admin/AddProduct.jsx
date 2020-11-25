@@ -18,14 +18,14 @@ export class AddProduct extends Component{
         }))
     }
 
-    onChange = (event) => {
-        if(['size', 'stock'].includes(event.target.name)){
+    onChange = (element) => {
+        if(['size', 'stock'].includes(element.target.name)){
             let addNewVarian = [...this.state.varian]
-            addNewVarian[event.target.id][event.target.name] = event.target.value;
+            addNewVarian[element.target.id][element.target.name] = element.target.value;
             
             this.setState({varian: addNewVarian})
         }else{
-            this.setState({ [event.target.name]: event.target.value })
+            this.setState({ [element.target.name]: element.target.value })
         }
     }
 
