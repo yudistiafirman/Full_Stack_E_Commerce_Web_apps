@@ -29,6 +29,16 @@ export class AddProduct extends Component{
         }
     }
 
+    submitProduct = () => {
+        let size = []
+
+        for(var i = 0; i < this.state.varian.length; i++){
+            size.push(this.state.varian[i].size)
+        }
+
+        console.log(size)
+    }
+
     render(){
         return(
             // ADD PRODUCT
@@ -53,7 +63,7 @@ export class AddProduct extends Component{
                             <div className="font-weight-bold pa-font-size-18">
                                 Product Varian
                                 <p className="font-weight-light pa-dark-grey">
-                                    Add product varian like color or size.
+                                    Select size varian.
                                 </p>
                             </div>
                             <div>
@@ -62,7 +72,6 @@ export class AddProduct extends Component{
                                 </div>
                             </div>
                         </div>
-
                         {
                             this.state.addVarian?
                                 <div>
@@ -74,17 +83,19 @@ export class AddProduct extends Component{
                                                         <div key={index} className="row w-100 px-0 py-3">
                                                             <div className="col-3 form-group">
                                                                 <label className="pa-main-light">Size</label>
-                                                                <select name="size" id={index} value={this.state.varian[index].size} className="form-control">
-                                                                    <option>S</option>
-                                                                    <option>M</option>
-                                                                    <option>L</option>
-                                                                    <option>XL</option>
-                                                                    <option>XXL</option>
+                                                                <select name="size" id={index} value={value.size} className="form-control">
+                                                                    <option>Select</option>
+                                                                    <option value="1">XS</option>
+                                                                    <option value="2">S</option>
+                                                                    <option value="3">M</option>
+                                                                    <option value="4">L</option>
+                                                                    <option value="5">XL</option>
+                                                                    <option value="6">XXL</option>
                                                                 </select>
                                                             </div>
                                                             <div className="col-9 form-group">
                                                                 <label className="pa-main-light">Stock</label>
-                                                                <input type="text" name="stock" id={index} value={this.state.varian[index].stock} className="form-control" />
+                                                                <input type="text" name="stock" id={index} value={value.stock} className="form-control" />
                                                             </div>
                                                         </div>
                                                     </form>
@@ -101,6 +112,11 @@ export class AddProduct extends Component{
                             :
                                 null
                         }
+                    </div>
+                    <div className="text-center">
+                        <div onClick={() => this.submitProduct()} className="btn mx-3 my-5 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
+                            Upload Product
+                        </div>
                     </div>
                 </div>
             </div>
