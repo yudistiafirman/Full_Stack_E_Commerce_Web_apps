@@ -1,22 +1,24 @@
-import { faChevronDown, faChevronUp, faSlidersH, faSquare, faStar} from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faSlidersH, faStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState, useEffect } from 'react'
 import CardProduct from '../../Component/CardProduct'
 import './CardProduct.css'
 import './SortProduct.css'
 import { Collapse } from 'reactstrap';
+import Axios from 'axios'
+import { ApiUrl } from '../../Constant/ApiUrl'
 
 
 const ListProduct = () => {
 
     const [hap, setHap] = useState(0)
-    useEffect(() => {
-        window.addEventListener('scroll', listenToScroll)
-        return function (){
-            window.removeEventListener('scroll', listenToScroll)
-          };
-    }, [])
-
+    const [data, setData] = useState(null)
+    const [filter, setFilter] = useState({
+        category : null,
+        brands : null,
+        rating : null,
+        discount : null
+    })
     const [isOpen, setIsOpen] = useState({
         child_1 : false,
         child_2 : false,
@@ -24,6 +26,18 @@ const ListProduct = () => {
         child_4 : false,
         child_5 : false
     });
+    const [inputFilter, setInputFilter] = useState({
+        category : [],
+        brands : [],
+        rating : [],
+        price : []
+    })
+    
+    useEffect(() => {
+        getAllProduct()
+        getFilter()
+    },[])
+
     const [cek, setCek] = useState([
         {
             name : 'Sayuran',
@@ -39,64 +53,63 @@ const ListProduct = () => {
         }
     ])
 
-    const [rating, setRating] = useState([
-        {
-            id : 1,
-            star : 1
-        },
-        {
-            id : 2,
-            star : 2
-        },
-        {
-            id : 3,
-            star : 3
-        },
-        {
-            id : 4,
-            star : 4
-        },
-        {
-            id : 5,
-            star : 5
-        }
-    ])
-
     const onHandleCheckCategory = (e) => {
+        let handle = filter.category
+        let cat = inputFilter.category
+        cat.push(e.target.value)
+        setInputFilter({...inputFilter, category : cat})
+        console.log(inputFilter)
         
-        let handle = cek
-        handle.forEach(val => {
-        if (val.name === e.target.value)
-            val.isChecked =  e.target.checked
-        })
-        setCek(handle)
+        // handle.forEach(val => {
+        //     if (val.category_name === e.target.value){
+        //         val.isChecked = e.target.checked
+        //         setInputFilter({...inputFilter, category : inputFilter.category + e.target.checked})
+        //     }
+        // })
+        // setFilter({...filter, category : handle})
     }
     const onHandleCheckRating = (e) => {
         
-        let handle = rating
-        handle.forEach(val => {
-        if (val.name === e.target.value)
-            val.isChecked =  e.target.checked
-        })
-        setRating(handle)
+        // let handle = rating
+        // handle.forEach(val => {
+        // if (val.name === e.target.value)
+        //     val.isChecked =  e.target.checked
+        // })
+        // setRating(handle)
     }
 
-    const listenToScroll = () => {
-        const winScroll =
-          document.body.scrollTop || document.documentElement.scrollTop
-      
-        const height =
-          document.documentElement.scrollHeight -
-          document.documentElement.clientHeight
-      
-        const scrolled = winScroll / height
-      
-        setHap(scrolled)
-      }
+   
     
-    console.log(hap)
-    
-    
+    const getAllProduct = () => {
+        Axios.get(ApiUrl + 'products')
+        .then((res) => {
+            try {
+                if(res.data.error) throw new Error
+                setData(res.data.allProduct)
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const getFilter = () => {
+        Axios.get(ApiUrl + 'products/filter')
+        .then((res) => {
+            try {
+                if(res.data.error) throw new Error
+                setFilter({...filter, category : res.data.category.map(v => ({...v, isChecked: false})), brands : res.data.brands, rating : res.data.rating, discount : res.data.discount})
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+    console.log(inputFilter)
     
     return (
         <div className='container' style={{paddingTop : 120, paddingBottom : 120}}>
@@ -120,7 +133,7 @@ const ListProduct = () => {
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_1}>                            
                             {
-                                cek.map((val,index) => {
+                                filter.category && filter.category.map((val,index) => {
                                     return(
                                         <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                             <input 
@@ -128,9 +141,9 @@ const ListProduct = () => {
                                             checked={val.isChecked}
                                             onClick={(e) => onHandleCheckCategory(e)}
                                             style={{width : 16, height : 16}}
-                                            value={val.name}
+                                            value={val.category_name}
                                             />
-                                            <p style={{marginLeft : 10}}>{val.name}</p>
+                                            <p style={{marginLeft : 10}}>{val.category_name}</p>
                                         </span>
                                     )
                                 })
@@ -148,7 +161,7 @@ const ListProduct = () => {
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_2}>                            
                             {
-                                rating.map((val,index) => {
+                                filter.rating && filter.rating.map((val,index) => {
                                     return(
                                         <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                             <input 
@@ -161,7 +174,7 @@ const ListProduct = () => {
 
                                             <span style={{marginLeft : 10}}>
                                             {
-                                            Array.apply(null, {length: val.star}).map(Number.call, Number).map((val) => {
+                                            Array.apply(null, {length: val.rating}).map(Number.call, Number).map((val) => {
                                                 return(
                                                     <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 12}} />
                                                 )
@@ -201,87 +214,55 @@ const ListProduct = () => {
 
                     <div>
                         <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_4 : !isOpen.child_4})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
-                            <p>Colors</p>
+                            <p>Brands</p>
                             <FontAwesomeIcon icon={isOpen.child_4 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
                         </div>
                         <div style={{padding : 10}}>
                             <Collapse isOpen={isOpen.child_4}>                            
-                                <div className='container-colors'>
-                                    
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                        
-                                </div>
+                                {
+                                    filter.brands&& filter.brands.map((val,index) => {
+                                        return(
+                                            <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
+                                                <input 
+                                                type="checkbox" 
+                                                checked={val.isChecked}
+                                                onClick={(e) => onHandleCheckCategory(e)}
+                                                style={{width : 16, height : 16}}
+                                                value={val.name}
+                                                />
+                                                <p style={{marginLeft : 10}}>{val.brands_name}</p>
+                                            </span>
+                                        )
+                                    })
+                                }
                             </Collapse>
                         </div>
 
                         <div>
                         <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_5 : !isOpen.child_5})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
-                            <p>Brands</p>
+                            <p>Discount</p>
                             <FontAwesomeIcon icon={isOpen.child_5 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
                         </div>
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_5}>                            
-                            {
-                                rating.map((val,index) => {
-                                    return(
-                                        <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
-                                            <input 
-                                            type="checkbox" 
-                                            checked={val.isChecked}
-                                            onClick={(e) => onHandleCheckRating(e)}
-                                            style={{width : 16, height : 16}}
-                                            value={val.name}
-                                            />
-
-                                            <span style={{marginLeft : 10}}>
-                                            {
-                                            Array.apply(null, {length: val.star}).map(Number.call, Number).map((val) => {
-                                                return(
-                                                    <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 12}} />
-                                                )
-                                            })
-                                            }
-                                            </span>
-                                            
-                                        </span>
-                                    )
-                                })
-                            }
+                        
+                            <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
+                                <input 
+                                type="radio" 
+                                style={{width : 16, height : 16}}
+                                value='Daily Sale'
+                                />
+                                <p style={{marginLeft : 10}}>Daily Sale</p>
+                            </span>
+                            <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
+                                <input 
+                                type="radio" 
+                                style={{width : 16, height : 16}}
+                                value='Flash Sale'
+                                />
+                                <p style={{marginLeft : 10}}>Flash Sale</p>
+                            </span>
+                               
                         </Collapse>
                         </div>
                     </div>
@@ -291,17 +272,23 @@ const ListProduct = () => {
                     
                 </div>
                 <div className='col-md-9 row'>
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
+                    {
+                        data && data.map((val, i) => {
+                            return(
+                                <CardProduct 
+                                name={val.name} 
+                                brands={val.brands_name} 
+                                price={val.price} 
+                                image1={val.url.split(',')[0]} 
+                                image2={val.url.split(',')[1]} 
+                                discount={val.discount}
+                                flashSale={val.is_flash_sale}
+                                starCount={val.rating}
+                                id={val.id}
+                                />
+                            )
+                        })
+                    }
                     
 
                 </div>
@@ -313,3 +300,24 @@ const ListProduct = () => {
 }
 
 export default ListProduct
+
+
+// useEffect(() => {
+    //     window.addEventListener('scroll', listenToScroll)
+    //     return function (){
+    //         window.removeEventListener('scroll', listenToScroll)
+    //       };
+    // }, [])
+
+ // const listenToScroll = () => {
+    //     const winScroll =
+    //       document.body.scrollTop || document.documentElement.scrollTop
+      
+    //     const height =
+    //       document.documentElement.scrollHeight -
+    //       document.documentElement.clientHeight
+      
+    //     const scrolled = winScroll / height
+      
+    //     setHap(scrolled)
+    // }

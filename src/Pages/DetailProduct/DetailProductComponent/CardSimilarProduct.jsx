@@ -2,7 +2,10 @@ import React from 'react'
 
 const CardSimilarProduct = () => {
     return (
-        <div>
+        <div style={{paddingTop : 120}}>
+            <div>
+                
+            </div>
             
         </div>
     )

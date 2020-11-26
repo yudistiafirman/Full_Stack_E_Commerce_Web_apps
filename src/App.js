@@ -29,7 +29,7 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={LandingPage} />
             <Route path='/list-product' component={ListProduct} />
-            <Route path='/detail-product' component={DetailProduct} />
+            <Route path='/detail-product/:id' component={DetailProduct} />
             <Route path='/checkout-form' component={CheckoutForm} />
             <Route path='/member' component={UserProfile} />
             <Route path='/test' component={CardSimilarProduct} />

@@ -1,21 +1,36 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './DetailProduct.css'
 import { ImageGroup } from './DetailProductComponent/ImageGroup'
 import MdStar from 'react-ionicons/lib/MdStar'
+import MdStarOutline from 'react-ionicons/lib/MdStarOutline'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Axios from 'axios';
+import { ApiUrl } from '../../Constant/ApiUrl';
 
 
 const data = [
     'S', 'M', 'L', 'XL'
 ]
-const DetailProduct = () => {
+const DetailProduct = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [size, setSize] = useState('Pick a Size')
     const [tabs, setTabs] = useState('desc')
+    const [dataApi, setDataApi] = useState({
+        productInfo : null,
+        image : null,
+        review : null,
+        size : null,
+        avgRating : null
+    })
+
+    useEffect(() => {
+        getDetailData()
+        
+    }, [])
 
     
     const settings = {
@@ -26,12 +41,31 @@ const DetailProduct = () => {
         slidesToScroll: 1
     };
 
+    const getDetailData = () => {
+        let id = props.match.params.id
+        Axios.get(ApiUrl + 'products/' + id)
+        .then((res) => {
+            try {
+                if(res.data.error) throw new Error
+                setDataApi({...dataApi, productInfo : res.data.productInformation[0], avgRating : res.data.avgRat , image : res.data.productImage, review : res.data.productReview, size : res.data.productSize})
+                
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })   
+    }
+
+    console.log(dataApi)
+
     return (
         <div className='container' style={{paddingTop : 120}}>
             <div className='row'>
                 <div className='col-md-7'>
                     <div className='pb-4 border-bottom'>
-                        <ImageGroup />
+                        <ImageGroup data={dataApi.image} />
                     </div>
                     <div className='pt-3 pb-3' style={{display : 'flex'}}>
                         <span onClick={() => setTabs('desc')} style={{marginRight : 25, cursor : 'pointer'}} className={tabs === 'desc' ? 'border-bottom font-weight-bold' : ''}>
@@ -52,7 +86,7 @@ const DetailProduct = () => {
                         <p>Eclectic doodles, repetitive wordmarks and rising sun graphics bring an artistic edge to this tee. Made with soft cotton jersey, this one's the definition of favorite t-shirt material.</p>
                         <p style={{marginTop : 10, marginBottom : 5, fontWeight : 'bold'}}>WHY YOU SHOULD BE DOWN</p>
                         <ul style={{fontSize : 14}}>
-                            <li> 100% cotton jersey tee.</li>
+                            <li>100% cotton jersey tee.</li>
                             <li>Classic fit for everyday comfort.</li>
                             <li>Front and back mixed-media graphics.</li>
                             <li>Front and back mixed-media graphics.</li>
@@ -66,17 +100,28 @@ const DetailProduct = () => {
                         <div className='row'>
                             <div className='col-md-6' style={{padding : 14}}>
                                 <div className='border' style={{height : 300 ,display : 'flex', flexDirection : 'column', justifyContent : 'space-around', alignItems : 'center'}}>
-                                    <p style={{fontSize : 80, fontWeight : 'bolder'}}>5</p>
+                                    <p style={{fontSize : 80, fontWeight : 'bolder'}}>{dataApi.avgRating && dataApi.avgRating}</p>
                                     
                                     <span style={{marginTop : -40,display : 'flex', flexDirection : 'column', alignItems : 'center'}}>
                                         <span className=''>
-                                            <MdStar fontSize="22px" color='black' />
-                                            <MdStar fontSize="22px" color='black' />
-                                            <MdStar fontSize="22px" color='black' />
-                                            <MdStar fontSize="22px" color='black' />
-                                            <MdStar fontSize="22px" color='black' />
+
+                                            {
+                                                Array.apply(null, {length: dataApi.avgRating && dataApi.avgRating}).map(Number.call, Number).map((val) => {
+                                                    return(
+                                                        <MdStar fontSize="22px" color='black' />
+                                                    )
+                                                })
+                                            }
+                                            {
+                                                Array.apply(null, {length: dataApi.avgRating && 5 - dataApi.avgRating}).map(Number.call, Number).map((val) => {
+                                                    return(
+                                                        <MdStarOutline fontSize="22px" color='black' />
+                                                    )
+                                                })
+                                            }
+                                            
                                         </span>
-                                        <p style={{fontSize : 14, marginTop : 5}}>Overall rating based on 1 reviews</p>
+                                        <p style={{fontSize : 14, marginTop : 5}}>Overall rating based on {dataApi.review && dataApi.review.length} reviews</p>
                                     </span>
                                     <div className='border pt-2 pb-2 pl-5 pr-5'>
                                         <p style={{fontSize : 14}}>Leave Your Own</p>
@@ -86,16 +131,25 @@ const DetailProduct = () => {
                             </div>
                             <div className='col-md-6' style={{padding : 14}}>
                                 <div className='border pl-3 pr-3 pt-2 pb-2' style={{ height : 300 ,display : 'flex', flexDirection : 'column', justifyContent : 'space-between'}}>
-                                   <h2 style={{fontWeight : 'bolder', letterSpacing : 1 }}>"IT HAS A GREAT FIT AND IT'S SOFT"</h2>
+                                   <h2 style={{fontWeight : 'bolder', letterSpacing : 1 }}>"{dataApi.review && dataApi.review[0].review}"</h2>
                                    <div>
                                         <span className=''>
-                                            <MdStar fontSize="15px" color='black' />
-                                            <MdStar fontSize="15px" color='black' />
-                                            <MdStar fontSize="15px" color='black' />
-                                            <MdStar fontSize="15px" color='black' />
-                                            <MdStar fontSize="15px" color='black' />
+                                            {
+                                                Array.apply(null, {length: dataApi.review && dataApi.review[0].rating}).map(Number.call, Number).map((val) => {
+                                                    return(
+                                                        <MdStar fontSize="15px" color='black' />
+                                                    )
+                                                })
+                                            }
+                                            {
+                                                Array.apply(null, {length: dataApi.review && 5 - dataApi.review[0].rating}).map(Number.call, Number).map((val) => {
+                                                    return(
+                                                        <MdStarOutline fontSize="15px" color='black' />
+                                                    )
+                                                })
+                                            }
                                         </span>
-                                        <p style={{fontSize : 14}}>Anna S.</p>
+                                        <p style={{fontSize : 14}}>{dataApi.review && dataApi.review[0].full_name}</p>
                                    </div>
                                 </div>
                             </div>
@@ -106,17 +160,19 @@ const DetailProduct = () => {
                 </div>
                 <div className='col-md-5 pl-5 pr-4'>
                     <div className='border-bottom pb-4'>
-                        <p style={{fontSize : 30}}>Deus Ex Machina</p>
-                        <p style={{fontSize : 18}}>The Temple Enthusiast</p>
+                        <p style={{fontSize : 30}}>{dataApi.productInfo && dataApi.productInfo.brands_name}</p>
+                        <p style={{fontSize : 18}}>{dataApi.productInfo && dataApi.productInfo.name}</p>
                         <div style={{display : 'flex', alignItems : 'center'}}>
                             <span className=''>
-                                <MdStar fontSize="15px" color='orange' />
-                                <MdStar fontSize="15px" color='orange' />
-                                <MdStar fontSize="15px" color='orange' />
-                                <MdStar fontSize="15px" color='orange' />
-                                <MdStar fontSize="15px" color='orange' />
+                                {
+                                    Array.apply(null, {length: dataApi.avgRating && dataApi.avgRating}).map(Number.call, Number).map((val) => {
+                                        return(
+                                            <MdStar fontSize="15px" color='orange' />
+                                        )
+                                    })
+                                }
                             </span>
-                            <p className='ml-1' style={{fontSize : 13, fontWeight : 'lighter'}}>(117) review</p>  
+                            <p className='ml-1' style={{fontSize : 13, fontWeight : 'lighter'}}>({dataApi.review && dataApi.review.length}) review</p>  
                         </div>
                         <div style={{marginTop : 15}}>
                             <p style={{fontSize : 18}}> <s>Rp. 400.000</s></p>
@@ -156,10 +212,10 @@ const DetailProduct = () => {
                             <p>{size}</p>
                             <FontAwesomeIcon onClick={() => setDropdownOpen(!dropdownOpen)} icon={faPlus} />
                         </div>
-                        <div className='border pt-2 pb-2 pl-3 pr-4 mt-1 choice-size' style={{backgroundColor : 'rgba(250,250,250,0.7)',width : '85%',display : dropdownOpen ? 'block' : 'none', opacity : 1, position : 'absolute'}}>
-                            {data.map((val, index) => {
+                        <div className='border pt-2 pb-2 pl-3 pr-4 mt-1 choice-size' style={{backgroundColor : '#fff',width : '85%',display : dropdownOpen ? 'block' : 'none', opacity : 1, position : 'absolute'}}>
+                            {dataApi.size && dataApi.size.map((val, index) => {
                                 return(
-                                    <div onClick={() => {setSize(val);setDropdownOpen(false)}} style={{cursor : 'pointer'}}>{val}</div>
+                                    <div onClick={() => {setSize(val.size);setDropdownOpen(false)}} style={{cursor : 'pointer'}}>{val.size}</div>
                                 )
                             })}
                         </div>
