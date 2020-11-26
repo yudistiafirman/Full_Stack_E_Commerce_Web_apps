@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, Route, Switch, BrowserRouter as Router, useLocation } from "react-router-dom";
 
 import AddProduct from './AddProduct';
-import AddFlashSaleProducts from './AddFlashSaleProducts';
+import FlashSaleEvent from './FlashSaleEvent';
 
 export class Admin extends Component{
 
@@ -16,7 +16,7 @@ export class Admin extends Component{
             {
                 path: "/member/admin-dashboard/flash-sale",
                 exact: true,
-                page: () => <AddFlashSaleProducts />
+                page: () => <FlashSaleEvent />
             }
         ],
         activeLink: null

@@ -1,10 +1,14 @@
 import {combineReducers} from 'redux';
 import flashSaleReducer from './LandingPage/flashSaleReducer';
-import shippingAddressReducer from './UserProfile/ShippingAddressReducer';
+import bestSellerProductsReducer from './LandingPage/bestSellerProducts';
+import shippingAddressReducer from './UserProfile/shippingAddressReducer';
+import flashSaleEventReducer from './UserProfile/flashSaleEventReducer';
 
 const rootReducer = combineReducers({
     flashSale: flashSaleReducer,
-    shippingAddress: shippingAddressReducer
+    bestSellerProducts: bestSellerProductsReducer,
+    shippingAddress: shippingAddressReducer,
+    flashSaleEvent: flashSaleEventReducer
 })
 
 export default rootReducer

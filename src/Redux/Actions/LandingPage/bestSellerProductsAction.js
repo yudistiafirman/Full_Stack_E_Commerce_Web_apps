@@ -1,30 +1,30 @@
 import Axios from 'axios';
 import { UrlAPI } from '../../../Support/Constants/UrlAPI';
-import { FLASHSALE_LOADING, FLASHSALE_SUCCESS, FLASHSALE_ERROR } from './ActionTypes';
+import { BESTSELLERPRODUCTS_LOADING, BESTSELLERPRODUCTS_SUCCESS, BESTSELLERPRODUCTS_ERROR } from './ActionTypes';
 
-export const getFlashSaleProducts = () => {
+export const getBestSellerProducts = () => {
     return (dispatch) => {
         dispatch({
-            type: FLASHSALE_LOADING
+            type: BESTSELLERPRODUCTS_LOADING
         })
 
-        Axios.get(UrlAPI + 'products-flash-sale')
+        Axios.get(UrlAPI + 'products-best-seller')
         .then((res) => {
             if(res.data.error){
                 dispatch({
-                    type: FLASHSALE_ERROR,
+                    type: BESTSELLERPRODUCTS_ERROR,
                     payload: res.data.message
                 })
             }else{
                 dispatch({
-                    type: FLASHSALE_SUCCESS,
+                    type: BESTSELLERPRODUCTS_SUCCESS,
                     payload: res.data
                 })
             }
         })
         .catch((err) => {
             dispatch({
-                type: FLASHSALE_ERROR,
+                type: BESTSELLERPRODUCTS_ERROR,
                 payload: err.message
             })
         })    
