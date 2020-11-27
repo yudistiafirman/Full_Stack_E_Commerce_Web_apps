@@ -11,7 +11,7 @@ import Navbar from './Component/Navbar/Navbar';
 import LandingPage from './Pages/LandingPage/LandingPage';
 import ListProduct from './Pages/ListProduct/ListProduct';
 import DetailProduct from './Pages/DetailProduct/DetailProduct';
-import CheckoutForm from './Component/CheckoutForm';
+import CheckoutForm from './Pages/Checkout/CheckoutForm';
 import UserProfile from './Pages/UserProfile/UserProfile';
 import Footer from './Component/Footer/Footer';
 import CardSimilarProduct from './Pages/DetailProduct/DetailProductComponent/CardSimilarProduct';

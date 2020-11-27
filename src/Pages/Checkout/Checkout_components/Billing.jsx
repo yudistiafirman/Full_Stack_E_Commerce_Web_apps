@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Alert, Button, Container, Col, Row, Form, FormGroup, Input, Label, ListGroup, ListGroupItem } from "reactstrap";
-import Toggle from "../Toggle.jsx";
-import ProvinsiOptions from './input_options/provinsiOptions.jsx';
-import KotaOptions from './input_options/kotaOptions.jsx';
-import DaerahOptions from './input_options/daerahOptions.jsx';
-import PlusIcon from '../../Support/Images/_ionicons_svg_md-add.png';
+import Toggle from "../../../Pages/Checkout/Toggle";
+import ProvinsiOptions from '../../../Pages/Checkout/Checkout_components/input_options/provinsiOptions';
+import KotaOptions from '../../../Pages/Checkout/Checkout_components/input_options/kotaOptions';
+import DaerahOptions from '../../../Pages/Checkout/Checkout_components/input_options/daerahOptions';
 
 export default class Billing extends Component {
     constructor(props){
@@ -77,34 +76,6 @@ export default class Billing extends Component {
           placeholder="Alamat"
         />
       </FormGroup>
-      <FormGroup>
-        <Toggle>
-          {({ on, off, toggle }) => (
-            <div className="toggle-container address-text">
-              {on && (
-                <Input
-                  type="text"
-                  name="co_bil_address2"
-                  id="coBillAddress2"
-                  placeholder="Apartment, suite, etc. (optional)"
-                />
-              )}
-              {off && (
-                <div onClick={toggle}>
-                  <p>
-                    <img
-                      className="toggle-ico"
-                      src={PlusIcon}
-                      alt="expand icon"
-                    />{" "}
-                    Add Address line 2
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-        </Toggle>
-      </FormGroup>
       <Row form>
         <Col md={5}>
           <FormGroup className="dropdown-container">
@@ -137,8 +108,9 @@ export default class Billing extends Component {
             />
           </FormGroup>
         </Col>
-      </Row>
-      <FormGroup>
+        <Col md={6}>
+        <FormGroup>
+        <Label for="coPhone">No Telepon</Label>
         <Input
           type="phone"
           name="co_bill_phone"
@@ -146,6 +118,9 @@ export default class Billing extends Component {
           placeholder="No Telepon"
         />
       </FormGroup>
+      </Col>
+      </Row>
+      
 							<div className="button-right">
 								<Button onClick={toggle} color="primary">Save</Button>
 							</div>
@@ -158,9 +133,6 @@ export default class Billing extends Component {
 
     return (
       <Container className="billing-container">
-        <Row className="container-fluid co-title-row">
-          <h2>Alamat Tujuan</h2>
-        </Row>
         <ListGroup>
           <FormGroup tag="fieldset">
             <ListGroupItem>
@@ -168,7 +140,7 @@ export default class Billing extends Component {
                 <Input type="radio" name="coBillingSelection" onChange={ this.hideContent } defaultChecked />
                 <Container>
                   <Row className="container-fluid">
-                    <p>Sama Seperti Alamat Utama</p>
+                    <p>Gunakan Alamat Utama</p>
                   </Row>
                 </Container>
               </FormGroup>
