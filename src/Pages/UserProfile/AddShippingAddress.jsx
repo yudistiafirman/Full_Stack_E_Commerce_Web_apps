@@ -3,9 +3,11 @@ import { Link, Redirect } from "react-router-dom";
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import Skeleton from 'react-loading-skeleton';
 
-import { onSaveShippingAddress } from './../../Redux/Actions/UserProfile/ShippingAddressAction';
+import { onSaveShippingAddress } from './../../Redux/Actions/UserProfile/shippingAddressAction';
 
+import { Alert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import Loader from 'react-loader-spinner'
@@ -31,15 +33,10 @@ export class AddShippingAddress extends Component{
             receiver_name: '',
             users_id: 1,
             long: '',
-            lat: ''
+            lat: '',
+            is_main_address: 0
         },
-        errorInput: {
-            receiver_name: '',
-            phone_number: '',
-            address_detail: '',
-            city: '',
-            is_main_address: ''
-        }
+        errorInput: ''
       }
 
       handleChange = address => {
@@ -48,7 +45,7 @@ export class AddShippingAddress extends Component{
      
       handleSelect = address => {
         this.setState({ address });
-        this.setState({errorInput: {...this.state.errorInput, city: ''}})
+        this.setState({errorInput: ''})
 
         geocodeByAddress(address)
           .then(results => getLatLng(results[0]))
@@ -68,14 +65,8 @@ export class AddShippingAddress extends Component{
       }
 
       saveShippingAddress = () => {
-        if(!this.state.data.receiver_name && !this.state.data.phone_number && !this.state.data.address_detail && !this.state.data.city){
-            this.setState({errorInput: {...this.state.errorInput, receiver_name: 'Please Fill With Valid Consignee', phone_number: 'Please Fill With Valid Phone Number', address_detail: 'Please Fill With Valid Address', city: 'Please Fill With Valid City'}})
-        }else if(!this.state.data.receiver_name && !this.state.data.phone_number && !this.state.data.address_detail){
-            this.setState({errorInput: {...this.state.errorInput, receiver_name: 'Please Fill With Valid Consignee', phone_number: 'Please Fill With Valid Phone Number', address_detail: 'Please Fill With Valid Address'}})
-        }else if(!this.state.data.receiver_name && !this.state.data.phone_number){
-            this.setState({errorInput: {...this.state.errorInput, receiver_name: 'Please Fill With Valid Consignee', phone_number: 'Please Fill With Valid Phone Number'}})
-        }else if(!this.state.data.receiver_name){
-            this.setState({errorInput: {...this.state.errorInput, receiver_name: 'Please Fill With Valid Consignee'}})
+        if(!this.state.data.receiver_name || !this.state.data.phone_number || !this.state.data.address_detail || !this.state.data.city){
+            this.setState({errorInput: 'Please Fill Your Valid Data!'})
         }else{
             this.props.onSaveShippingAddress(this.state.data)
             window.location = ("/member/shipping-address")
@@ -101,39 +92,15 @@ export class AddShippingAddress extends Component{
                 <div className="px-0 py-4">
                     <div className="form-group">
                         <label  className="pa-main-light">Consignee</label>
-                        <input type="text" onChange={(e) => this.setState({data: {...this.state.data, receiver_name: e.target.value}, errorInput: {...this.state.errorInput, receiver_name: ''}})} className={this.state.errorInput.receiver_name? "form-control is-invalid" : "form-control"} placeholder="Ex. Widodo C. Putro" />
-                        {
-                            this.state.errorInput.receiver_name?
-                                <div className="pa-font-size-12 pa-danger">
-                                    {this.state.errorInput.receiver_name}
-                                </div>
-                            :
-                                null
-                        }
+                        <input type="text" onChange={(e) => this.setState({data: {...this.state.data, receiver_name: e.target.value}})} className="form-control" placeholder="Ex. Widodo C. Putro" />
                     </div>
                     <div className="form-group">
                         <label  className="pa-main-light">Phone Number</label>
-                        <input type="text" onChange={(e) => this.setState({data: {...this.state.data, phone_number: e.target.value}, errorInput: {...this.state.errorInput, phone_number: ''}})} className={this.state.errorInput.phone_number? "form-control is-invalid" : "form-control"} placeholder="Ex. 081118140006" />
-                        {
-                            this.state.errorInput.phone_number?
-                                <div className="pa-font-size-12 pa-danger">
-                                    {this.state.errorInput.phone_number}
-                                </div>
-                            :
-                                null
-                        }
+                        <input type="text" onChange={(e) => this.setState({data: {...this.state.data, phone_number: e.target.value}})} className="form-control" placeholder="Ex. 081118140006" />
                     </div>
                     <div className="form-group">
                         <label  className="pa-main-light">Address</label>
-                        <input type="text" onChange={(e) => this.setState({data: {...this.state.data, address_detail: e.target.value}, errorInput: {...this.state.errorInput, address_detail: ''}})} className={this.state.errorInput.address_detail? "form-control is-invalid" : "form-control"} placeholder="Ex. Jalan Puri Asri Blok C5, Sukapada, Kec. Cibeunying Kidul" />
-                        {
-                            this.state.errorInput.address_detail?
-                                <div className="pa-font-size-12 pa-danger">
-                                    {this.state.errorInput.address_detail}
-                                </div>
-                            :
-                                null
-                        }
+                        <input type="text" onChange={(e) => this.setState({data: {...this.state.data, address_detail: e.target.value}})} className="form-control" placeholder="Ex. Jalan Puri Asri Blok C5, Sukapada, Kec. Cibeunying Kidul" />
                     </div>
                     <PlacesAutocomplete
                         value={this.state.address}
@@ -146,17 +113,9 @@ export class AddShippingAddress extends Component{
                                 <input
                                     {...getInputProps({
                                     placeholder: "Ex. Bandung",
-                                    className: this.state.errorInput.address_detail? "form-control is-invalid" : "form-control",
+                                    className: "form-control",
                                     })}
                                 />
-                                {
-                                    this.state.errorInput.city?
-                                        <div className="pa-font-size-12 pa-danger">
-                                            {this.state.errorInput.city}
-                                        </div>
-                                    :
-                                        null
-                                }
                                 <div>
                                     {
                                         loading && 
@@ -189,9 +148,17 @@ export class AddShippingAddress extends Component{
                             </div>
                         )}
                     </PlacesAutocomplete>
+                    {
+                        this.state.errorInput?
+                            <Alert isOpen={alert} toggle="" className="border-0 text-center pa-bg-danger pa-light">
+                                {this.state.errorInput}
+                            </Alert>
+                        :
+                            null
+                    }
                     <div className="form-group">
                         <div className="form-check">
-                            <input type="checkbox" onChange={(e) => this.setState({data: {...this.state.data, is_main_address: 1}})} className="form-check-input" />
+                            <input type="checkbox" onChange={(e) => e.target.checked === true? this.setState({data: {...this.state.data, is_main_address: 1}}) : this.setState({data: {...this.state.data, is_main_address: 0}})} className="form-check-input" />
                             <label className="form-check-label font-weight-bold pa-secondary">
                                 Use For Main Address
                             </label>

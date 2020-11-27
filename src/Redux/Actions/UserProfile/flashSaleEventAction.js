@@ -41,17 +41,17 @@ export const createFlashSaleEvent = (data) => {
         Axios.post(UrlAPI + 'member/admin-dashboard/flash-sale/create-flash-sale-event', data)
         .then((res) => {
             console.log(res)
-            // if(res.data.error){
-            //     dispatch({
-            //         type: FLASHSALEEVENT_ERROR,
-            //         payload: res.data.message
-            //     })
-            // }else{
-            //     dispatch({
-            //         type: FLASHSALEEVENT_SUCCESS,
-            //         payload: res.data
-            //     })
-            // }
+            if(res.data.error){
+                dispatch({
+                    type: FLASHSALEEVENT_ERROR,
+                    payload: res.data.message
+                })
+            }else{
+                dispatch({
+                    type: FLASHSALEEVENT_SUCCESS,
+                    payload: res.data
+                })
+            }
         })
         .catch((err) => {
             dispatch({

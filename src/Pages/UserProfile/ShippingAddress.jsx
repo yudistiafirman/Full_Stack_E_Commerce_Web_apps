@@ -6,8 +6,6 @@ import AddShippingAddress from './AddShippingAddress';
 
 import './UserProfile.css';
 
-import NotFound from './../../Support/Images/Not Found.webp';
-
 export class ShippingAddress extends Component{
 
     state = {

@@ -4,11 +4,15 @@ import Skeleton from 'react-loading-skeleton';
 
 import { getAllDiscountProducts, createFlashSaleEvent } from './../../../Redux/Actions/UserProfile/flashSaleEventAction';
 
+import { Alert } from 'reactstrap';
+
 export class FlashSaleEvent extends Component{
 
     state = {
         eventDate: null,
-        products_id: []
+        products_id: [],
+        alert: false,
+        inputError: false
     }
 
     componentDidMount(){
@@ -24,7 +28,7 @@ export class FlashSaleEvent extends Component{
                     <td>{value.discount}</td>
                     <td>
                         <div className="form-check">
-                            <input type="checkbox" value={value.id} onChange={this.productSelected} className="form-check-input" />
+                            <input type="checkbox" id={index} value={value.id} onChange={this.productSelected} className="form-check-input" />
                         </div>
                     </td>
                 </tr>
@@ -33,20 +37,69 @@ export class FlashSaleEvent extends Component{
     }
 
     productSelected = (element) => {
-        this.state.products_id.push(element.target.value)
+        if(element.target.checked === true){
+            this.state.products_id.push(element.target.value)
+        }else{
+            for(var i = 0; i < this.state.products_id.length; i++){
+                if(this.state.products_id[i] === element.target.value){
+                    this.state.products_id.splice(i, 1)
+                }
+            }
+        }
     }
 
     createFlashSaleEvent = () => {
-        const data = this.state
-        
-        this.props.createFlashSaleEvent(data)
+        if(this.state.eventDate === null){
+            this.setState({alert: true, inputError: 'Select Date To Create Your Event'})
+        }else if(this.state.products_id.length < 6){
+            this.setState({alert: true, inputError: 'Select Minimum 6 Products'})
+        }else{
+            this.setState({alert: false, inputError: false})
+            
+            const eventDate = this.state.eventDate
+            const products_id = this.state.products_id
+            const newData = {eventDate, products_id}
+
+            this.props.createFlashSaleEvent(newData)
+        }
     }
 
     render(){
         if(this.props.flashSaleEvent.data === null){
             return(
                 <div>
-                    Loading
+                    <div className="font-weight-bold pa-font-size-18">
+                        <Skeleton width={250} height={15} duration={1} />
+                    </div>
+                    <div className="mx-0 my-1 border-bottom">
+
+                    </div>
+                    <div className="px-0 py-4">
+                        <div className="input-group mb-3">
+                            <Skeleton width={825} height={30} duration={1} />
+                        </div>
+                    </div>
+                    <div className="font-weight-bold pa-font-size-18">
+                        <Skeleton width={150} height={15} duration={1} />
+                    </div>
+                    <div className="mx-0 my-1 border-bottom">
+
+                    </div>
+                    <div className="px-0 py-4">
+                        <Skeleton width={825} height={150} duration={1} />
+                        <div className="btn mx-0 my-3 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
+                            <Skeleton width={150} height={15} duration={1} />
+                        </div>
+                    </div>
+                    
+                    {
+                        this.props.flashSaleEvent.error?
+                            <Alert isOpen={alert} toggle="" className="border-0 text-center pa-bg-danger pa-light">
+                                {this.props.flashSaleEvent.error}
+                            </Alert>
+                        :
+                            null
+                    }
                 </div>
             )
         }
@@ -79,8 +132,8 @@ export class FlashSaleEvent extends Component{
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Id</th>
-                                <th scope="col">Product</th>
-                                <th scope="col">Discount</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Discount (%)</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -90,6 +143,14 @@ export class FlashSaleEvent extends Component{
                             }
                         </tbody>
                     </table>
+                    {
+                        this.state.inputError?
+                            <Alert isOpen={alert} toggle="" className="border-0 rounded-0 text-center pa-bg-danger pa-light">
+                                {this.state.inputError}
+                            </Alert>
+                        :
+                            null
+                    }
                     <div onClick={() => this.createFlashSaleEvent()} className="btn mx-0 my-3 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
                         Create Event
                     </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Route, Switch, BrowserRouter as Router, useLocation } from "react-router-dom";
 
 import AddProduct from './AddProduct';
+import WarehouseInventory from './WarehouseInventory';
 import FlashSaleEvent from './FlashSaleEvent';
 
 export class Admin extends Component{
@@ -12,6 +13,11 @@ export class Admin extends Component{
                 path: "/member/admin-dashboard",
                 exact: true,
                 page: () => <AddProduct />
+            },
+            {
+                path: "/member/admin-dashboard/warehouse-inventory",
+                exact: true,
+                page: () => <WarehouseInventory />
             },
             {
                 path: "/member/admin-dashboard/flash-sale",
@@ -48,9 +54,11 @@ export class Admin extends Component{
                                 </div>
                             </div>
                             <div className="px-0 pt-0 pb-2">
-                                <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
-                                    Warehouse Inventory
-                                </div>
+                                <Link to="/member/admin-dashboard/warehouse-inventory" onClick={() => this.setState({activeLink: 'Warehouse Inventory'})} className="pa-link">
+                                    <div className={this.state.activeLink === 'Warehouse Inventory'? "px-3 py-1 pa-bg-main-light pa-light" : "px-3 py-1 pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
+                                        Warehouse Inventory
+                                    </div>
+                                </Link>
                             </div>
                             <div className="px-0 py-0 px-md-2 py-md-0">
                                 <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
@@ -60,7 +68,7 @@ export class Admin extends Component{
                             <div className="px-2 py-0 px-md-0 py-md-0">
                                 <Link to="/member/admin-dashboard/flash-sale" onClick={() => this.setState({activeLink: 'Add Flash Sale'})} className="pa-link">
                                     <div className={this.state.activeLink === 'Add Flash Sale'? "px-3 py-1 pa-bg-main-light pa-light" : "px-3 py-1 pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
-                                        Add Flash Sale
+                                        Flash Sale Event
                                     </div>
                                 </Link>
                             </div>

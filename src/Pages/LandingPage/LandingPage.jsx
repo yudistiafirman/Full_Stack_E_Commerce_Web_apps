@@ -1,5 +1,6 @@
 import React, { Component }  from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 
 import { getFlashSaleProducts } from './../../Redux/Actions/LandingPage/flashSaleAction';
@@ -70,19 +71,24 @@ export class LandingPage extends Component {
             <div key={index} className="col-6 col-md-3 px-3 py-3">
               <div className="pa-recomended-card">
                 <img src={'http://localhost:2000/public/product/' + value.url} alt={'Best Seller Product Image ' + index + 1} width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
-                <div className="px-3 pt-2 pb-2 pa-bg-light-grey" style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+                <div className="px-3 pt-2 pb-2 pa-bg-light-grey" style={{height: 100, borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
                   {value.name}
                   <p className="font-weight-bold pa-font-size-16 pa-secondary">
-                    Rp.{Number(value.price).toLocaleString('id-ID')}
+                    Rp.{(value.price - (value.price * (value.discount / 100))).toLocaleString('id-ID')}
                   </p>
-                  <p className="pa-font-size-14 pa-dark-grey">
-                    <del>
-                      Rp.{Number(value.price).toLocaleString('id-ID')}
-                    </del>
-                    <span className="mx-1 my-0 pa-secondary">
-                      15% OFF
-                    </span>
-                  </p>
+                  {
+                    value.discount?
+                      <p className="pa-font-size-14 pa-dark-grey">
+                        <del>
+                          Rp.{(value.price).toLocaleString('id-ID')}
+                        </del>
+                        <span className="mx-1 my-0 pa-secondary">
+                          {value.discount}% OFF
+                        </span>
+                      </p>
+                    :
+                      null
+                  }
                 </div>
               </div>
             </div>
@@ -90,9 +96,9 @@ export class LandingPage extends Component {
       })
     }
 
-  showMoreProducts = () => {
-    // this.setState({visible: this.state.visible + 4})
-  }
+    showMoreProducts = () => {
+      // this.setState({visible: this.state.visible + 4})
+    }
 
     render(){
       const mobileSettings = {
@@ -151,47 +157,47 @@ export class LandingPage extends Component {
 
               {/* Desktop Section */}
               <div className="pa-favourite-card-desktop-display">
-                <div className="row justify-content-between mx-0 my-3"> 
-                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                <div className="row justify-content-between mx-0 my-3">
+                  <Link to='/products?category=1' className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card pa-link">
                     <div>
                       <img src={TShirtIcon} width="30" />
                     </div>
                     <div className="align-self-center mx-3 my-0">
                       T-Shirt
                     </div>
-                  </div>
-                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                  </Link>
+                  <Link to='/products?category=2' className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card pa-link">
                     <div>
                       <img src={ShirtIcon} width="30" />
                     </div>
                     <div className="align-self-center mx-3 my-0">
                       Shirt
                     </div>
-                  </div>
-                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                  </Link>
+                  <Link to='/products?category=4' className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card pa-link">
                     <div>
                       <img src={JacketIcon} width="30" />
                     </div>
                     <div className="align-self-center mx-3 my-0">
                       Jacket
                     </div>
-                  </div>
-                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                  </Link>
+                  <Link to='/products?category=3' className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card pa-link">
                     <div>
                       <img src={PantsIcon} width="30" />
                     </div>
                     <div className="align-self-center mx-3 my-0">
                       Pants
                     </div>
-                  </div>
-                  <div className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card">
+                  </Link>
+                  <Link to='/products?category=6' className="col-2 row justify-content-center ml-0 mr-0 my-0 px-3 py-3 pa-favourite-card pa-link">
                     <div>
                       <img src={ShoesIcon} width="30" />
                     </div>
                     <div className="align-self-center mx-3 my-0">
                       Shoes
                     </div>
-                  </div>
+                  </Link>
                 </div>
               </div>
               <div className="d-none d-md-block px-3 pt-3 pb-1 px-md-0 pt-md-4 pb-md-2">

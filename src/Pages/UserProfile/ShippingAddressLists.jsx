@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
 
-import { getUsersShippingAddress } from './../../Redux/Actions/UserProfile/ShippingAddressAction';
+import { getUsersShippingAddress, onDeleteShippingAddress } from '../../Redux/Actions/UserProfile/shippingAddressAction';
 
 import './UserProfile.css';
 
@@ -22,7 +22,7 @@ export class ShippingAddressLists extends Component{
     mapUsersShippingAddress = () => {
         return this.props.shippingAddress.data.data.map((value, index) => {
             return(
-                <div className="mx-0 my-3 px-5 pt-3 pb-3 border rounded">
+                <div key={index} className="mx-0 my-3 px-5 pt-3 pb-3 border rounded">
                     <div className="row justify-content-between align-items-center px-3 py-0">
                         <div className="font-weight-bold pa-font-size-18">
                             {value.receiver_name}
@@ -48,13 +48,22 @@ export class ShippingAddressLists extends Component{
                         <span className="font-weight-bold pa-main-light">
                             Edit
                         </span>
-                        <span className="px-2 py-0 font-weight-bold pa-danger">
+                        <span onClick={() => this.deleteShippingAddress(value.id, value.users_id)} className="px-2 py-0 font-weight-bold pa-clickable-element pa-danger">
                             Delete
                         </span>
                     </div>
                 </div>
             )
         })
+    }
+
+    deleteShippingAddress = (address_id, users_id) => {
+        if(window.confirm('Are You Sure Want To Delete This Address?')){
+            const data = {
+                address_id, users_id
+            }
+            this.props.onDeleteShippingAddress(data)
+        }
     }
 
     render(){
@@ -150,6 +159,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = { getUsersShippingAddress }
+const mapDispatchToProps = { getUsersShippingAddress, onDeleteShippingAddress }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShippingAddressLists)

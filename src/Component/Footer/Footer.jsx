@@ -48,13 +48,11 @@ export class Footer extends React.Component {
                             <p className="mt-0 mb-1 font-weight-bold myfsid-dark"> TENTANG PEJOY ID </p>
                             <p className="mt-0 mb-0"> 
                                 Pejoy Id adalah Pelopor Toko Online di Indonesia yang Menyediakan Produk Terlengkap dan Terpercaya.
-                                Pejoy Siap Memenuhi Kebutuhan Fashion Anda, Mulai Dari Atasan Hingga Bawahan.
+                                Nikmati Kemudahan Berbelanja Bersama Kami, Karena Kami Memiliki Beberapa Warehouse yang Tersebar di Beberapa
+                                Provinsi di Indonesia. Pengiriman Cepat, Ongkir Hemat!
                             </p>
                             <p className="mt-3 mb-0"> 
-                                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-md pa-danger" /> Warehouse 1 : Sidoarjo, Jawa Timur, 61273.
-                            </p>
-                            <p className="mt-0 mb-0"> 
-                                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-md pa-danger" /> Warehouse 2 : Kota Bandung, Jawa Barat, 40125.
+                                <FontAwesomeIcon icon={faMapMarkerAlt} className="fa-md pa-danger" /> Office : Jalan Trunojoyo No. 11, Kota Bandung, Jawa Barat.
                             </p>
                             <p className="mt-3 mb-0"> 
                                 <FontAwesomeIcon icon={faEnvelopeOpenText} className="fa-md" /> pejoyidid@pejoy.com

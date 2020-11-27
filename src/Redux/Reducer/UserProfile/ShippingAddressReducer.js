@@ -1,4 +1,4 @@
-import { SAVESHIPPINGADDRESS_LOADING, SAVESHIPPINGADDRESS_SUCCESS, SAVESHIPPINGADDRESS_ERROR } from './../../Actions/UserProfile/ActionTypes';
+import { SHIPPINGADDRESS_LOADING, SHIPPINGADDRESS_SUCCESS, SHIPPINGADDRESS_ERROR } from './../../Actions/UserProfile/ActionTypes';
 
 const data = {
     loading: false,
@@ -8,11 +8,11 @@ const data = {
 
 function shippingAddressReducer (state = data, action){
     switch(action.type){
-        case SAVESHIPPINGADDRESS_LOADING: 
+        case SHIPPINGADDRESS_LOADING: 
             return {loading: true, data: null, error: null}
-        case SAVESHIPPINGADDRESS_SUCCESS:
+        case SHIPPINGADDRESS_SUCCESS:
             return {loading: false, data: action.payload, error: null}
-        case SAVESHIPPINGADDRESS_ERROR:
+        case SHIPPINGADDRESS_ERROR:
             return {...state, loading: false, error: action.payload}
         default: 
             return state
