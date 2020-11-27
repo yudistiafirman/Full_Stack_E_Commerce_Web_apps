@@ -116,7 +116,7 @@ export class LandingPage extends Component {
         slidesToScroll: 1,
         dots: false
       }
-
+      
       return(
         // LANDING PAGE
         <div>

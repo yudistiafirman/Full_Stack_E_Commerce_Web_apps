@@ -1,4 +1,4 @@
-import { faChevronDown, faChevronUp, faSlidersH, faStar} from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faSearch, faSlidersH, faStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState, useEffect } from 'react'
 import CardProduct from '../../Component/CardProduct'
@@ -9,6 +9,9 @@ import Axios from 'axios'
 import { ApiUrl } from '../../Constant/ApiUrl'
 import { getQuery } from '../../Support/Functions/getSeacrh'
 
+const ratingStar = [
+    {star : 1}, {star : 2}, {star : 3}, {star : 4}, {star : 5}
+]
 
 const ListProduct = (props) => {
 
@@ -25,12 +28,17 @@ const ListProduct = (props) => {
         child_3 : false,
         child_4 : false,
         child_5 : false
-    });
-    const [inputFilter, setInputFilter] = useState({
+    }); 
+    let [inputCategory, setInputCategory] = useState({
         category : [],
-        brands : [],
         rating : [],
-        price : []
+        price : [],
+        brands : [],
+        discount : ''
+    })
+    const [priceToInput, setPriceToInput] = useState({
+        price1 : '',
+        price2 : ''
     })
     
     useEffect(() => {
@@ -38,45 +46,55 @@ const ListProduct = (props) => {
         getFilter()
     },[])
 
-    
-    useEffect(() => {
-        if(filter.category){
-            let cat = inputFilter.category
-            filter.category.forEach((val,i) => {
-                if(val.isChecked === true){
-                    cat.push(val.id)
-                    setInputFilter({...inputFilter, category : cat})
-                }
-                // if(val.isChecked === false){
-                //     cat.(val.id)
-                //     setInputFilter({...inputFilter, category : cat})
-                // }
-            })
-        }
-    }, [filter])
-    
+    // useEffect(() => {
+    //     getProductByFilter()
+    // },[inputCategory])
+
+
 
     
     const onHandleCheckCategory = (e) => {
-        let handle = filter.category
+        if(e.target.checked === true){
+            inputCategory.category.push(e.target.value)
+        }else{
+            inputCategory.category = inputCategory.category.filter(a => a !== e.target.value)
+            
+        }
         
-        handle.forEach(val => {
-            if (val.category_name === e.target.value){
-                val.isChecked = e.target.checked
-            }
-        })
-        setFilter({...filter, category : handle})
-    }
-    const onHandleCheckRating = (e) => {
-        
-        // let handle = rating
-        // handle.forEach(val => {
-        // if (val.name === e.target.value)
-        //     val.isChecked =  e.target.checked
-        // })
-        // setRating(handle)
+        getProductByFilter()
     }
 
+    const onHandleCheckRating = (e) => {
+        if(e.target.checked === true){
+            inputCategory.rating.push(e.target.value)
+        }else{
+            inputCategory.rating = inputCategory.rating.filter(a => a !== e.target.value)
+        }
+        
+        getProductByFilter()
+    }
+    const onHandleCheckBrands = (e) => {
+        if(e.target.checked === true){
+            inputCategory.brands.push(e.target.value)
+        }else{
+            inputCategory.brands = inputCategory.brands.filter(a => a !== e.target.value)
+        }
+        
+        getProductByFilter()
+    }
+    const onHandleCheckDiscount = (e) => {
+        inputCategory.discount = e.target.value
+        getProductByFilter()
+    }
+
+    const onHandlePrice = () => {
+        // if(priceToInput.price1 !== '' && priceToInput.price2 !== '' ){
+        // }
+        setInputCategory({...inputCategory,price : [priceToInput.price1, priceToInput.price2]})
+        console.log(inputCategory)
+    }
+    console.log(priceToInput)
+    
    
     
     const getAllProduct = () => {
@@ -111,7 +129,22 @@ const ListProduct = (props) => {
         })
     }
 
-    console.log(inputFilter)
+    const getProductByFilter = () => {
+        Axios.post(ApiUrl + 'products/filter/multi-category', inputCategory)
+        .then((res) => {
+            try {
+                if(res.data.error) throw new Error
+                setData(res.data.filterCategory)
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
+    console.log(inputCategory)
     
     
     return (
@@ -141,10 +174,9 @@ const ListProduct = (props) => {
                                         <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                             <input 
                                             type="checkbox" 
-                                            checked={val.isChecked}
                                             onClick={(e) => onHandleCheckCategory(e)}
                                             style={{width : 16, height : 16}}
-                                            value={val.category_name}
+                                            value={val.id}
                                             />
                                             <p style={{marginLeft : 10}}>{val.category_name}</p>
                                         </span>
@@ -164,20 +196,19 @@ const ListProduct = (props) => {
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_2}>                            
                             {
-                                filter.rating && filter.rating.map((val,index) => {
+                                ratingStar.map((val,index) => {
                                     return(
                                         <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                             <input 
                                             type="checkbox" 
-                                            checked={val.isChecked}
                                             onClick={(e) => onHandleCheckRating(e)}
                                             style={{width : 16, height : 16}}
-                                            value={val.name}
+                                            value={val.star}
                                             />
 
                                             <span style={{marginLeft : 10}}>
                                             {
-                                            Array.apply(null, {length: val.rating}).map(Number.call, Number).map((val) => {
+                                            Array.apply(null, {length: val.star}).map(Number.call, Number).map((val) => {
                                                 return(
                                                     <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 12}} />
                                                 )
@@ -202,12 +233,12 @@ const ListProduct = (props) => {
                             <span style={{paddingTop : 5,display : 'flex', flexWrap : 'wrap', justifyContent : 'space-between', alignItems : 'center'}}>
                                 <span>
                                     <p style={{fontSize : 14, marginBottom : 3}} for="formControlRange">Min-Price</p>
-                                    <input type='number' style={{width : 80, fontSize : 12}} />
+                                    <input type='number' onChange={(e) => setPriceToInput({...priceToInput, price1 : e.target.value})} value={priceToInput.price1} style={{width : 80, fontSize : 12}} />
                                 </span>
                                 <span>-</span>
                                 <span>
                                     <p style={{fontSize : 14, marginBottom : 3}} for="formControlRange">Max-Price</p>
-                                    <input type='number' style={{width : 80, fontSize : 12}} />
+                                    <input onSubmit={onHandlePrice} type='number' onChange={(e) => setPriceToInput({...priceToInput, price2 : e.target.value})} value={priceToInput.price2}  style={{width : 80, fontSize : 12}} />
                                 </span>
                             </span>
                                   
@@ -223,15 +254,14 @@ const ListProduct = (props) => {
                         <div style={{padding : 10}}>
                             <Collapse isOpen={isOpen.child_4}>                            
                                 {
-                                    filter.brands&& filter.brands.map((val,index) => {
+                                    filter.brands && filter.brands.map((val,index) => {
                                         return(
                                             <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                                 <input 
                                                 type="checkbox" 
-                                                checked={val.isChecked}
-                                                onClick={(e) => onHandleCheckCategory(e)}
+                                                onClick={(e) => onHandleCheckBrands(e)}
                                                 style={{width : 16, height : 16}}
-                                                value={val.name}
+                                                value={val.id}
                                                 />
                                                 <p style={{marginLeft : 10}}>{val.brands_name}</p>
                                             </span>
@@ -251,19 +281,23 @@ const ListProduct = (props) => {
                         
                             <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                 <input 
-                                type="radio" 
+                                type="radio"
+                                name='radioButton'
+                                onClick={(e) => onHandleCheckDiscount(e)} 
                                 style={{width : 16, height : 16}}
-                                value='Daily Sale'
+                                value='< 25'
                                 />
-                                <p style={{marginLeft : 10}}>Daily Sale</p>
+                                <p style={{marginLeft : 10}}>0 - 25%</p>
                             </span>
                             <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                 <input 
                                 type="radio" 
+                                name='radioButton'
+                                onClick={(e) => onHandleCheckDiscount(e)} 
                                 style={{width : 16, height : 16}}
-                                value='Flash Sale'
+                                value='> 25'
                                 />
-                                <p style={{marginLeft : 10}}>Flash Sale</p>
+                                <p style={{marginLeft : 10}}>25% or above</p>
                             </span>
                                
                         </Collapse>

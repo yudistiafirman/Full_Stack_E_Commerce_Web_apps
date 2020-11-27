@@ -85,7 +85,6 @@ const DetailProduct = (props) => {
                             <p>Refund Policy</p>
                         </span>
                     </div>
-
                     <div style={{display : tabs === 'desc' ? 'block' : 'none'}}>
                         <p>Eclectic doodles, repetitive wordmarks and rising sun graphics bring an artistic edge to this tee. Made with soft cotton jersey, this one's the definition of favorite t-shirt material.</p>
                         <p style={{marginTop : 10, marginBottom : 5, fontWeight : 'bold'}}>WHY YOU SHOULD BE DOWN</p>
