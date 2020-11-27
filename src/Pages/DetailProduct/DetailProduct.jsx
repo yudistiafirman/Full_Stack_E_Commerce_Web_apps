@@ -10,6 +10,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Axios from 'axios';
 import { ApiUrl } from '../../Constant/ApiUrl';
+import CardReview from './DetailProductComponent/CardReview'
+import { Link } from 'react-router-dom'
 
 
 const data = [
@@ -22,14 +24,13 @@ const DetailProduct = (props) => {
     const [dataApi, setDataApi] = useState({
         productInfo : null,
         image : null,
-        review : null,
         size : null,
         avgRating : null
     })
+    const [review, setReview] = useState(null)
 
     useEffect(() => {
         getDetailData()
-        
     }, [])
 
     
@@ -47,7 +48,10 @@ const DetailProduct = (props) => {
         .then((res) => {
             try {
                 if(res.data.error) throw new Error
-                setDataApi({...dataApi, productInfo : res.data.productInformation[0], avgRating : res.data.avgRat , image : res.data.productImage, review : res.data.productReview, size : res.data.productSize})
+                if(res.data.productReview.length > 0){
+                    setReview(res.data.productReview)
+                }
+                setDataApi({...dataApi, productInfo : res.data.productInformation[0], avgRating : res.data.avgRat , image : res.data.productImage, size : res.data.productSize})
                 
             } catch (error) {
                 console.log(error)
@@ -58,7 +62,7 @@ const DetailProduct = (props) => {
         })   
     }
 
-    console.log(dataApi)
+    console.log(review)
 
     return (
         <div className='container' style={{paddingTop : 120}}>
@@ -67,7 +71,7 @@ const DetailProduct = (props) => {
                     <div className='pb-4 border-bottom'>
                         <ImageGroup data={dataApi.image} />
                     </div>
-                    <div className='pt-3 pb-3' style={{display : 'flex'}}>
+                    <div className='pt-3 pb-3 container-tabs' >
                         <span onClick={() => setTabs('desc')} style={{marginRight : 25, cursor : 'pointer'}} className={tabs === 'desc' ? 'border-bottom font-weight-bold' : ''}>
                             <p>Descricption</p>
                         </span>
@@ -96,65 +100,21 @@ const DetailProduct = (props) => {
                     </div>
 
                     <div style={{display : tabs === 'review' ? 'block' : 'none'}}>
-                        <p style={{fontSize : 13, marginTop : 5}}>Ratings and reviews from our Community</p>
-                        <div className='row'>
-                            <div className='col-md-6' style={{padding : 14}}>
-                                <div className='border' style={{height : 300 ,display : 'flex', flexDirection : 'column', justifyContent : 'space-around', alignItems : 'center'}}>
-                                    <p style={{fontSize : 80, fontWeight : 'bolder'}}>{dataApi.avgRating && dataApi.avgRating}</p>
-                                    
-                                    <span style={{marginTop : -40,display : 'flex', flexDirection : 'column', alignItems : 'center'}}>
-                                        <span className=''>
-
-                                            {
-                                                Array.apply(null, {length: dataApi.avgRating && dataApi.avgRating}).map(Number.call, Number).map((val) => {
-                                                    return(
-                                                        <MdStar fontSize="22px" color='black' />
-                                                    )
-                                                })
-                                            }
-                                            {
-                                                Array.apply(null, {length: dataApi.avgRating && 5 - dataApi.avgRating}).map(Number.call, Number).map((val) => {
-                                                    return(
-                                                        <MdStarOutline fontSize="22px" color='black' />
-                                                    )
-                                                })
-                                            }
-                                            
-                                        </span>
-                                        <p style={{fontSize : 14, marginTop : 5}}>Overall rating based on {dataApi.review && dataApi.review.length} reviews</p>
-                                    </span>
-                                    <div className='border pt-2 pb-2 pl-5 pr-5'>
-                                        <p style={{fontSize : 14}}>Leave Your Own</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className='col-md-6' style={{padding : 14}}>
-                                <div className='border pl-3 pr-3 pt-2 pb-2' style={{ height : 300 ,display : 'flex', flexDirection : 'column', justifyContent : 'space-between'}}>
-                                   <h2 style={{fontWeight : 'bolder', letterSpacing : 1 }}>"{dataApi.review && dataApi.review[0].review}"</h2>
-                                   <div>
-                                        <span className=''>
-                                            {
-                                                Array.apply(null, {length: dataApi.review && dataApi.review[0].rating}).map(Number.call, Number).map((val) => {
-                                                    return(
-                                                        <MdStar fontSize="15px" color='black' />
-                                                    )
-                                                })
-                                            }
-                                            {
-                                                Array.apply(null, {length: dataApi.review && 5 - dataApi.review[0].rating}).map(Number.call, Number).map((val) => {
-                                                    return(
-                                                        <MdStarOutline fontSize="15px" color='black' />
-                                                    )
-                                                })
-                                            }
-                                        </span>
-                                        <p style={{fontSize : 14}}>{dataApi.review && dataApi.review[0].full_name}</p>
-                                   </div>
-                                </div>
+                        {
+                            review ?
+                            <p style={{fontSize : 13, marginTop : 5}}>Ratings and reviews from our Community</p>
+                            :
+                            <p style={{fontSize : 13, marginTop : 5}}>Add your review to the community. It's quick and easy.</p>
+                        }
+                        {
+                            review ?
+                            <CardReview review={review} rating={dataApi.avgRating && dataApi.avgRating} />
+                            :
+                            <div className="border pr-5 pl-5 pt-2 pb-2 mt-3 mb-3" style={{display : 'inline-block'}}>
+                                <p>Add your Review</p>
                             </div>
 
-                        </div>
+                        }
                     </div>
 
                 </div>
@@ -163,16 +123,38 @@ const DetailProduct = (props) => {
                         <p style={{fontSize : 30}}>{dataApi.productInfo && dataApi.productInfo.brands_name}</p>
                         <p style={{fontSize : 18}}>{dataApi.productInfo && dataApi.productInfo.name}</p>
                         <div style={{display : 'flex', alignItems : 'center'}}>
-                            <span className=''>
-                                {
-                                    Array.apply(null, {length: dataApi.avgRating && dataApi.avgRating}).map(Number.call, Number).map((val) => {
-                                        return(
-                                            <MdStar fontSize="15px" color='orange' />
-                                        )
-                                    })
-                                }
-                            </span>
-                            <p className='ml-1' style={{fontSize : 13, fontWeight : 'lighter'}}>({dataApi.review && dataApi.review.length}) review</p>  
+                            {
+                                review ?
+                                <span className=''>
+                                    {
+                                        Array.apply(null, {length: dataApi.avgRating && dataApi.avgRating}).map(Number.call, Number).map((val) => {
+                                            return(
+                                                <MdStar fontSize="15px" color='orange' />
+                                            )
+                                        })
+                                    }
+                                    {
+                                        Array.apply(null, {length: dataApi.avgRating && 5 - dataApi.avgRating}).map(Number.call, Number).map((val) => {
+                                            return(
+                                                <MdStarOutline fontSize="15px" color='orange' />
+                                            )
+                                        })
+                                    }
+                                </span>
+                                :
+                                Array.apply(null, {length: 5}).map(Number.call, Number).map((val) => {
+                                    return(
+                                        <MdStarOutline fontSize="15px" color='orange' />
+                                    )
+                                })
+                            }
+
+                            {
+                                review ?
+                                <p className='ml-1' style={{fontSize : 13, fontWeight : 'lighter'}}>({review.length}) review</p> 
+                                :
+                                <p className='ml-1' style={{fontSize : 13, fontWeight : 'lighter'}}>Write the first review</p> 
+                            }
                         </div>
                         <div style={{marginTop : 15}}>
                             <p style={{fontSize : 18}}> <s>Rp. 400.000</s></p>
@@ -181,7 +163,13 @@ const DetailProduct = (props) => {
                         <div style={{marginTop : 15}}>
                             <p style={{fontSize : 12}}>
                                 Every closet needs a go-to t-shirt. This one takes it to the next level with subtle outdoor-inspired details and a classic fit of soft cotton jersey.
-                                <span style={{marginLeft : 5, textDecoration : 'underline'}}>See more</span>
+                                <Link to='/detail-product' 
+                                innerRef={node => {
+                                    document.getElementById('desc')
+                                  }}
+                                >
+                                    <span style={{marginLeft : 5, textDecoration : 'underline'}}>See more</span>
+                                </Link>
                             </p>
                         </div>   
                     </div>
@@ -235,10 +223,6 @@ const DetailProduct = (props) => {
                     
 
                 </div>
-                
-            </div>
-            <div>
-                <p>Similar Product</p>
                 
             </div>
         </div>

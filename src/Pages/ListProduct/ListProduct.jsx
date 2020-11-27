@@ -7,11 +7,11 @@ import './SortProduct.css'
 import { Collapse } from 'reactstrap';
 import Axios from 'axios'
 import { ApiUrl } from '../../Constant/ApiUrl'
+import { getQuery } from '../../Support/Functions/getSeacrh'
 
 
-const ListProduct = () => {
+const ListProduct = (props) => {
 
-    const [hap, setHap] = useState(0)
     const [data, setData] = useState(null)
     const [filter, setFilter] = useState({
         category : null,
@@ -38,35 +38,34 @@ const ListProduct = () => {
         getFilter()
     },[])
 
-    const [cek, setCek] = useState([
-        {
-            name : 'Sayuran',
-            id : 1
-        },
-        {
-            name : 'Buah',
-            id : 2
-        },
-        {
-            name : 'Kacang-kacangan',
-            id : 3
+    
+    useEffect(() => {
+        if(filter.category){
+            let cat = inputFilter.category
+            filter.category.forEach((val,i) => {
+                if(val.isChecked === true){
+                    cat.push(val.id)
+                    setInputFilter({...inputFilter, category : cat})
+                }
+                // if(val.isChecked === false){
+                //     cat.(val.id)
+                //     setInputFilter({...inputFilter, category : cat})
+                // }
+            })
         }
-    ])
+    }, [filter])
+    
 
+    
     const onHandleCheckCategory = (e) => {
         let handle = filter.category
-        let cat = inputFilter.category
-        cat.push(e.target.value)
-        setInputFilter({...inputFilter, category : cat})
-        console.log(inputFilter)
         
-        // handle.forEach(val => {
-        //     if (val.category_name === e.target.value){
-        //         val.isChecked = e.target.checked
-        //         setInputFilter({...inputFilter, category : inputFilter.category + e.target.checked})
-        //     }
-        // })
-        // setFilter({...filter, category : handle})
+        handle.forEach(val => {
+            if (val.category_name === e.target.value){
+                val.isChecked = e.target.checked
+            }
+        })
+        setFilter({...filter, category : handle})
     }
     const onHandleCheckRating = (e) => {
         
@@ -81,11 +80,12 @@ const ListProduct = () => {
    
     
     const getAllProduct = () => {
-        Axios.get(ApiUrl + 'products')
+        let query = getQuery(props.location.search)
+        Axios.post(ApiUrl + 'products/filter/category', query)
         .then((res) => {
             try {
                 if(res.data.error) throw new Error
-                setData(res.data.allProduct)
+                setData(res.data.filterCategory)
             } catch (error) {
                 console.log(error)
             }
@@ -96,6 +96,7 @@ const ListProduct = () => {
     }
 
     const getFilter = () => {
+        
         Axios.get(ApiUrl + 'products/filter')
         .then((res) => {
             try {
@@ -109,7 +110,9 @@ const ListProduct = () => {
             console.log(err)
         })
     }
+
     console.log(inputFilter)
+    
     
     return (
         <div className='container' style={{paddingTop : 120, paddingBottom : 120}}>
@@ -321,3 +324,5 @@ export default ListProduct
       
     //     setHap(scrolled)
     // }
+
+    // const [hap, setHap] = useState(0)

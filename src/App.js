@@ -28,7 +28,7 @@ const App = () => {
         <Navbar />
           <Switch>
             <Route exact path='/' component={LandingPage} />
-            <Route path='/list-product' component={ListProduct} />
+            <Route path='/products' component={ListProduct} />
             <Route path='/detail-product/:id' component={DetailProduct} />
             <Route path='/checkout-form' component={CheckoutForm} />
             <Route path='/member' component={UserProfile} />

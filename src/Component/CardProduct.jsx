@@ -50,7 +50,7 @@ const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, 
 
                 <div style={{marginTop : 10, padding : 10}}>
                     <p style={{fontSize : 12, color : 'green'}}>{brands}</p>
-                    <Link to={'/detail-product/' + id}>
+                    <Link to={'/detail-product/' + id} >
                         <p style={{fontSize : 16}}>
                             {name}
                         </p>

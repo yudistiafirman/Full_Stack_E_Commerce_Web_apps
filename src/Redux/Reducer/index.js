@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import flashSaleReducer from './LandingPage/flashSaleReducer';
 import bestSellerProductsReducer from './LandingPage/bestSellerProducts';
-import shippingAddressReducer from './UserProfile/shippingAddressReducer';
+import shippingAddressReducer from './UserProfile/ShippingAddressReducer';
 import flashSaleEventReducer from './UserProfile/flashSaleEventReducer';
 
 const rootReducer = combineReducers({
