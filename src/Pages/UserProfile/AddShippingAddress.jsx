@@ -34,8 +34,8 @@ export class AddShippingAddress extends Component{
             phone_number: '',
             receiver_name: '',
             users_id: 1,
-            long: '',
-            lat: '',
+            longitude: '',
+            latitude: '',
             is_main_address: 0,
             province_id: '',
             city_id: ''
@@ -65,7 +65,7 @@ export class AddShippingAddress extends Component{
             // Update Center State Of Maps
             this.setState({ mapCenter: latLng });
             
-            this.setState({data: {...this.state.data, long: latLng.lat, lat: latLng.lng}})
+            this.setState({data: {...this.state.data, longitude: latLng.lat, latitude: latLng.lng}})
           })
           .catch(error => console.error('Error', error));
       }
@@ -81,7 +81,7 @@ export class AddShippingAddress extends Component{
       }
 
       saveShippingAddress = () => {
-        if(!this.state.data.receiver_name || !this.state.data.phone_number || !this.state.data.address_detail || !this.state.data.city || !this.state.data.long || !this.state.data.lat){
+        if(!this.state.data.receiver_name || !this.state.data.phone_number || !this.state.data.address_detail || !this.state.data.city || !this.state.data.longitude || !this.state.data.latitude){
             this.setState({errorInput: 'Please Fill Your Valid Data!'})
         }
         else{
