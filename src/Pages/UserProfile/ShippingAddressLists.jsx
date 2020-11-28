@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
 
-import { getUsersShippingAddress, onDeleteShippingAddress } from './../../Redux/Actions/UserProfile/ShippingAddressAction';
+import { getUsersShippingAddress, onDeleteShippingAddress } from '../../Redux/Actions/UserProfile/ShippingAddressAction';
 
 import './UserProfile.css';
 
