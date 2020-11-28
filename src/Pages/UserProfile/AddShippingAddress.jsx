@@ -38,7 +38,8 @@ export class AddShippingAddress extends Component{
             latitude: '',
             is_main_address: 0,
             province_id: '',
-            city_id: ''
+            city_id: '',
+            nearest_place: ''
         },
         errorInput: '',
         dataRajaOngkirProvinceSuggestions: []
@@ -53,7 +54,8 @@ export class AddShippingAddress extends Component{
       }
      
       handleSelect = address => {
-        this.setState({ address });
+        this.setState({ address })
+        this.setState({data: {...this.state.data, nearest_place: address} })
         this.setState({errorInput: ''})
 
         geocodeByAddress(address)
@@ -65,7 +67,7 @@ export class AddShippingAddress extends Component{
             // Update Center State Of Maps
             this.setState({ mapCenter: latLng });
             
-            this.setState({data: {...this.state.data, longitude: latLng.lat, latitude: latLng.lng}})
+            this.setState({data: {...this.state.data, longitude: latLng.lng, latitude: latLng.lat}})
           })
           .catch(error => console.error('Error', error));
       }
@@ -198,7 +200,7 @@ export class AddShippingAddress extends Component{
                                             {
                                                 this.props.rajaOngkirCity.data.map((value, index) => {
                                                     return(
-                                                        <option value={value.city_id + '/' + value.city_name}>{value.city_name}</option>
+                                                        <option value={value.city_id + '/' + value.city_name}>{value.city_type + ' ' + value.city_name}</option>
                                                     )
                                                 })
                                             }

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
+import { UrlAPI } from './../../Support/Constants/UrlAPI';
 import { Link } from "react-router-dom";
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { connect } from 'react-redux';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Skeleton from 'react-loading-skeleton';
 
-import { onGetShippingAddressToEdit, onUpdateShippingAddress } from './../../Redux/Actions/UserProfile/ShippingAddressAction';
+import { onUpdateShippingAddress } from './../../Redux/Actions/UserProfile/ShippingAddressAction';
+import { onGetProvinceIdRajaOngkir } from '../../Redux/Actions/UserProfile/rajaOngkirProvinceAction';
+import { onGetCityIdRajaOngkir } from '../../Redux/Actions/UserProfile/rajaOngkirCityAction';
 
 import { Alert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,8 +26,8 @@ export class EditShippingAddress extends Component{
         activeMarker: {},
         selectedPlace: {},
         mapCenter: {
-          lat: 49.2827291,
-          lng: -123.1207375
+          lat: '',
+          lng: ''
         },
         data: {
             id: '',
@@ -33,34 +37,51 @@ export class EditShippingAddress extends Component{
             phone_number: '',
             receiver_name: '',
             users_id: 1,
-            long: '',
-            lat: '',
-            is_main_address: 0
+            longitude: '',
+            latitude: '',
+            is_main_address: 0,
+            province_id: '',
+            city_id: '',
+            nearest_place: ''
         },
         errorInput: ''
       }
 
       componentDidMount(){
+        this.getUsersShippingAddressToEdit()
+        this.props.onGetProvinceIdRajaOngkir()
+      }
+
+      getUsersShippingAddressToEdit = () => {
         const data =  {
             id: Number(window.location.pathname.split('/')[4])
-        } 
+        }
 
-        this.props.onGetShippingAddressToEdit(data)
-        
-        this.setState({
-            data: {
-                id: this.props.shippingAddress.data.data[0].id,
-                address_detail: this.props.shippingAddress.data.data[0].address_detail,
-                city: this.props.shippingAddress.data.data[0].city,
-                province: this.props.shippingAddress.data.data[0].province,
-                phone_number: this.props.shippingAddress.data.data[0].phone_number,
-                receiver_name: this.props.shippingAddress.data.data[0].receiver_name,
-                users_id: this.props.shippingAddress.data.data[0].users_id,
-                long: this.props.shippingAddress.data.data[0].long,
-                lat: this.props.shippingAddress.data.data[0].lat,
-                is_main_address: this.props.shippingAddress.data.data[0].is_main_address
-            } 
+        Axios.post(UrlAPI + 'member/shipping-address/edit-address', data)
+        .then((res) => {
+            this.setState({data: {
+                id: res.data.data[0].id,
+                address_detail: res.data.data[0].address_detail,
+                city: res.data.data[0].city,
+                province: res.data.data[0].province,
+                phone_number: res.data.data[0].phone_number,
+                receiver_name: res.data.data[0].receiver_name,
+                users_id: 1,
+                longitude: res.data.data[0].longitude,
+                latitude: res.data.data[0].latitude,
+                is_main_address: res.data.data[0].is_main_address,
+                province_id: res.data.data[0].province_id,
+                city_id: res.data.data[0].city_id, 
+                nearest_place: res.data.data[0].nearest_place
+            }})
+
+            this.setState({mapCenter: {lat: res.data.data[0].latitude, lng: res.data.data[0].longitude}})
+
+            this.setState({address: res.data.data[0].nearest_place})
         })
+        .catch((err) => {
+            console.log(err)
+        })    
       }
 
       handleChange = address => {
@@ -68,7 +89,8 @@ export class EditShippingAddress extends Component{
       }
      
       handleSelect = address => {
-        this.setState({ address });
+        this.setState({ address })
+        this.setState({data: {...this.state.data, nearest_place: address} })
         this.setState({errorInput: ''})
 
         geocodeByAddress(address)
@@ -80,12 +102,19 @@ export class EditShippingAddress extends Component{
             // Update Center State Of Maps
             this.setState({ mapCenter: latLng });
             
-            let city = String(address).split(',')[0]
-            let province = String(address).split(',')[2].replace(' ', '')
-            this.setState({data: {...this.state.data, city, province}})
-            this.setState({data: {...this.state.data, long: latLng.lat, lat: latLng.lng}})
+            this.setState({data: {...this.state.data, longitude: latLng.lng, latitude: latLng.lat}})
           })
           .catch(error => console.error('Error', error));
+        }
+
+      onGetCity = (e) => {
+        const data = {
+            province_id: Number(String(e).split('/')[0])
+        }
+
+        this.setState({data: {...this.state.data, province: String(e).split('/')[1], province_id: Number(String(e).split('/')[0])}})
+
+        this.props.onGetCityIdRajaOngkir(data)
       }
 
       updateShippingAddress = () => {
@@ -93,12 +122,15 @@ export class EditShippingAddress extends Component{
             this.setState({errorInput: 'Please Fill Your Valid Data!'})
         }else{
             this.props.onUpdateShippingAddress(this.state.data)
-            window.location = ("/member/shipping-address")
+
+            // if(this.props.shippingAddress.data.error === false){
+            //     window.location = ("/member/shipping-address")
+            // }
         }
       }
 
     render(){
-        if(this.props.shippingAddress.data === null){
+        if(this.props.rajaOngkirProvince.data === null){
             return(
                 <div>
                     <div className="row justify-content-start align-items-center px-3 py-0">
@@ -166,22 +198,119 @@ export class EditShippingAddress extends Component{
                         <input type="text" value={this.state.data.phone_number} onChange={(e) => this.setState({data: {...this.state.data, phone_number: e.target.value}})} className="form-control" placeholder="Ex. 081118140006" />
                     </div>
                     <div className="form-group">
-                        <label  className="pa-main-light">Address</label>
+                        <label  className="pa-main-light">Full Address</label>
                         <input type="text" value={this.state.data.address_detail} onChange={(e) => this.setState({data: {...this.state.data, address_detail: e.target.value}})} className="form-control" placeholder="Ex. Jalan Puri Asri Blok C5, Sukapada, Kec. Cibeunying Kidul" />
                     </div>
                     <div className="form-group">
-                        <label  className="pa-main-light">City</label>
-                        <input type="text" disabled value={this.state.data.city} onChange={(e) => this.setState({data: {...this.state.data, address_detail: e.target.value}})} className="form-control" placeholder="Ex. Jalan Puri Asri Blok C5, Sukapada, Kec. Cibeunying Kidul" />
+                        <label className="pa-main-light">Province</label>
+                        <select name="province" onChange={(e) => this.onGetCity(e.target.value)}  className="form-control">
+                            <option value={this.state.data.province_id + '/' + this.state.data.province}>{this.state.data.province}</option>
+                            {
+                                this.props.rajaOngkirProvince.data.data.rajaongkir.results.map((value, index) => {
+                                    return(
+                                        <option value={value.province_id + '/' + value.province}>{value.province}</option>
+                                    )
+                                })
+                            }
+                        </select>
                     </div>
                     {
-                        this.state.errorInput?
-                            <Alert isOpen={alert} toggle="" className="border-0 text-center pa-bg-danger pa-light">
-                                {this.state.errorInput}
-                            </Alert>
+                        this.props.rajaOngkirCity.loading === true?
+                            <div>
+                                <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
+                            </div>
                         :
-                            null
+                            this.props.rajaOngkirCity === null?
+                                <div>
+                                    <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
+                                </div>
+                            :
+                                this.props.rajaOngkirCity.data !== null?
+                                    <div className="form-group">
+                                        <label className="pa-main-light">City</label>
+                                        <select name="city" onChange={(e) => this.setState({data: {...this.state.data, city: String(e.target.value).split('/')[1], city_id: Number(String(e.target.value).split('/')[0])}})}  className="form-control">
+                                            <option>Select</option>
+                                            {
+                                                this.props.rajaOngkirCity.data.map((value, index) => {
+                                                    return(
+                                                        <option value={value.city_id + '/' + value.city_name}>{value.city_type + ' ' + value.city_name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                :
+                                            null
                     }
-                    <div className="form-group">
+                    <div>
+                        <PlacesAutocomplete
+                            value={this.state.address}
+                            onChange={this.handleChange}
+                            onSelect={this.handleSelect}
+                        >
+                            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                <div className="form-group">
+                                    <label  className="pa-main-light">Find Your Nearest Location</label>
+                                    <input
+                                        {...getInputProps({
+                                        placeholder: "Ex. Universitas Widyatama",
+                                        className: "form-control",
+                                        })}
+                                    />
+                                    <div>
+                                        {
+                                            loading && 
+                                            <div>
+                                                <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
+                                            </div>
+                                        }
+                                        {
+                                            suggestions.map(suggestion => {
+                                                const className = suggestion.active
+                                                    ? 'mx-0 my-3 pt-0 pb-3 border-bottom border-primary suggestion-item--active'
+                                                    : 'mx-0 my-3 pt-0 pb-3 border-bottom suggestion-item'
+                                            
+                                                const style = suggestion.active
+                                                    ? { backgroundColor: '#fff', cursor: 'pointer' }
+                                                    : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                                                return (
+                                                    <div
+                                                        {...getSuggestionItemProps(suggestion, {
+                                                            className,
+                                                            style,
+                                                        })}
+                                                    >
+                                                        <span className="pa-font-size-18">{suggestion.description}</span>
+                                                    </div>
+                                                )
+                                            }
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </PlacesAutocomplete>
+                    </div>
+                    <div className="position-relative">
+                        <Map 
+                            google={this.props.google}
+                            initialCenter={{
+                                lat: this.state.mapCenter.lat,
+                                lng: this.state.mapCenter.lng
+                            }}
+                            center={{
+                                lat: this.state.mapCenter.lat,
+                                lng: this.state.mapCenter.lng
+                            }}
+                            style={{width: '100%', height: 200}}
+                        >
+                        <Marker 
+                            position={{
+                                lat: this.state.mapCenter.lat,
+                                lng: this.state.mapCenter.lng
+                            }} />
+                        </Map>
+                    </div>
+                    <div className="form-group" style={{marginTop: 240, marginBottom: 15}}>
                         <div className="form-check">
                             <input type="checkbox" checked={this.state.data.is_main_address === 1? true : false} onChange={(e) => e.target.checked === true? this.setState({data: {...this.state.data, is_main_address: 1}}) : this.setState({data: {...this.state.data, is_main_address: 0}})} className="form-check-input" />
                             <label className="form-check-label font-weight-bold pa-secondary">
@@ -197,6 +326,16 @@ export class EditShippingAddress extends Component{
                             Add Address
                         </div>
                     </div>
+                    <div className="px-0 py-3">
+                        {
+                            this.state.errorInput?
+                                <Alert isOpen={alert} toggle="" className="border-0 text-center pa-bg-danger pa-light" style={{borderRadius: 10}}>
+                                    {this.state.errorInput}
+                                </Alert>
+                            :
+                                null
+                        }
+                    </div>
                 </div>
             </div>
         )
@@ -205,10 +344,12 @@ export class EditShippingAddress extends Component{
 
 const stateToProps = (state) => {
     return{
-        shippingAddress: state.shippingAddress
+        shippingAddress: state.shippingAddress,
+        rajaOngkirProvince: state.rajaOngkirProvince,
+        rajaOngkirCity: state.rajaOngkirCity
     }
 }
 
-const mapDispatchToProps = { onGetShippingAddressToEdit, onUpdateShippingAddress }
+const mapDispatchToProps = { onUpdateShippingAddress, onGetProvinceIdRajaOngkir, onGetCityIdRajaOngkir }
 
 export default GoogleApiWrapper({ apiKey: ('AIzaSyBLVHqBpK4pTUHkxRLctTj6a3nHrt1d-uI') })(connect(stateToProps, mapDispatchToProps)(EditShippingAddress))

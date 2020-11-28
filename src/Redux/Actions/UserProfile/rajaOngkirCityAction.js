@@ -15,9 +15,10 @@ export const onGetCityIdRajaOngkir = (data) => {
             let filterRajaOngkirCity = []
             res.data.data.rajaongkir.results.forEach((value, index) => {
                 if(value.province_id === String(data.province_id)){
-                    filterRajaOngkirCity.push({city_id: value.province_id, city_name: value.city_name})
+                    filterRajaOngkirCity.push({city_id: value.city_id, city_type: value.type, city_name: value.city_name})
                 }
             })
+            console.log(filterRajaOngkirCity)
 
             if(res.data.error){
                 dispatch({
