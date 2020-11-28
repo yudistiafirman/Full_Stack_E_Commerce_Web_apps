@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { onGetDataUsers } from './../../Redux/Actions/UserProfile/userProfileAction';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -34,6 +37,11 @@ export class Navbar extends Component {
     }
 
     componentDidMount(){
+        const data = {
+            id: 1
+        }
+        this.props.onGetDataUsers(data)
+
         window.onscroll = function() { ScrollFunction() }
     }
 
@@ -203,7 +211,12 @@ export class Navbar extends Component {
                                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAS1BMVEUAAAB11P910//b9f951v911v/b9P/c9f/b9P/B7P910/921P910//a8//c9P921v/b9v/h///a9P/b8/900//a9P/Q8P+86f+U3f+okt7OAAAAFHRSTlMA8MBSRCWwd+bb2JqMhEQ9HBGfa4HeIjwAAABuSURBVBjTfc1bDoAgDETRARHf70Hd/0qNYqimxvt5Mmlxl/my9BlezeHKP60Id53YFFJjwl5Qzi6Cxc9S39TfJVdFq1yi3JL7tq7bTto82mD4yAzXLproubXkOws4qhwajQ1qjTWMRgN+hFZbewDUURSlNbYjfgAAAABJRU5ErkJggg==" width="15" />
                                             </div>
                                             <div className="pl-2 pr-0 py-0" style={{borderWidth: 2, color: "#fdfdfd"}}>
-                                                Hi, Muhammad...
+                                                {
+                                                    this.props.user.data === null?
+                                                        null
+                                                    :
+                                                        'Hai, ' + this.props.user.data.data[0].email.slice(0, 10)
+                                                }
 
                                                 {
                                                     this.state.openAccount?
@@ -295,27 +308,39 @@ export class Navbar extends Component {
                         Kategori
                     </div>
                     <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
-                        T-Shirt
+                        <Link to='/products?category=1' onClick={() => this.onCloseSidebar()} className="pa-link" >
+                            T-Shirt
+                        </Link>
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
                     <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
-                        Shirt
+                        <Link to='/products?category=2' onClick={() => this.onCloseSidebar()} className="pa-link" >
+                            Shirt
+                        </Link>
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
                     <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
-                        Jacket
+                        <Link to='/products?category=4' onClick={() => this.onCloseSidebar()} className="pa-link" >
+                            Jacket
+                        </Link>
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
                     <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
-                        Pants
+                        <Link to='/products?category=3' onClick={() => this.onCloseSidebar()} className="pa-link" >
+                            Pants
+                        </Link>
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
                     <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
-                        Shoes
+                        <Link to='/products?category=6' onClick={() => this.onCloseSidebar()} className="pa-link" >
+                            Shoes
+                        </Link>
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
                     <div className="px-5 py-3 pa-clickable-element sidebar-sub-menu">
-                        Accecories
+                        <Link to='/products?category=5' onClick={() => this.onCloseSidebar()} className="pa-link" >
+                            Accecories
+                        </Link>
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
                     <div className="row justify-content-between align-items-center px-3 py-0">
@@ -361,4 +386,12 @@ export class Navbar extends Component {
     }
 }
 
-export default Navbar
+const mapStateToProps = (state) => {
+    return{
+        user: state.user
+    }
+}
+
+const mapDispatchToProps = { onGetDataUsers }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

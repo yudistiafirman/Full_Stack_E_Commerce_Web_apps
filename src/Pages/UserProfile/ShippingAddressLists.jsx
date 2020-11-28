@@ -46,7 +46,9 @@ export class ShippingAddressLists extends Component{
                     </div>
                     <div className="px-0 pt-3 pb-0">
                         <span className="font-weight-bold pa-main-light">
-                            Edit
+                            <Link to={'/member/shipping-address/edit-address/' + value.id} className="pa-link">
+                                Edit
+                            </Link>
                         </span>
                         <span onClick={() => this.deleteShippingAddress(value.id, value.users_id)} className="px-2 py-0 font-weight-bold pa-clickable-element pa-danger">
                             Delete

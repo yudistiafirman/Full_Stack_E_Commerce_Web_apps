@@ -32,6 +32,66 @@ export const onSaveShippingAddress = (data) => {
     }
 }
 
+export const onGetShippingAddressToEdit = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: SHIPPINGADDRESS_LOADING
+        })
+
+        Axios.post(UrlAPI + 'member/shipping-address/edit-address', data)
+        .then((res) => {
+            console.log(res)
+            if(res.data.error){
+                dispatch({
+                    type: SHIPPINGADDRESS_ERROR,
+                    payload: res.data.message
+                })
+            }else{
+                dispatch({
+                    type: SHIPPINGADDRESS_SUCCESS,
+                    payload: res.data
+                })
+            }
+        })
+        .catch((err) => {
+            dispatch({
+                type: SHIPPINGADDRESS_ERROR,
+                payload: err.message
+            })
+        })    
+    }
+}
+
+export const onUpdateShippingAddress = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: SHIPPINGADDRESS_LOADING
+        })
+
+        Axios.post(UrlAPI + 'member/shipping-address/update-address', data)
+        .then((res) => {
+            console.log(res)
+            if(res.data.error){
+                dispatch({
+                    type: SHIPPINGADDRESS_ERROR,
+                    payload: res.data.message
+                })
+            }else{
+                dispatch({
+                    type: SHIPPINGADDRESS_SUCCESS,
+                    payload: res.data
+                })
+            }
+        })
+        .catch((err) => {
+            dispatch({
+                type: SHIPPINGADDRESS_ERROR,
+                payload: err.message
+            })
+        })    
+    }
+}
+
 export const onDeleteShippingAddress = (data) => {
     return (dispatch) => {
         dispatch({
