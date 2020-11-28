@@ -46,11 +46,7 @@ const ListProduct = (props) => {
         getFilter()
     },[])
 
-    // useEffect(() => {
-    //     getProductByFilter()
-    // },[inputCategory])
-
-
+    console.log(filter.category)
 
     
     const onHandleCheckCategory = (e) => {
@@ -99,6 +95,8 @@ const ListProduct = (props) => {
     
     const getAllProduct = () => {
         let query = getQuery(props.location.search)
+        console.log(query)
+        console.log(inputCategory)
         Axios.post(ApiUrl + 'products/filter/category', query)
         .then((res) => {
             try {
@@ -111,6 +109,7 @@ const ListProduct = (props) => {
         .catch((err) => {
             console.log(err)
         })
+
     }
 
     const getFilter = () => {
@@ -144,7 +143,7 @@ const ListProduct = (props) => {
         })
     }
 
-    console.log(inputCategory)
+    
     
     
     return (
@@ -169,7 +168,7 @@ const ListProduct = (props) => {
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_1}>                            
                             {
-                                filter.category && filter.category.map((val,index) => {
+                                filter.category && filter.category.map((val,i) => {
                                     return(
                                         <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                             <input 

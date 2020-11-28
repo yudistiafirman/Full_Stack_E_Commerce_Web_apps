@@ -59,13 +59,13 @@ const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, 
                     <span>
                         <p style={{marginTop : 5}}>
                             {
-                                discount === 0 && discount === null  ?
+                                discount === 0 ?
                                 <span>Rp. {price.toLocaleString('id-ID')}</span>
                                 :
                                 <s>Rp. {price.toLocaleString('id-ID')}</s>
                             }
                         </p>
-                        <p style={{color : "green", visibility : discount === 0 && discount === null  ? 'visible' : 'hidden'}}>
+                        <p style={{color : "green", visibility : discount !== 0 ? 'visible' : 'hidden'}}>
                             Rp. {(price - (price * (discount/100))).toLocaleString('id-ID')}
                         </p>
                     </span>

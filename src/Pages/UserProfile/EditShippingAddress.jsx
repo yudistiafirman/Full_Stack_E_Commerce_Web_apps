@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import Skeleton from 'react-loading-skeleton';
 
-import { onGetShippingAddressToEdit, onUpdateShippingAddress } from './../../Redux/Actions/UserProfile/shippingAddressAction';
+import { onGetShippingAddressToEdit, onUpdateShippingAddress } from './../../Redux/Actions/UserProfile/ShippingAddressAction';
 
 import { Alert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
