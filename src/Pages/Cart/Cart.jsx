@@ -1,14 +1,18 @@
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Axios from 'axios'
 import React, {useEffect, useState} from 'react'
+import { connect } from 'react-redux'
 import { ApiUrl } from '../../Constant/ApiUrl'
 import './Cart.css'
-import { CardCart } from './CartComponent/CardCart'
+import CardCart from './CartComponent/CardCart'
+import {getCartData} from './../../Redux/Actions/Products/CartActions'
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import moment from 'moment'
+import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline'
 
-const Cart = () => {
 
-    const [data, setData] = useState(null)
+const Cart = ({updateQty,dataCart, getCartData}) => {
+
     const [mapData, setMapData] = useState({
         subtotal : null,
         total_discount : null,
@@ -20,37 +24,32 @@ const Cart = () => {
         ongkirRate : null
     })
 
+
     useEffect(() => {
-        getDataCart()
-        getEstOngkir()
-    }, [])
+        let token = localStorage.getItem('token')
+        getCartData(token)
+    },[updateQty.data])
+
+    useEffect(() => {
+        let weightTotal = 0
+        dataCart.data && dataCart.data.forEach((val,i) => {
+            weightTotal += val.total_weight
+        })
+        if(weightTotal !== 0){
+            getEstOngkir(weightTotal)
+        }
+    }, [dataCart.data])
 
     useEffect(() => {
         mapDataToRender()
-    },[data])
+    },[dataCart.data])
 
-    const getDataCart = () => {
-        let token = localStorage.getItem('token')
-        console.log(token)
-        Axios.post(ApiUrl + 'products/cart', {token : token})
-        .then((res) => {
-            try {
-                if(res.data.error) throw new Error
-                setData(res.data.cartData)
-            } catch (error) {
-                console.log(error)
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
 
     const mapDataToRender = () => {
         let subtotal = 0
         let total_discount = 0
-        if(data !== null){
-            data.forEach((val, i) => {
+        if(dataCart.data !== null){
+            dataCart.data.forEach((val, i) => {
                 subtotal += val.total_price
                 total_discount += val.total_potongan
             })
@@ -58,10 +57,11 @@ const Cart = () => {
         setMapData({...mapData, subtotal : subtotal, total_discount : total_discount})
     }
 
-    const getEstOngkir = () => {
+    const getEstOngkir = (weightTotal) => {
+        
         let data = {
             token : localStorage.getItem('token'),
-            weight : 1700,
+            weight : weightTotal,
             courier : 'jne'
         }
 
@@ -84,31 +84,31 @@ const Cart = () => {
         })
     }
 
-    console.log(dataOngkir)
     return (
         <div className='container' style={{paddingTop : 120}}>
             <div className='row'>
                 <div className='col-md-8'>
                     <div className='border-bottom row pt-2 pb-2 pl-1'>
-                        <p>Your Cart(2)</p>
+                        <p>Your Cart({dataCart.data && dataCart.data.length})</p>
                     </div>
                     <div style={{marginTop : 20}} className='pl-2 pr-2'>
                         {
-                            data && data.map((val,i) => {
+                            dataCart.data && dataCart.data.map((val,i) => {
                                 return(
                                     <CardCart 
-                                    price={val.price} 
-                                    brand={val.brands_name}
-                                    productName={val.name}
-                                    discount={val.discount}
-                                    qty={val.qty}
-                                    size={val.size}
-                                    image={val.url}
-                                    stock={val.stock}
-                                    est={dataOngkir.ongkirRate && dataOngkir.ongkirRate[0].est.split('-')[1]}
-                                    cityGudang={dataOngkir.gudangAsal && dataOngkir.gudangAsal.city_gudang}
-                                     />
-
+                                        price={val.price} 
+                                        brand={val.brands_name}
+                                        productName={val.name}
+                                        discount={val.discount}
+                                        qty={val.qty}
+                                        size={val.size}
+                                        image={val.url}
+                                        stock={val.stock}
+                                        est={dataOngkir.ongkirRate && dataOngkir.ongkirRate[0].est.split('-')[1]}
+                                        cityGudang={dataOngkir.gudangAsal && dataOngkir.gudangAsal.city_gudang}
+                                        id={val.id}
+                                        variant_product_id={val.variant_product_id}
+                                            /> 
                                 )
                             })
                         }
@@ -147,4 +147,18 @@ const Cart = () => {
     )
 }
 
-export default Cart
+const mapStateToProps = (state) => {
+    return{
+        dataCart : state.cart,
+        updateQty : state.updateQty
+    }
+}
+
+const mapDispatchToProps = {
+    getCartData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Cart)
+
+
+

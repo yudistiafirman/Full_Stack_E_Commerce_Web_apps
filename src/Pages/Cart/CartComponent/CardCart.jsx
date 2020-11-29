@@ -1,8 +1,33 @@
+import {faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import moment from 'moment'
 import React, {useState} from 'react'
+import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline'
+import { connect } from 'react-redux'
 import { ApiUrl } from '../../../Constant/ApiUrl'
+import { updateQty } from '../../../Redux/Actions/Products/CartActions'
 
-export const CardCart = ({productName, brand, price, discount, size, image, qty, stock, est, cityGudang}) => {
+const CardCart = ({stateUpdateQty, updateQty, productName, brand, price, discount, size, image, qty, stock, est, cityGudang, id, variant_product_id}) => {
+
+    const [updateQtyLocal, setUpdateQtyLocal] = useState(qty && qty)
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const onUpdateQty = () => {
+        let data = {
+            id : id,
+            variant_product_id : variant_product_id,
+            token : localStorage.getItem('token'),
+            qty : updateQtyLocal
+        }
+
+        if(data.id && data.variant_product_id && data.token && data.qty !== qty){
+            updateQty(data)
+        }
+    }
+
+    const onDeleteCart = () => {
+        
+    }
     
     return (
         <div className='row border mb-3'>
@@ -32,14 +57,47 @@ export const CardCart = ({productName, brand, price, discount, size, image, qty,
                     <p>Rp. {price && (price * qty).toLocaleString('id-ID')}</p>
                 </span>
                 <span >
-                    <input min={0} max={stock} type='number' style={{width : 50, fontSize : 14, textAlign : 'center'}} defaultValue={qty}/>
-                    <p style={{fontSize : 11, marginTop : 5, color : 'red'}}>Out of stock</p>
+                    <div style={{display : 'flex', alignItems : 'center', justifyContent : 'center'}}>
+                        <input 
+                            min={0} 
+                            max={stock} 
+                            type='number' 
+                            style={{width : 50, fontSize : 14, textAlign : 'center'}} 
+                            value={updateQtyLocal} 
+                            onChange={(e) => setUpdateQtyLocal(e.target.value)}
+                        />
+                        <FontAwesomeIcon onClick={onUpdateQty} icon={faSyncAlt} style={{fontSize : 14, marginLeft : 10, marginRight : 5, cursor : 'pointer', display : updateQtyLocal === qty ? 'none' : 'inline-block'}} />
+                        <IosCloseCircleOutline onClick={() => {setUpdateQtyLocal(qty);setErrorMessage('')}} style={{cursor : 'pointer',width : 20, height : 20, display : updateQtyLocal === qty ? 'none' : 'inline-block'}}  fontSize="60px" color='black' />
+                    </div>
+                    {
+                        stateUpdateQty.error ?
+                        <p  
+                            style={{fontSize : 11, marginTop : 5, color : 'red'}}>
+                            {stateUpdateQty.error}
+                        </p>
+                        :
+                        null
+
+                    }
                 </span>
                 <div style={{display : 'flex'}}>
                     <p style={{fontSize : 12, textDecoration : 'underline', cursor : 'pointer'}}>SAVE FOR LATER</p>
-                    <p style={{fontSize : 12, textDecoration : 'underline', marginLeft : 10, cursor : 'pointer'}}>REMOVE</p>
+                    <p onClick={onDeleteCart} style={{fontSize : 12, textDecoration : 'underline', marginLeft : 10, cursor : 'pointer'}}>REMOVE</p>
                 </div>
             </div>
         </div>
     )
 }
+
+const mapStateToProps = (state) => {
+    return{
+        stateUpdateQty : state.updateQty
+    }
+}
+
+const mapDispatchToProps = {
+    updateQty
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps) (CardCart)

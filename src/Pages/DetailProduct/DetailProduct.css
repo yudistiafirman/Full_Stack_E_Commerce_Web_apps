@@ -33,6 +33,12 @@
     color: black;
 }
 
+.button-add-to-cart-disable {
+    color: white;
+    background-color: lightgray;
+    cursor: not-allowed;
+}
+
 .container-tabs {
     display: flex;
 }

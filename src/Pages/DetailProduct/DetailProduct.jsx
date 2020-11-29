@@ -19,8 +19,12 @@ const data = [
 ]
 const DetailProduct = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [size, setSize] = useState('Pick a Size')
-    const [tabs, setTabs] = useState('desc')
+    const [size, setSize] = useState({
+        uk :'Pick a Size',
+        price : 0,
+        variant_product_id : 0
+    })
+    const [tabs, setTabs] = useState('review')
     const [dataApi, setDataApi] = useState({
         productInfo : null,
         image : null,
@@ -62,8 +66,11 @@ const DetailProduct = (props) => {
         })   
     }
 
-    console.log(review)
+    // const renderPrice = () => {
+    //     if(dataApi.productInfo.discount)
+    // }
 
+    
     return (
         <div className='container' style={{paddingTop : 120}}>
             <div className='row'>
@@ -72,9 +79,6 @@ const DetailProduct = (props) => {
                         <ImageGroup data={dataApi.image} />
                     </div>
                     <div className='pt-3 pb-3 container-tabs' >
-                        <span onClick={() => setTabs('desc')} style={{marginRight : 25, cursor : 'pointer'}} className={tabs === 'desc' ? 'border-bottom font-weight-bold' : ''}>
-                            <p>Descricption</p>
-                        </span>
                         <span onClick={() => setTabs('review')} style={{marginRight : 25, cursor : 'pointer'}} className={tabs === 'review' ? 'border-bottom font-weight-bold' : ''}>
                             <p>Review</p>
                         </span>
@@ -85,18 +89,7 @@ const DetailProduct = (props) => {
                             <p>Refund Policy</p>
                         </span>
                     </div>
-                    <div style={{display : tabs === 'desc' ? 'block' : 'none'}}>
-                        <p>Eclectic doodles, repetitive wordmarks and rising sun graphics bring an artistic edge to this tee. Made with soft cotton jersey, this one's the definition of favorite t-shirt material.</p>
-                        <p style={{marginTop : 10, marginBottom : 5, fontWeight : 'bold'}}>WHY YOU SHOULD BE DOWN</p>
-                        <ul style={{fontSize : 14}}>
-                            <li>100% cotton jersey tee.</li>
-                            <li>Classic fit for everyday comfort.</li>
-                            <li>Front and back mixed-media graphics.</li>
-                            <li>Front and back mixed-media graphics.</li>
-                            <li>Rising sun Converse wordmark at left chest.</li>
-                            <li>100% COTTON</li>
-                        </ul>
-                    </div>
+                    
 
                     <div style={{display : tabs === 'review' ? 'block' : 'none'}}>
                         {
@@ -156,59 +149,52 @@ const DetailProduct = (props) => {
                             }
                         </div>
                         <div style={{marginTop : 15}}>
-                            <p style={{fontSize : 18}}> <s>Rp. 400.000</s></p>
-                            <p style={{fontSize : 18}}>Now Rp. 300.000</p>
-                        </div>
-                        <div style={{marginTop : 15}}>
-                            <p style={{fontSize : 12}}>
-                                Every closet needs a go-to t-shirt. This one takes it to the next level with subtle outdoor-inspired details and a classic fit of soft cotton jersey.
-                                <Link to='/detail-product' 
-                                innerRef={node => {
-                                    document.getElementById('desc')
-                                  }}
-                                >
-                                    <span style={{marginLeft : 5, textDecoration : 'underline'}}>See more</span>
-                                </Link>
-                            </p>
-                        </div>   
+                            {
+                                dataApi.productInfo && dataApi.size && dataApi.productInfo.discount === 0 ?
+                                <p 
+                                style={{fontSize : 18}}>
+                                    Rp. {size.uk === 'Pick a Size' ? dataApi.size[0].price : size.price }
+                                </p>
+                                :
+                                <span>
+                                    <p style={{fontSize : 18}}><s>Rp. {size.uk === 'Pick a Size' ? dataApi.size && dataApi.size[0].price.toLocaleString('id-ID')  : size.price.toLocaleString('id-ID')  }</s></p>
+                                    <p style={{fontSize : 18}}>
+                                        Now Rp.
+                                        {
+                                            size.uk === 'Pick a Size' ? 
+                                            dataApi.size && dataApi.productInfo && dataApi.size[0].price - (dataApi.size[0].price * (dataApi.productInfo.discount /100)).toLocaleString('id-ID')  
+                                            : 
+                                            dataApi.productInfo && size.price - (size.price * (dataApi.productInfo.discount /100)).toLocaleString('id-ID') 
+                                        }
+                                    </p>
+                                </span>
+                            }
+                        </div> 
                     </div>
-                    <div className='pt-3 pb-4 border-bottom'>
-                        <p style={{fontSize : 18, marginBottom : 15}}>More Colors</p>
-                        <div>
-                            <span>
-                                <img 
-                                className='more-color-image'
-                                src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
-                            </span>
-                            <span>
-                                <img 
-                                className='more-color-image'
-                                src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
-                            </span>
-                            <span>
-                                <img 
-                                className='more-color-image'
-                                src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
-                            </span>
-                        </div>
-                        <p style={{fontSize : 12, marginTop : 10}}>Stock available 5 pcs</p>
+                    <div className='border-bottom pb-4'>
+                        <div style={{marginTop : 15}}>
+                            <p style={{fontSize : 18, marginBottom : 10}}>Description</p>
+                            <p style={{fontSize : 12}}>
+                                {dataApi.productInfo && dataApi.productInfo.description}
+                            </p>
+                        </div>  
                     </div>
 
                     <div className='pt-4 pb-4'>
                         <div className='border pt-2 pb-2 pl-3 pr-2' style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
-                            <p>{size}</p>
+                            <p>{size.uk}</p>
                             <FontAwesomeIcon onClick={() => setDropdownOpen(!dropdownOpen)} icon={faPlus} />
                         </div>
                         <div className='border pt-2 pb-2 pl-3 pr-4 mt-1 choice-size' style={{backgroundColor : '#fff',width : '85%',display : dropdownOpen ? 'block' : 'none', opacity : 1, position : 'absolute'}}>
                             {dataApi.size && dataApi.size.map((val, index) => {
                                 return(
-                                    <div onClick={() => {setSize(val.size);setDropdownOpen(false)}} style={{cursor : 'pointer'}}>{val.size}</div>
+                                    <div onClick={() => {setSize({...size, uk : val.size, price : val.price, variant_product_id : val.variant_product_id});setDropdownOpen(false)}} style={{cursor : 'pointer'}}>{val.size}</div>
                                 )
                             })}
                         </div>
                     </div>
                     <div style={{display : 'flex'}}>
-                        <div className='border pt-2 pb-2 pl-3 pr-4 button-add-to-cart' style={{flex : 1,display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
+                        <div className={size.uk !== 'Pick a Size' ? 'border pt-2 pb-2 pl-3 pr-4 button-add-to-cart' : 'border pt-2 pb-2 pl-3 pr-4 button-add-to-cart-disable'} style={{flex : 1,display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
                             <p>Add to Cart</p>
                         </div>
                         <div className='border-top border-bottom border-right p-3' style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>

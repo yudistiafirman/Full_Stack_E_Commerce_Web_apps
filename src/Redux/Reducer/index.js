@@ -8,6 +8,8 @@ import rajaOngkirCityReducer from './UserProfile/rajaOngkirCityReducer';
 import shippingAddressReducer from './UserProfile/ShippingAddressReducer';
 import warehouseInventoryReducer from './UserProfile/warehouseInventoryReducer';
 import flashSaleEventReducer from './UserProfile/flashSaleEventReducer';
+import cartReducer from './Products/CartProducts';
+import UpdateQtyReducer from './Products/UpdateQtyReducer';
 
 const rootReducer = combineReducers({
     user: userProfileReducer,
@@ -17,7 +19,9 @@ const rootReducer = combineReducers({
     rajaOngkirCity: rajaOngkirCityReducer,
     shippingAddress: shippingAddressReducer,
     warehouseInventory: warehouseInventoryReducer,
-    flashSaleEvent: flashSaleEventReducer
+    flashSaleEvent: flashSaleEventReducer,
+    cart : cartReducer,
+    updateQty : UpdateQtyReducer
 })
 
 export default rootReducer
