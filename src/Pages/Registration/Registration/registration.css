@@ -53,12 +53,14 @@
   form.sign-up-form {
     opacity: 0;
     z-index: 1;
+    margin-top: 20px;
   
   }
   
   form.sign-in-form{
     z-index: 2;
     transition: 1s 0.5s ease-in-out;
+    
    
    
   }
@@ -106,12 +108,14 @@
   
   .left-panel {
     pointer-events: all;
-    padding: 3rem 17% 2rem 12%;
+    padding: 5rem 17% 2rem 12%;
   }
   
   .right-panel {
     pointer-events: none;
     padding: 5rem 12% 2rem 17%;
+
+ 
   }
   
   .panel .content {
@@ -165,7 +169,7 @@
   
   .reg-container.sign-up-mode form.sign-up-form {
     opacity: 1;
-    z-index: 2;
+    z-index: 5;
   }
   
   .reg-container.sign-up-mode form.sign-in-form {
@@ -228,6 +232,7 @@ form.sign-in-form.when-forgot-appear{
 
     
   
+ 
   
     .signin-signup,
     .reg-container.sign-up-mode .signin-signup {
@@ -243,16 +248,19 @@ form.sign-in-form.when-forgot-appear{
       flex-direction: row;
       justify-content: space-around;
       align-items: center;
-      padding: 2.5rem 8%;
+      padding: 4rem 9rem 0 0;
       grid-column: 1 / 2;
     }
   
     .right-panel {
       grid-row: 3 / 4;
+ 
+
     }
   
     .left-panel {
       grid-row: 1 / 2;
+
     }
   
     .image {
@@ -298,7 +306,7 @@ form.sign-in-form.when-forgot-appear{
   
     .reg-container.sign-up-mode .left-panel .image,
     .reg-container.sign-up-mode .left-panel .content {
-      transform: translateY(-300px);
+      transform: translateY(-330px);
     }
   
     .reg-container.sign-up-mode .right-panel .image,
@@ -331,8 +339,10 @@ form.sign-in-form.when-forgot-appear{
         opacity: 0;
         transform: translateY(-40%);
     }
-
-
+    form.sign-up-form{
+      margin-top: 0;
+    }
+   
   }
 
   @media (max-width: 570px) {
@@ -340,7 +350,7 @@ form.sign-in-form.when-forgot-appear{
       padding: 0 1.5rem;
     }
   
-   
+  
     .image {
       display: none;
     }
@@ -349,6 +359,7 @@ form.sign-in-form.when-forgot-appear{
     }
 
    
+
 
     .reg-container:before{
         bottom:72%;

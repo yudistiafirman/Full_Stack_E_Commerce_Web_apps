@@ -50,7 +50,7 @@ export class Navbar extends Component {
             // NAVBAR
             <div>
                 {/* Mobile Section */}
-                <div id="navbar" className="px-0 py-3 pa-navbar-mobile-display" style={{transition: '0.3s', zIndex: 1}}>
+                <div id="navbar" className="px-0 py-3 pa-navbar-mobile-display" style={{transition: '0.3s', zIndex: 10}}>
                     <div className="container">
                         <div  className="row justify-content-center align-items-center">
                             <div onClick={() => this.onOpenSidebar()} className="col-1 pa-clickable-element">

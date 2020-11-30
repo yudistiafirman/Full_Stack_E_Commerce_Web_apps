@@ -1,15 +1,15 @@
 .reg-social-icon {
     height: 46px;
     width: 120px;
-    border-radius: 10px;
+    border-radius: 20px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     margin: 0 0.45rem;
     color: #333;
-
-    border: 1px solid #333;
-    text-decoration: none;
+    border: 1px solid black;
+  
+ 
     font-size: 1.1rem;
     transition: 1s;
   }
@@ -18,6 +18,7 @@
   .facebook{
     background-color: #3b5998;
    border:none;
+   outline: none;
    color: white;
   }
 
@@ -40,6 +41,11 @@
   cursor: pointer;
  }
 
+ .facebook-button.disabled{
+   background-color: "#e8e8e8";
+   cursor:not-allowed;
+ }
+
  .google-button{
   border-radius: 10px;
   cursor: pointer;
@@ -48,7 +54,8 @@
 .google-image{
   width: 15px;
   height: 15px;
-  margin-right: 25px;
+  margin-right: 13px;
+
 }
 
 .reg-social-icon:hover {

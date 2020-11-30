@@ -1,0 +1,101 @@
+#reg-login-toast {
+    visibility: hidden;
+    width: 130px;
+    height: 55px;
+    /*margin-left: -125px;*/
+    margin: auto;
+    background-color:#af2d2d;
+    color: #fff;
+    text-align: center;
+    border-radius: 20px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 1;
+    left: 0;right:0;
+    bottom: -50px;
+    font-size: 17px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  
+}
+#reg-login-toast #img-login{
+	width: 70px;
+	height: 55px;
+    
+    float: left;
+    
+    padding-top: 16px;
+    padding-bottom: 16px;
+    
+    box-sizing: border-box;
+
+    
+    background-color:#ffe05d;
+    color: #fff;
+}
+#reg-login-toast #reg-login-desc{
+
+    
+    color: #fff;
+   
+    padding: 16px;
+    text-align: center;
+
+    overflow: hidden;
+	white-space: nowrap;
+}
+
+#reg-login-toast.show_login {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 2s 1s, shrink 0.5s 1s, fadeout 0.5s 2s;
+    animation: fadein 0.5s, expand 0.5s 0.5s,stay 2s 1s, shrink 0.5s 3s, fadeout 0.5s 4s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: -80; opacity: 0;} 
+    to {bottom: -60px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: -80; opacity: 0;}
+    to {bottom: -60px; opacity: 1;}
+}
+
+@-webkit-keyframes expand {
+    from {min-width: 50px} 
+    to {min-width: 390px}
+}
+
+@keyframes expand {
+    from {min-width: 50px}
+    to {min-width: 390px}
+}
+@-webkit-keyframes stay {
+    from {min-width: 390px} 
+    to {min-width: 390px}
+}
+
+@keyframes stay {
+    from {min-width: 390px}
+    to {min-width: 390px}
+}
+@-webkit-keyframes shrink {
+    from {min-width: 390px;} 
+    to {min-width: 50px;}
+}
+
+@keyframes shrink {
+    from {min-width: 390px;} 
+    to {min-width: 50px;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 60px; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 60px; opacity: 0;}
+}

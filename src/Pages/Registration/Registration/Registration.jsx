@@ -25,7 +25,7 @@ const Registration =()=>{
             <div className="forms-container">
                 <div className="signin-signup">
 
-                <SignIn myClass={isForgot?"sign-in-form when-forgot-appear":"sign-in-form"} 
+                <SignIn myClass={isForgot?" sign-in-form when-forgot-appear":"sign-in-form"} 
                       onClick={()=>setIsForgot(!isForgot)}/>
                 <SignUp myClass="sign-up-form"/>
 

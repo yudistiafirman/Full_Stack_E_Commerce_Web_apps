@@ -1,10 +1,10 @@
 import React from 'react'
 import '../checkbox/checkbox.css'
 
-const  FhCheckBox=()=>{
+const  FhCheckBox=({checked,onClick,disabled})=>{
 
     return<div className="term-container">
-    <input type="checkbox" style={{alignSelf:'center'}} />
+    <input type="checkbox" disabled={disabled} checked={checked} onClick={onClick}  style={{alignSelf:'center'}} />
 <p >i have read and agreed with <a style={{color:'blue',cursor:'pointer'}}> term and condition pejoy.com</a></p> 
 
 </div>
