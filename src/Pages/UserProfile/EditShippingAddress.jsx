@@ -123,9 +123,9 @@ export class EditShippingAddress extends Component{
         }else{
             this.props.onUpdateShippingAddress(this.state.data)
 
-            // if(this.props.shippingAddress.data.error === false){
-            //     window.location = ("/member/shipping-address")
-            // }
+            if(this.props.shippingAddress.data.error === false){
+                window.location = ("/member/shipping-address")
+            }
         }
       }
 

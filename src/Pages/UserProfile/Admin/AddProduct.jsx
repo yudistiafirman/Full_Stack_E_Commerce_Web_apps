@@ -43,8 +43,8 @@ export class AddProduct extends Component{
         return(
             // ADD PRODUCT
             <div>
-                <div className="font-weight-bold pa-font-size-18">
-                    Add Product :
+                <div className="font-weight-bold pa-font-size-30">
+                    Add Product
                 </div>
                 <div className="mx-0 my-1 border-bottom">
 

@@ -33,7 +33,10 @@ export class Navbar extends Component {
         loginErrorMessage: '',
         openDropdown: false,
         openCart: false,
-        openAccount: false
+        openAccount: false,
+        inputSearch: '',
+        selectCategory: '',
+        categoryName: ''
     }
 
     componentDidMount(){
@@ -95,12 +98,56 @@ export class Navbar extends Component {
                             </div>
                             <div className="col-7">
                                 <div className="input-group">
-                                    <input type="text" placeholder="Kamu lagi cari apa?" className="form-control bg-light border border-light pa-input" style={{width: 0, height: 44, borderRadius: "5px 0px 0px 5px", zIndex: 1}} />
+                                    <input type="text" onChange={(e) => this.setState({inputSearch: e.target.value})} placeholder="Kamu lagi cari apa?" className="form-control bg-light border border-light pa-input" style={{width: 0, height: 44, borderRadius: "5px 0px 0px 5px", zIndex: 1}} />
                                     <div className="input-group-prepend">
                                         <span className="bg-light" style={{width: 155, marginLeft: -1, marginRight: 0, borderRadius: "0px 5px 5px 0px", zIndex: 2}}>
                                             <div className="row">
                                                 <div onClick={() => this.setState({openDropdown: !this.state.openDropdown, openCart: false, openAccount: false})} className="px-3 py-1 border border-left-1 border-right-0 border-top-0 border-bottom-0 pa-dark-grey pa-clickable-element navbar-search-dropdown" style={{marginLeft: 0, marginRight: 6, marginTop: 6, marginBottom: 0}}> 
-                                                    Kategori <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" />
+                                                    {/* Pengkondisian Buat Jarak Antara Text & Icon Arrow */}
+                                                    {
+                                                        this.state.selectCategory?
+                                                            <>  
+                                                                {this.state.categoryName} 
+                                                                {
+                                                                    this.state.selectCategory === 1?
+                                                                        <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" style={{marginRight: 14, marginLeft: 3}} />
+                                                                    :
+                                                                        null
+                                                                }
+                                                                {
+                                                                    this.state.selectCategory === 2?
+                                                                        <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" style={{marginRight: 29, marginLeft: 3}} />
+                                                                    :
+                                                                        null
+                                                                }
+                                                                {
+                                                                    this.state.selectCategory === 3?
+                                                                        <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" style={{marginRight: 23, marginLeft: 3}} />
+                                                                    :
+                                                                        null
+                                                                }
+                                                                {
+                                                                    this.state.selectCategory === 4?
+                                                                        <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" style={{marginRight: 18, marginLeft: 3}} />
+                                                                    :
+                                                                        null
+                                                                }
+                                                                {
+                                                                    this.state.selectCategory === 5?
+                                                                        <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" style={{marginRight: 1, marginLeft: 3}} />
+                                                                    :
+                                                                        null
+                                                                }
+                                                                {
+                                                                    this.state.selectCategory === 6?
+                                                                        <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" style={{marginRight: 19, marginLeft: 3}} />
+                                                                    :
+                                                                        null
+                                                                }
+                                                            </>
+                                                        :
+                                                            <>Kategori <FontAwesomeIcon icon={faChevronDown} className="fa-sm pa-dark-grey" /></>
+                                                    }
                                                     {
                                                         this.state.openDropdown?
                                                             <div className="navbar-search-dropdown-content">
@@ -109,55 +156,55 @@ export class Navbar extends Component {
                                                                 </div>
                                                                 <div className="row justify-content-center ml-5 mr-0">
                                                                     <div className="col-4">
-                                                                        <div className="row align-items-center px-3 py-3">
+                                                                        <div className="row align-items-center px-3 py-3 navbar-category-select">
                                                                             <div>
                                                                                 <img src={TShirtIcon} width="30" />
                                                                             </div>
-                                                                            <div className="px-3 py-0">
+                                                                            <div onClick={() => this.setState({selectCategory: 1, categoryName: 'T-Shirt'})} className="px-3 py-0">
                                                                                 T-Shirt
                                                                             </div>
                                                                         </div>
-                                                                        <div className="row align-items-center px-3 py-3">
+                                                                        <div className="row align-items-center px-3 py-3 navbar-category-select">
                                                                             <div>
                                                                                 <img src={PantsIcon} width="30" />
                                                                             </div>
-                                                                            <div className="px-3 py-0">
+                                                                            <div onClick={() => this.setState({selectCategory: 3, categoryName: 'Pants'})} className="px-3 py-0">
                                                                                 Pants
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-4">
-                                                                        <div className="row align-items-center px-3 py-3">
+                                                                        <div className="row align-items-center px-3 py-3 navbar-category-select">
                                                                             <div>
                                                                                 <img src={ShirtIcon} width="30" />
                                                                             </div>
-                                                                            <div className="px-3 py-0">
+                                                                            <div onClick={() => this.setState({selectCategory: 2, categoryName: 'Shirt'})} className="px-3 py-0">
                                                                                 Shirt
                                                                             </div>
                                                                         </div>
-                                                                        <div className="row align-items-center px-3 py-3">
+                                                                        <div className="row align-items-center px-3 py-3 navbar-category-select">
                                                                             <div>
                                                                                 <img src={ShoesIcon} width="32" />
                                                                             </div>
-                                                                            <div className="px-3 py-0">
+                                                                            <div onClick={() => this.setState({selectCategory: 6, categoryName: 'Shoes'})} className="px-3 py-0">
                                                                                 Shoes
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-4">
-                                                                        <div className="row align-items-center px-3 py-3">
+                                                                        <div className="row align-items-center px-3 py-3 navbar-category-select">
                                                                             <div>
                                                                                 <img src={JacketIcon} width="30" />
                                                                             </div>
-                                                                            <div className="px-3 py-0">
+                                                                            <div onClick={() => this.setState({selectCategory: 4, categoryName: 'Jacket'})} className="px-3 py-0">
                                                                                 Jacket
                                                                             </div>
                                                                         </div>
-                                                                        <div className="row align-items-center px-3 py-3">
+                                                                        <div className="row align-items-center px-3 py-3 navbar-category-select">
                                                                             <div>
                                                                                 <img src={HatIcon} width="30" />
                                                                             </div>
-                                                                            <div className="px-3 py-0">
+                                                                            <div onClick={() => this.setState({selectCategory: 5, categoryName: 'Acceco...'})} className="px-3 py-0">
                                                                                 Accecories
                                                                             </div>
                                                                         </div>
@@ -175,9 +222,20 @@ export class Navbar extends Component {
                                                             null
                                                     }
                                                 </div>
-                                                <div className="px-3 py-1 pa-bg-main-dark rounded pa-light pa-clickable-element" style={{marginLeft: 0, marginRight: 6, marginTop: 6, marginBottom: 0}}> 
-                                                    <FontAwesomeIcon icon={faSearch} className="fa-md" />
-                                                </div>
+                                                {
+                                                    this.state.inputSearch && this.state.selectCategory?
+                                                        <Link to={'/products?brands=' + this.state.inputSearch + '&category=' + this.state.selectCategory} className="pa-link">
+                                                            <div className="px-3 py-1 position-fixed pa-bg-main-dark rounded pa-light pa-clickable-element" style={{marginLeft: 0, marginRight: 6, marginTop: 6, marginBottom: 0}}> 
+                                                                <FontAwesomeIcon icon={faSearch} className="fa-md" />
+                                                            </div>
+                                                        </Link>
+                                                    :
+                                                        <Link to='/products' className="pa-link">
+                                                            <div className="px-3 py-1 pa-bg-main-dark rounded pa-light pa-clickable-element" style={{marginLeft: 0, marginRight: 6, marginTop: 6, marginBottom: 0}}> 
+                                                                <FontAwesomeIcon icon={faSearch} className="fa-md" />
+                                                            </div>
+                                                        </Link>
+                                                }
                                             </div>
                                         </span>
                                     </div>

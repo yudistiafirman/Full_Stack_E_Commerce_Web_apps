@@ -56,8 +56,8 @@ export class FlashSaleEvent extends Component{
         return(
             // WAREHOUSE INVENTORY
             <div>
-                <div className="font-weight-bold pa-font-size-18">
-                    Warehouse Inventory :
+                <div className="font-weight-bold pa-font-size-30">
+                    Warehouse Inventory
                 </div>
                 <div className="mx-0 my-1 border-bottom">
 

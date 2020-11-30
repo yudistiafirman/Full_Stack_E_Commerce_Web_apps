@@ -33,14 +33,14 @@ export const onSaveShippingAddress = (data) => {
 }
 
 export const onUpdateShippingAddress = (data) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: SHIPPINGADDRESS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/shipping-address/update-address', data)
-        .then((res) => {
-            console.log(res)
+        try {
+            let res = await Axios.post(UrlAPI + 'member/shipping-address/update-address', data)
+
             if(res.data.error){
                 dispatch({
                     type: SHIPPINGADDRESS_ERROR,
@@ -52,13 +52,12 @@ export const onUpdateShippingAddress = (data) => {
                     payload: res.data
                 })
             }
-        })
-        .catch((err) => {
+        } catch (error) {
             dispatch({
                 type: SHIPPINGADDRESS_ERROR,
-                payload: err.message
+                payload: error.message
             })
-        })    
+        }
     }
 }
 

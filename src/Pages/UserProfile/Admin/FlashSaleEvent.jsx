@@ -86,7 +86,8 @@ export class FlashSaleEvent extends Component{
 
                     </div>
                     <div className="px-0 py-4">
-                        <Skeleton width={825} height={150} duration={1} />
+                        <Skeleton width={450} height={150} duration={1} className="d-block d-md-none" />
+                        <Skeleton width={825} height={150} duration={1} className="d-none d-md-block" />
                         <div className="btn mx-0 my-3 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
                             <Skeleton width={150} height={15} duration={1} />
                         </div>
@@ -107,8 +108,8 @@ export class FlashSaleEvent extends Component{
         return(
             // ADD FLASH SALE PRODUCTS
             <div>
-                <div className="font-weight-bold pa-font-size-18">
-                    Flah Sale Events :
+                <div className="font-weight-bold pa-font-size-30">
+                    Flah Sale Events
                 </div>
                 <div className="mx-0 my-1 border-bottom">
 
@@ -121,8 +122,8 @@ export class FlashSaleEvent extends Component{
                         </div>
                     </div>
                 </div>
-                <div className="font-weight-bold pa-font-size-18">
-                    Products :
+                <div className="font-weight-bold pa-font-size-30">
+                    Products
                 </div>
                 <div className="mx-0 my-1 border-bottom">
 
