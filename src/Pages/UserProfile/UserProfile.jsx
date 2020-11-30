@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch, BrowserRouter as Router, useLocation } from "react-router-dom";
+import { connect } from 'react-redux';
+import Skeleton from 'react-loading-skeleton';
 
 import Profile from './Profile';
 import Transactions from './Transactions';
@@ -34,6 +36,83 @@ export class UserProfile extends Component{
     }
 
     render(){
+        if(this.props.user.data === null){
+            return(
+                <div>
+                    <div className="container px-0 py-5 px-md-0 py-md-5">
+                        <div className="px-0 py-4 px-md-0 py-md-5">
+                            <div className="px-3 py-0 px-md-3 py-md-3">
+                                <Router>
+                                    <div className="row px-0 py-0 px-md-0 py-md-4">
+                                        <div className="d-none d-md-block col-3">
+                                            <div>
+                                                <Skeleton width={150} height={150} duration={1} />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-weight-bold">
+                                                    <Skeleton width={250} height={20} duration={1} />
+                                                </h3>
+                                            </div>
+                                            <div className="pa-font-size-15 pa-dark-grey" style={{marginTop: -10, marginBottom: 25}}>
+                                                <Skeleton width={150} height={10} duration={1} />
+                                            </div>
+                                            <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                                <Link to="/member" onClick={() => this.setState({activeLink: 'Profile'})} className="pa-link">
+                                                    <span className={this.state.activeLink === 'Profile'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                        <Skeleton width={150} height={10} duration={1} />
+                                                    </span>
+                                                </Link>
+                                            </div>
+                                            <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                                <Link to="/member/transactions" onClick={() => this.setState({activeLink: 'Transaction'})} className="pa-link">
+                                                    <span className={this.state.activeLink === 'Transaction'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                        <Skeleton width={150} height={10} duration={1} />
+                                                    </span>
+                                                </Link>
+                                            </div>
+                                            <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                                <Link to="/member/shipping-address" onClick={() => this.setState({activeLink: 'Shipping Address'})} className="pa-link">
+                                                    <span className={this.state.activeLink === 'Shipping Address'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                        <Skeleton width={150} height={10} duration={1} />
+                                                    </span>
+                                                </Link>
+                                            </div>
+                                            <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                                <Link to="/member/admin-dashboard" onClick={() => this.setState({activeLink: 'Dashboard'})} className="pa-link">
+                                                    <span className={this.state.activeLink === 'Dashboard'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                        <Skeleton width={150} height={10} duration={1} />
+                                                    </span>
+                                                </Link>
+                                            </div>
+                                            <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                                <Link to="/" onClick={() => this.setState({activeLink: 'Logout'})} className="pa-link">
+                                                    <span className={this.state.activeLink === 'Logout'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                        <Skeleton width={150} height={10} duration={1} />
+                                                    </span>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 col-md-9">
+                                            <Switch>
+                                                {this.state.routes.map((route, index) => (
+                                                    <Route
+                                                        key={index}
+                                                        path={route.path}
+                                                        exact={route.exact}
+                                                        children={<route.page />}
+                                                    />
+                                                ))}
+                                            </Switch>
+                                        </div>
+                                    </div>
+                                </Router>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
         return(
             // USER PROFILE
             <div>
@@ -48,11 +127,16 @@ export class UserProfile extends Component{
                                         </div>
                                         <div>
                                             <h3 className="font-weight-bold">
-                                                ryan.fandy@ gmail.com
+                                                {this.props.user.data.data[0].email.slice(0, 10)}
+                                            </h3>
+                                        </div>
+                                        <div style={{marginTop: -10}}>
+                                            <h3 className="font-weight-bold">
+                                                {this.props.user.data.data[0].email.slice(10, 100)}
                                             </h3>
                                         </div>
                                         <div className="pa-font-size-15 pa-dark-grey" style={{marginTop: -10, marginBottom: 25}}>
-                                            Member Sejak Dec 20
+                                            Member Sejak {String(this.props.user.data.data[0].created_at).split('T')[0]}
                                         </div>
                                         <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
                                             <Link to="/member" onClick={() => this.setState({activeLink: 'Profile'})} className="pa-link">
@@ -83,7 +167,7 @@ export class UserProfile extends Component{
                                             </Link>
                                         </div>
                                         <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
-                                            <Link to="" onClick={() => this.setState({activeLink: 'Logout'})} className="pa-link">
+                                            <Link to="/" onClick={() => this.setState({activeLink: 'Logout'})} className="pa-link">
                                                 <span className={this.state.activeLink === 'Logout'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
                                                     Logout
                                                 </span>
@@ -112,4 +196,10 @@ export class UserProfile extends Component{
     }
 }
 
-export default UserProfile
+const mapStateToProps = (state) => {
+    return{
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, null)(UserProfile)

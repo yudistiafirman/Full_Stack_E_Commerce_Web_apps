@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col, FormGroup, Input, ListGroup, ListGroupItem } from 'reactstrap';
-import Toggle from '../Toggle.jsx';
+import Toggle from '../../../Pages/Checkout/Toggle';
 import PropTypes from 'prop-types';
 
 class ShippingMethod extends Component {

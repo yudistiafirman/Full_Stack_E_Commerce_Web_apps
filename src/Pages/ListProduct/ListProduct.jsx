@@ -1,100 +1,148 @@
-import { faChevronDown, faChevronUp, faSlidersH, faSquare, faStar} from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faSearch, faSlidersH, faStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState, useEffect } from 'react'
 import CardProduct from '../../Component/CardProduct'
 import './CardProduct.css'
 import './SortProduct.css'
 import { Collapse } from 'reactstrap';
+import Axios from 'axios'
+import { ApiUrl } from '../../Constant/ApiUrl'
+import { getQuery } from '../../Support/Functions/getSeacrh'
 
+const ratingStar = [
+    {star : 1}, {star : 2}, {star : 3}, {star : 4}, {star : 5}
+]
 
-const ListProduct = () => {
+const ListProduct = (props) => {
 
-    const [hap, setHap] = useState(0)
-    useEffect(() => {
-        window.addEventListener('scroll', listenToScroll)
-        return function (){
-            window.removeEventListener('scroll', listenToScroll)
-          };
-    }, [])
-
+    const [data, setData] = useState(null)
+    const [filter, setFilter] = useState({
+        category : null,
+        brands : null,
+        rating : null,
+        discount : null
+    })
     const [isOpen, setIsOpen] = useState({
         child_1 : false,
         child_2 : false,
         child_3 : false,
         child_4 : false,
         child_5 : false
-    });
-    const [cek, setCek] = useState([
-        {
-            name : 'Sayuran',
-            id : 1
-        },
-        {
-            name : 'Buah',
-            id : 2
-        },
-        {
-            name : 'Kacang-kacangan',
-            id : 3
-        }
-    ])
-
-    const [rating, setRating] = useState([
-        {
-            id : 1,
-            star : 1
-        },
-        {
-            id : 2,
-            star : 2
-        },
-        {
-            id : 3,
-            star : 3
-        },
-        {
-            id : 4,
-            star : 4
-        },
-        {
-            id : 5,
-            star : 5
-        }
-    ])
-
-    const onHandleCheckCategory = (e) => {
-        
-        let handle = cek
-        handle.forEach(val => {
-        if (val.name === e.target.value)
-            val.isChecked =  e.target.checked
-        })
-        setCek(handle)
-    }
-    const onHandleCheckRating = (e) => {
-        
-        let handle = rating
-        handle.forEach(val => {
-        if (val.name === e.target.value)
-            val.isChecked =  e.target.checked
-        })
-        setRating(handle)
-    }
-
-    const listenToScroll = () => {
-        const winScroll =
-          document.body.scrollTop || document.documentElement.scrollTop
-      
-        const height =
-          document.documentElement.scrollHeight -
-          document.documentElement.clientHeight
-      
-        const scrolled = winScroll / height
-      
-        setHap(scrolled)
-      }
+    }); 
+    let [inputCategory, setInputCategory] = useState({
+        category : [],
+        rating : [],
+        price : [],
+        brands : [],
+        discount : ''
+    })
+    const [priceToInput, setPriceToInput] = useState({
+        price1 : '',
+        price2 : ''
+    })
     
-    console.log(hap)
+    useEffect(() => {
+        getAllProduct()
+        getFilter()
+    },[])
+
+    console.log(filter.category)
+
+    
+    const onHandleCheckCategory = (e) => {
+        if(e.target.checked === true){
+            inputCategory.category.push(e.target.value)
+        }else{
+            inputCategory.category = inputCategory.category.filter(a => a !== e.target.value)
+            
+        }
+        
+        getProductByFilter()
+    }
+
+    const onHandleCheckRating = (e) => {
+        if(e.target.checked === true){
+            inputCategory.rating.push(e.target.value)
+        }else{
+            inputCategory.rating = inputCategory.rating.filter(a => a !== e.target.value)
+        }
+        
+        getProductByFilter()
+    }
+    const onHandleCheckBrands = (e) => {
+        if(e.target.checked === true){
+            inputCategory.brands.push(e.target.value)
+        }else{
+            inputCategory.brands = inputCategory.brands.filter(a => a !== e.target.value)
+        }
+        
+        getProductByFilter()
+    }
+    const onHandleCheckDiscount = (e) => {
+        inputCategory.discount = e.target.value
+        getProductByFilter()
+    }
+
+    const onHandlePrice = () => {
+        // if(priceToInput.price1 !== '' && priceToInput.price2 !== '' ){
+        // }
+        setInputCategory({...inputCategory,price : [priceToInput.price1, priceToInput.price2]})
+        console.log(inputCategory)
+    }
+    console.log(priceToInput)
+    
+   
+    
+    const getAllProduct = () => {
+        let query = getQuery(props.location.search)
+        console.log(query)
+        console.log(inputCategory)
+        Axios.post(ApiUrl + 'products/filter/category', query)
+        .then((res) => {
+            try {
+                if(res.data.error) throw new Error
+                setData(res.data.filterCategory)
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+
+    }
+
+    const getFilter = () => {
+        
+        Axios.get(ApiUrl + 'products/filter')
+        .then((res) => {
+            try {
+                if(res.data.error) throw new Error
+                setFilter({...filter, category : res.data.category.map(v => ({...v, isChecked: false})), brands : res.data.brands, rating : res.data.rating, discount : res.data.discount})
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const getProductByFilter = () => {
+        Axios.post(ApiUrl + 'products/filter/multi-category', inputCategory)
+        .then((res) => {
+            try {
+                if(res.data.error) throw new Error
+                setData(res.data.filterCategory)
+            } catch (error) {
+                console.log(error)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
     
     
     
@@ -120,17 +168,16 @@ const ListProduct = () => {
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_1}>                            
                             {
-                                cek.map((val,index) => {
+                                filter.category && filter.category.map((val,i) => {
                                     return(
                                         <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                             <input 
                                             type="checkbox" 
-                                            checked={val.isChecked}
                                             onClick={(e) => onHandleCheckCategory(e)}
                                             style={{width : 16, height : 16}}
-                                            value={val.name}
+                                            value={val.id}
                                             />
-                                            <p style={{marginLeft : 10}}>{val.name}</p>
+                                            <p style={{marginLeft : 10}}>{val.category_name}</p>
                                         </span>
                                     )
                                 })
@@ -148,15 +195,14 @@ const ListProduct = () => {
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_2}>                            
                             {
-                                rating.map((val,index) => {
+                                ratingStar.map((val,index) => {
                                     return(
                                         <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
                                             <input 
                                             type="checkbox" 
-                                            checked={val.isChecked}
                                             onClick={(e) => onHandleCheckRating(e)}
                                             style={{width : 16, height : 16}}
-                                            value={val.name}
+                                            value={val.star}
                                             />
 
                                             <span style={{marginLeft : 10}}>
@@ -186,12 +232,12 @@ const ListProduct = () => {
                             <span style={{paddingTop : 5,display : 'flex', flexWrap : 'wrap', justifyContent : 'space-between', alignItems : 'center'}}>
                                 <span>
                                     <p style={{fontSize : 14, marginBottom : 3}} for="formControlRange">Min-Price</p>
-                                    <input type='number' style={{width : 80, fontSize : 12}} />
+                                    <input type='number' onChange={(e) => setPriceToInput({...priceToInput, price1 : e.target.value})} value={priceToInput.price1} style={{width : 80, fontSize : 12}} />
                                 </span>
                                 <span>-</span>
                                 <span>
                                     <p style={{fontSize : 14, marginBottom : 3}} for="formControlRange">Max-Price</p>
-                                    <input type='number' style={{width : 80, fontSize : 12}} />
+                                    <input onSubmit={onHandlePrice} type='number' onChange={(e) => setPriceToInput({...priceToInput, price2 : e.target.value})} value={priceToInput.price2}  style={{width : 80, fontSize : 12}} />
                                 </span>
                             </span>
                                   
@@ -201,87 +247,58 @@ const ListProduct = () => {
 
                     <div>
                         <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_4 : !isOpen.child_4})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
-                            <p>Colors</p>
+                            <p>Brands</p>
                             <FontAwesomeIcon icon={isOpen.child_4 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
                         </div>
                         <div style={{padding : 10}}>
                             <Collapse isOpen={isOpen.child_4}>                            
-                                <div className='container-colors'>
-                                    
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                    <span className='container-icon-colors'>
-                                        <FontAwesomeIcon style={{}} icon={faSquare} className='category-icon' style={{color : 'red'}} />
-                                    </span>
-                                        
-                                </div>
+                                {
+                                    filter.brands && filter.brands.map((val,index) => {
+                                        return(
+                                            <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
+                                                <input 
+                                                type="checkbox" 
+                                                onClick={(e) => onHandleCheckBrands(e)}
+                                                style={{width : 16, height : 16}}
+                                                value={val.id}
+                                                />
+                                                <p style={{marginLeft : 10}}>{val.brands_name}</p>
+                                            </span>
+                                        )
+                                    })
+                                }
                             </Collapse>
                         </div>
 
                         <div>
                         <div className='border-top pt-2' onClick={() => setIsOpen({...isOpen, child_5 : !isOpen.child_5})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
-                            <p>Brands</p>
+                            <p>Discount</p>
                             <FontAwesomeIcon icon={isOpen.child_5 ? faChevronUp : faChevronDown} style={{fontSize : 14}}/>
                         </div>
                         <div style={{padding : 10}}>
                         <Collapse isOpen={isOpen.child_5}>                            
-                            {
-                                rating.map((val,index) => {
-                                    return(
-                                        <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
-                                            <input 
-                                            type="checkbox" 
-                                            checked={val.isChecked}
-                                            onClick={(e) => onHandleCheckRating(e)}
-                                            style={{width : 16, height : 16}}
-                                            value={val.name}
-                                            />
-
-                                            <span style={{marginLeft : 10}}>
-                                            {
-                                            Array.apply(null, {length: val.star}).map(Number.call, Number).map((val) => {
-                                                return(
-                                                    <FontAwesomeIcon icon={faStar} style={{color : 'orange', fontSize : 12}} />
-                                                )
-                                            })
-                                            }
-                                            </span>
-                                            
-                                        </span>
-                                    )
-                                })
-                            }
+                        
+                            <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
+                                <input 
+                                type="radio"
+                                name='radioButton'
+                                onClick={(e) => onHandleCheckDiscount(e)} 
+                                style={{width : 16, height : 16}}
+                                value='< 25'
+                                />
+                                <p style={{marginLeft : 10}}>0 - 25%</p>
+                            </span>
+                            <span style={{display : 'flex', alignItems : 'center', padding : 3}}>
+                                <input 
+                                type="radio" 
+                                name='radioButton'
+                                onClick={(e) => onHandleCheckDiscount(e)} 
+                                style={{width : 16, height : 16}}
+                                value='> 25'
+                                />
+                                <p style={{marginLeft : 10}}>25% or above</p>
+                            </span>
+                               
                         </Collapse>
                         </div>
                     </div>
@@ -291,17 +308,23 @@ const ListProduct = () => {
                     
                 </div>
                 <div className='col-md-9 row'>
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
-                    <CardProduct />
+                    {
+                        data && data.map((val, i) => {
+                            return(
+                                <CardProduct 
+                                name={val.name} 
+                                brands={val.brands_name} 
+                                price={val.price} 
+                                image1={val.url.split(',')[0]} 
+                                image2={val.url.split(',')[1]} 
+                                discount={val.discount}
+                                flashSale={val.is_flash_sale}
+                                starCount={val.rating}
+                                id={val.id}
+                                />
+                            )
+                        })
+                    }
                     
 
                 </div>
@@ -313,3 +336,26 @@ const ListProduct = () => {
 }
 
 export default ListProduct
+
+
+// useEffect(() => {
+    //     window.addEventListener('scroll', listenToScroll)
+    //     return function (){
+    //         window.removeEventListener('scroll', listenToScroll)
+    //       };
+    // }, [])
+
+ // const listenToScroll = () => {
+    //     const winScroll =
+    //       document.body.scrollTop || document.documentElement.scrollTop
+      
+    //     const height =
+    //       document.documentElement.scrollHeight -
+    //       document.documentElement.clientHeight
+      
+    //     const scrolled = winScroll / height
+      
+    //     setHap(scrolled)
+    // }
+
+    // const [hap, setHap] = useState(0)

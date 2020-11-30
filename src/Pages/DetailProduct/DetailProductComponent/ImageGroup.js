@@ -1,34 +1,37 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { ApiUrl } from '../../../Constant/ApiUrl'
 
-export const ImageGroup = () => {
+export const ImageGroup = ({data}) => {
+    const [imgParent, setImgParent] = useState('')
+
+    useEffect(() => {
+        if(data){
+            setImgParent(data[0].url)
+        }
+    }, [data])
+
     return (
         <div style={{display : 'flex'}}>
             <div style={{display : 'flex', flexDirection : 'column', marginRight : 13}}>
-                <span>
-                    <img 
-                    className='child-image'
-                    src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
-                </span>
-                <span>
-                    <img 
-                    className='child-image'
-                    src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
-                </span>
-                <span>
-                    <img 
-                    className='child-image'
-                    src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
-                </span>
-                <span>
-                    <img 
-                    className='child-image'
-                    src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
-                </span>
+
+                {
+                    data && data.map((val, index) => {
+                        return(
+                            <span>
+                                <img 
+                                className='child-image'
+                                src={ApiUrl + 'public/product/' + val.url}
+                                onClick={() => setImgParent(val.url)}
+                                 />
+                            </span>
+                        )
+                    })
+                }
             </div>
             <div style={{display : 'flex', flexDirection : 'column', alignItems : 'center'}} >
                 <img 
                 className='parent-image'
-                src='https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' />
+                src={ApiUrl + 'public/product/' + imgParent} />
             </div>
         </div>
     )

@@ -6,32 +6,34 @@ import MdHeart from 'react-ionicons/lib/MdHeart'
 import MdStar from 'react-ionicons/lib/MdStar'
 import sbag from './../Support/Images/shopping-bag.png'
 import sbagWhite from './../Support/Images/shopping-bag-white.png'
+import { ApiUrl } from '../Constant/ApiUrl'
+import { Link } from 'react-router-dom'
 
+const star= [
+    {rating : 1}, {rating : 3}, {rating : 5}
+]
 
-const CardProduct = () => {
+const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, starCount, id}) => {
     const [onHover, setOnhover] = useState(false)
 
     const [colorHeart, setColorHeart] = useState(false)
     const [colorsAvail, setColorsAvail] = useState(false)
     const [bagHover, setBagHover] = useState(false)
 
-
-
-
     return (
-        <div className='col-md-4 ' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center', marginBottom : 70}}>
+        <div className='col-md-4' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center', marginBottom : 70}}>
             <div className='card-container' onMouseEnter={() => {setOnhover(true)}} onMouseLeave={() => {setOnhover(false)}} >
                 <div className=' container-image w-100' style={{padding : 10}} >
                     <img 
                     alt='img-card'
                     className='image-card'
-                    src={onHover ? 'https://dynamic.zacdn.com/9x-iHypJa1fN_TGRcsz562oR6SU=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3727-8123452-1.jpg' : 'https://dynamic.zacdn.com/sVNGtZBV4nqK6j1nAV87tIY7YlI=/fit-in/762x1100/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/quiksilver-3730-8123452-3.jpg'}
+                    src={onHover ? ApiUrl + 'public/product/' + image1 : ApiUrl + 'public/product/' + image2}
                     />
                 </div>
                 <span style={{position : 'absolute',top : 25, left : 18,}}>
                     <img
                     alt='flash' 
-                    style={{height : 25, width : 25}}
+                    style={{height : 25, width : 25, display : flashSale === 1 ? 'block' : 'none'}}
                     src={flash} 
                     />
                 </span>
@@ -47,23 +49,39 @@ const CardProduct = () => {
                 </span>
 
                 <div style={{marginTop : 10, padding : 10}}>
-                    <p style={{fontSize : 12, color : 'green'}}>Lactacid</p>
-                    <p style={{fontSize : 16}}>
-                        Hometown fresh milk 1 lt
-                    </p>
-                    <p style={{marginTop : 5}}>
-                        <s>Rp. 13.500</s>
-                    </p>
-                    <p style={{color : "green"}}>
-                        Rp. 10.000
-                    </p>
+                    <p style={{fontSize : 12, color : 'green'}}>{brands}</p>
+                    <Link to={'/detail-product/' + id} >
+                        <p style={{fontSize : 16}}>
+                            {name}
+                        </p>
+                    </Link>
+
+                    <span>
+                        <p style={{marginTop : 5}}>
+                            {
+                                discount === 0 ?
+                                <span>Rp. {price.toLocaleString('id-ID')}</span>
+                                :
+                                <s>Rp. {price.toLocaleString('id-ID')}</s>
+                            }
+                        </p>
+                        <p style={{color : "green", visibility : discount !== 0 ? 'visible' : 'hidden'}}>
+                            Rp. {(price - (price * (discount/100))).toLocaleString('id-ID')}
+                        </p>
+                    </span>
+
                     <div style={{marginTop : 5}}>
-                        <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
-                        <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
-                        <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
-                        <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
-                        <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
-                            
+                        {
+                            starCount !== null ?
+                             Array.apply(null, {length: starCount}).map(Number.call, Number).map((val) => {
+                                return(
+                                    <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
+                                    
+                                )
+                            })
+                            :
+                            null
+                        }    
                     </div>
                 </div>
                     

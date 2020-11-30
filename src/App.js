@@ -11,12 +11,12 @@ import Navbar from './Component/Navbar/Navbar';
 import LandingPage from './Pages/LandingPage/LandingPage';
 import ListProduct from './Pages/ListProduct/ListProduct';
 import DetailProduct from './Pages/DetailProduct/DetailProduct';
-import CheckoutForm from './Component/CheckoutForm';
+import CheckoutForm from './Pages/Checkout/CheckoutForm';
 import UserProfile from './Pages/UserProfile/UserProfile';
 import Footer from './Component/Footer/Footer';
 import CardSimilarProduct from './Pages/DetailProduct/DetailProductComponent/CardSimilarProduct';
 import Registration from './Pages/Registration/Registration/Registration'
-import Verification from './Pages/Registration/Registration/Screens/whatsapverification/watsapverif';
+import Cart from './Pages/Cart/Cart'
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
@@ -29,13 +29,13 @@ const App = () => {
         <Navbar />
           <Switch>
             <Route exact path='/' component={LandingPage} />
-            <Route path='/list-product' component={ListProduct} />
-            <Route path='/detail-product' component={DetailProduct} />
+            <Route path='/products' component={ListProduct} />
+            <Route path='/detail-product/:id' component={DetailProduct} />
             <Route path='/checkout-form' component={CheckoutForm} />
             <Route path='/member' component={UserProfile} />
             <Route path='/test' component={CardSimilarProduct} />
             <Route path='/register' component={Registration}/>
-            <Route path='/verification' component={Verification}/>
+            <Route path='/cart' component={Cart}/>
 
           </Switch>
 

@@ -30,6 +30,20 @@
     display: block;
 }
 
+.navbar-category-select {
+  border-width: 3px;
+  border-color: #e4e3e3;
+  color: #0095da;
+  transition-duration: 0.4s;
+}
+
+.navbar-category-select:hover {
+  background-color: #ebf7fc;
+  border-width: 3px;
+  border-color: #0095da;
+  color: #0095da;
+}
+
 .navbar-cart-dropdown {
     position: relative;
     display: inline-block;

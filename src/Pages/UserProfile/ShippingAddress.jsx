@@ -3,10 +3,9 @@ import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 import ShippingAddressLists from './ShippingAddressLists';
 import AddShippingAddress from './AddShippingAddress';
+import EditShippingAddress from './EditShippingAddress';
 
 import './UserProfile.css';
-
-import NotFound from './../../Support/Images/Not Found.webp';
 
 export class ShippingAddress extends Component{
 
@@ -20,6 +19,10 @@ export class ShippingAddress extends Component{
             {
                 path: "/member/shipping-address/add-address",
                 page: () => <AddShippingAddress />
+            },
+            {
+                path: "/member/shipping-address/edit-address",
+                page: () => <EditShippingAddress />
             }
         ],
         activeLink: 'Profile'
