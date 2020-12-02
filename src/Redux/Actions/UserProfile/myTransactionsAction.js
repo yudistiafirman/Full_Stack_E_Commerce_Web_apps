@@ -1,61 +1,61 @@
 import Axios from 'axios';
 import { UrlAPI } from '../../../Support/Constants/UrlAPI';
-import { USERSTRANSACTIONS_LOADING, USERSTRANSACTIONS_SUCCESS, USERSTRANSACTIONS_ERROR } from './ActionTypes';
+import { MYTRANSACTIONS_LOADING, MYTRANSACTIONS_SUCCESS, MYTRANSACTIONS_ERROR } from './ActionTypes';
 
-export const getUsersTransactions = (data) => {
+export const getMyTransactions = (data) => {
     return (dispatch) => {
         dispatch({
-            type: USERSTRANSACTIONS_LOADING
+            type: MYTRANSACTIONS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/admin-dashboard/users-transaction/get-transactions', data)
+        Axios.post(UrlAPI + 'member/transactions', data)
         .then((res) => {
-            console.log(res)
+            console.log(res.data)
             if(res.data.error){
                 dispatch({
-                    type: USERSTRANSACTIONS_ERROR,
+                    type: MYTRANSACTIONS_ERROR,
                     payload: res.data.message
                 })
             }else{
                 dispatch({
-                    type: USERSTRANSACTIONS_SUCCESS,
+                    type: MYTRANSACTIONS_SUCCESS,
                     payload: res.data
                 })
             }
         })
         .catch((err) => {
             dispatch({
-                type: USERSTRANSACTIONS_ERROR,
+                type: MYTRANSACTIONS_ERROR,
                 payload: err.message
             })
         })    
     }
 }
 
-export const deliverProductsToCustomer = (data) => {
+export const confirmMyTransaction = (data) => {
     return (dispatch) => {
         dispatch({
-            type: USERSTRANSACTIONS_LOADING
+            type: MYTRANSACTIONS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/admin-dashboard/users-transaction/deliver-product', data)
+        Axios.post(UrlAPI + 'member/confirm-transaction', data)
         .then((res) => {
-            console.log(res)
+            console.log(res.data)
             if(res.data.error){
                 dispatch({
-                    type: USERSTRANSACTIONS_ERROR,
+                    type: MYTRANSACTIONS_ERROR,
                     payload: res.data.message
                 })
             }else{
                 dispatch({
-                    type: USERSTRANSACTIONS_SUCCESS,
+                    type: MYTRANSACTIONS_SUCCESS,
                     payload: res.data
                 })
             }
         })
         .catch((err) => {
             dispatch({
-                type: USERSTRANSACTIONS_ERROR,
+                type: MYTRANSACTIONS_ERROR,
                 payload: err.message
             })
         })    

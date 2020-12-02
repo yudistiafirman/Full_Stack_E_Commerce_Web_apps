@@ -1,11 +1,390 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import Skeleton from 'react-loading-skeleton';
+
+import { getMyTransactions, confirmMyTransaction } from './../../Redux/Actions/UserProfile/myTransactionsAction';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 
 import './UserProfile.css';
 
 import NotFound from './../../Support/Images/Not Found.webp';
 
+import { Alert } from 'reactstrap';
+
 export class Transactions extends Component{
+
+    state = {
+        moreProducts: 1,
+        seeStatusTransactions: false,
+        activeLink: null,
+        visible: true,
+        successMessage: ''
+    }
+
+    componentDidMount(){
+        const token = localStorage.getItem('token')
+
+        const data = {
+            token,
+            status_name_id: 2
+        }
+
+        this.props.getMyTransactions(data)
+    }
+
+    onGetMyTransactionsWaitingForPayment = () => {
+        const token = localStorage.getItem('token')
+        this.setState({activeLink: 'Waiting For Payment'})
+        
+        const data = {
+            token,
+            status_name_id: 1
+        }
+
+        this.props.getMyTransactions(data)
+    }
+
+    onGetMyTransactionsPaid = () => {
+        const token = localStorage.getItem('token')
+        this.setState({activeLink: 'Paid'})
+
+        const data = {
+            token,
+            status_name_id: 2
+        }
+
+        this.props.getMyTransactions(data)
+    }
+
+    onGetMyTransactionsDeliver = () => {
+        const token = localStorage.getItem('token')
+        this.setState({activeLink: 'Deliver'})
+        
+        const data = {
+            token,
+            status_name_id: 3
+        }
+
+        this.props.getMyTransactions(data)
+    }
+
+    onGetMyTransactionsComplete = () => {
+        const token = localStorage.getItem('token')
+        this.setState({activeLink: 'Complete'})
+        
+        const data = {
+            token,
+            status_name_id: 4
+        }
+
+        this.props.getMyTransactions(data)
+    }
+
+    openProduct = (product_id) => {
+        window.location = ('/detail-product/' + product_id)
+    }
+
+    onConfirmTransaction = (transaction_id) => {
+        const token = localStorage.getItem('token')
+
+        if(window.confirm('Are you sure want to confirm this transaction?')){
+            let data = {
+                token,
+                transaction_id,
+                status_name_id: 4,
+                is_done: 1
+            }
+
+            this.props.confirmMyTransaction(data)
+
+            if(this.props.myTransactions.data.error === false){
+                window.scrollTo(0,0)
+                this.setState({successMessage : 'Your Transactions Complete'})
+            }
+        }
+    }
+
+    mapMyTransactions = () => {
+        return this.props.myTransactions.data.mapDataTransactionsUsers.map((value, index) => {
+            return(
+                <>
+                    <div className="d-block d-md-none mx-0 my-5 px-5 py-3 pa-transaction-card">
+                        <div className="row justify-content-between align-items-center px-3 pt-2 pb-2">
+                            <div className="col-6 px-0 py-0">
+                                <p className="pa-font-size-15">
+                                    Invoice :
+                                </p>
+                                <p className="font-weight-bold pa-font-size-16 pa-main-light">
+                                    PJY/TRNSCTNS/000{value.id}
+                                </p>
+                            </div>
+                            <div className="col-6 border-left text-center">
+                                <p className="pa-font-size-15">
+                                    Status :
+                                </p>
+                                <p className="font-weight-bold pa-font-size-16 pa-dark">
+                                    Transaction {value.status}
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                                <p className="pa-font-size-15">
+                                    Total :
+                                </p>
+                                <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                                    Rp.{(value.total).toLocaleString('Id-ID')}
+                                </p>
+                            </div>
+                        <div className="mt-2 mb-3 border-bottom">
+
+                        </div>
+                        {
+                            value.detail_transaction.slice(0, this.state.moreProducts).map((val, ind) => {
+                                return(
+                                    <>
+                                        <div className="row px-3 py-3">
+                                            <div className="col-2 px-0">
+                                                <img src={'http://localhost:2000/public/product/' + val.image_product} alt={'Best Seller Product Image ' + index + 1} width="100%" />
+                                            </div>
+                                            <div className="px-4 py-0">
+                                                <div className="font-weight-bold pa-font-size-18 pa-main-light">
+                                                    {val.brand_name + ' ' + val.product_name}
+                                                </div>
+                                                <div className="px-0 pt-0 pb-0 pa-secondary">
+                                                    Rp.{(val.product_price).toLocaleString('Id-ID')}
+                                                    <span className="ml-2 mr-0 pa-dark">
+                                                        {val.qty} Product (900 Gram)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-3 mb-3 border-bottom">
+
+                                        </div>
+                                    </>
+                                )
+                            })
+                        }
+                        {
+                            this.props.myTransactions.data.dataHistoryTransactionsUsers.map((value, index) => {
+                                return(
+                                    <>
+                                        <div>
+                                            {value.transaction_date}
+                                        </div>
+                                    </>
+                                )
+                            })
+                        }
+                        <div className="text-center">
+                            {
+                                value.detail_transaction.length > 1 && value.detail_transaction.length !== this.state.moreProducts?
+                                    <span onClick={() => this.setState({moreProducts: value.detail_transaction.length})} className="pa-clickable-element pa-font-size-12 pa-main-light">
+                                        See More Products
+                                    </span>
+                                :
+                                    null
+                            }
+                            {
+                                value.detail_transaction.length > 1 && value.detail_transaction.length === this.state.moreProducts?
+                                    <span onClick={() => this.setState({moreProducts: 1})} className="pa-clickable-element pa-font-size-12 pa-main-light">
+                                        Hidden Products
+                                    </span>
+                                :
+                                    null
+                            }
+                        </div>
+                    </div>
+                    <div className="d-none d-md-block mx-0 my-5 px-5 py-3 pa-transaction-card">
+                        <div className="row justify-content-between align-items-center px-3 pt-2 pb-2">
+                            <div className="col-4 px-0 py-0">
+                                <p className="pa-font-size-15">
+                                    Invoice :
+                                </p>
+                                <p className="font-weight-bold pa-font-size-16 pa-main-light">
+                                    PJY/TRNSCTNS/000{value.id}
+                                </p>
+                                {
+                                    value.status === 'Delivery'?
+                                        <div onClick={() => this.onConfirmTransaction(value.id)} className="btn mx-0 my-1 px-3 py-1 font-weight-bold pa-button-submit pa-font-size-12 pa-main-light" style={{borderRadius: 10}}>
+                                            Confirm Transaction
+                                        </div>
+                                    :
+                                        null
+                                }
+                            </div>
+                            <div className="col-4 border-left text-center">
+                                <p className="pa-font-size-15">
+                                    Status :
+                                </p>
+                                <p className="font-weight-bold pa-font-size-16 pa-dark">
+                                    Transaction {value.status}
+                                </p>
+                            </div>
+                            <div className="col-4 border-left text-right">
+                                <p className="pa-font-size-15">
+                                    Total :
+                                </p>
+                                <p className="font-weight-bold pa-font-size-16 pa-secondary">
+                                    Rp.{(value.total).toLocaleString('Id-ID')}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="mt-2 mb-3 border-bottom">
+
+                        </div>
+                        {
+                            value.detail_transaction.slice(0, this.state.moreProducts).map((val, ind) => {
+                                return(
+                                    <>
+                                        <div className="row px-3 py-3">
+                                            <div className="col-1 px-0">
+                                                <img src={'http://localhost:2000/public/product/' + val.image_product} alt={'Best Seller Product Image ' + index + 1} width="100%" />
+                                            </div>
+                                            <div className="px-4 py-0">
+                                                <div className="font-weight-bold pa-font-size-18 pa-main-light">
+                                                    {val.brand_name + ' ' + val.product_name}
+                                                </div>
+                                                <div className="px-0 pt-1 pb-0 pa-secondary">
+                                                    Rp.{(val.product_price).toLocaleString('Id-ID')}
+                                                    <span className="ml-2 mr-0 pa-dark">
+                                                        {val.qty} Product (900 Gram)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="border-left px-4 py-0">
+                                                <p className="pa-font-size-15">
+                                                    Total Harga : 
+                                                </p>
+                                                <p className="font-weight-bold pa-secondary">
+                                                    Rp.{(val.total_product).toLocaleString('Id-ID')}
+                                                </p>
+                                            </div>
+                                            <div className="col-4 text-right">
+                                                <div onClick={() => this.openProduct(val.product_id)} className="btn mx-0 my-1 px-3 py-1 font-weight-bold pa-button-buy-again pa-font-size-12 pa-main-light" style={{borderRadius: 10}}>
+                                                    Buy Again
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-3 mb-3 border-bottom">
+
+                                        </div>
+                                    </>
+                                )
+                            })
+                        }
+                        <div className="row justify-content-between px-3 pt-0 pb-2">
+                            <div className="font-weight-bold pa-dark">
+                                Status Transactions
+                            </div>
+                            <div>
+                                <FontAwesomeIcon onClick={() => this.setState({seeStatusTransactions: !this.state.seeStatusTransactions})} icon={faChevronCircleDown} className="fa-md pa-clickable-element pa-light-grey" />
+                            </div>
+                        </div>
+                        {
+                            this.state.seeStatusTransactions?
+                                this.props.myTransactions.data.dataHistoryTransactionsUsers.map((value, index) => {
+                                    return(
+                                        <>
+                                            <div className="row align-items-center px-3 py-2">
+                                                <div>
+                                                    {
+                                                        value.status_name === 'Completed'?
+                                                            <div className="px-3 py-0 pa-bg-main-light pa-font-size-12 pa-light" style={{borderRadius: 5}}>
+                                                                {moment(value.transaction_date).format('YYYY-MM-DD HH:mm:ss')}
+                                                            </div>
+                                                        :
+                                                            <div className="px-3 py-0 border border-primary pa-font-size-12" style={{borderRadius: 5}}>
+                                                                {moment(value.transaction_date).format('YYYY-MM-DD HH:mm:ss')}
+                                                            </div>
+                                                    }
+                                                </div>
+                                                <div className="mx-2 my-0 font-weight-normal pa-font-size-15">
+                                                    <div className="">
+                                                        This Transaction {value.status_name}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
+                                })
+                            :
+                                null
+                        }
+                        <div className="text-center">
+                            {
+                                value.detail_transaction.length > 1 && value.detail_transaction.length !== this.state.moreProducts?
+                                    <span onClick={() => this.setState({moreProducts: value.detail_transaction.length})} className="pa-clickable-element pa-font-size-12 pa-main-light">
+                                        See More Products
+                                    </span>
+                                :
+                                    null
+                            }
+                            {
+                                value.detail_transaction.length > 1 && value.detail_transaction.length === this.state.moreProducts?
+                                    <span onClick={() => this.setState({moreProducts: 1})} className="pa-clickable-element pa-font-size-12 pa-main-light">
+                                        Hidden Products
+                                    </span>
+                                :
+                                    null
+                            }
+                        </div>
+                    </div>
+                </>
+            )
+        })
+    }
+    
+    onClick = () => {
+        console.log(this.props.myTransactions)
+    }
+
     render(){
+        if(this.props.myTransactions.data === null){
+            return(
+                <>
+                    <div className="font-weight-bold pa-font-size-18">
+                        <Skeleton width={250} height={15} duration={1} />
+                    </div>
+                    <div className="mx-0 my-1 border-bottom">
+
+                    </div>
+                    <div className="px-0 pt-3 pb-0">
+                        <div className="row justify-content-start px-3 py-0">
+                        <div className="px-2 py-0">
+                                <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                                    <Skeleton width={100} height={15} duration={1} style={{borderRadius: 100}} />
+                                </div>
+                            </div>
+                            <div className="px-2 py-0">
+                                <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                                    <Skeleton width={100} height={15} duration={1} style={{borderRadius: 100}} />
+                                </div>
+                            </div>
+                            <div className="px-2 py-0">
+                                <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                                    <Skeleton width={100} height={15} duration={1} style={{borderRadius: 100}} />
+                                </div>
+                            </div>
+                            <div className="px-2 py-2 px-md-2 py-md-0">
+                                <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                                    <Skeleton width={100} height={15} duration={1} style={{borderRadius: 100}} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="px-0 py-4">
+                        <Skeleton width={450} height={150} duration={1} className="d-block d-md-none" />
+                        <Skeleton width={825} height={150} duration={1} className="d-none d-md-block" />
+                    </div>
+                </>
+            )
+        }
+        
         return(
             // TRANSACTIONS
             <div>
@@ -15,55 +394,64 @@ export class Transactions extends Component{
                 <div className="mx-0 my-3 border-bottom">
 
                 </div>
+                {
+                    this.state.successMessage?
+                        <Alert isOpen={this.state.visible} toggle={() => this.setState({visible: false})} className="border-primary text-center font-weight-bold pa-bg-light pa-secondary" style={{borderRadius: 5}}>
+                            Your Transaction Complete
+                        </Alert>
+                    :
+                        null
+                }
                 <div className="px-0 py-0">
                     <div className="row justify-content-start px-3 py-0">
                         <div>
-                            <div className="px-3 py-1 pa-bg-main-light pa-light" style={{borderRadius: 100}}>
-                                Payment
+                            <div onClick={() => this.onGetMyTransactionsWaitingForPayment()} className={this.state.activeLink === 'Waiting For Payment'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
+                                Waiting For Payment
                             </div>
                         </div>
                         <div className="px-2 py-0">
-                            <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
-                                On Proccess
+                            <div onClick={() => this.onGetMyTransactionsPaid()} className={this.state.activeLink === 'Paid'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
+                                Paid
                             </div>
                         </div>
                         <div>
-                            <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                            <div onClick={() => this.onGetMyTransactionsDeliver()} className={this.state.activeLink === 'Deliver'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
+                                Deliver
+                            </div>
+                        </div>
+                        <div className="px-2 py-2 px-md-2 py-md-0">
+                            <div onClick={() => this.onGetMyTransactionsComplete()} className={this.state.activeLink === 'Complete'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
                                 Complete
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="mx-0 my-5 px-3 py-3 pa-transaction-card">
-                    <div className="row px-3 py-0">
-                        <div className="col-2 px-1 py-5 border">
-
-                        </div>
-                        <div className="px-4 py-0">
-                            <div className="font-weight-bold pa-font-size-18 pa-main-light">
-                                MARHEN J Rico Mini Tas Classic
+                {   this.props.myTransactions.data.mapDataTransactionsUsers.length > 0?
+                        this.mapMyTransactions()
+                    :
+                        <>
+                            <div className="px-0 pt-5 pb-0 text-center">
+                                <img src={NotFound} width="40%" />
                             </div>
-                            <div className="pa-font-size-12 pa-dark-grey" style={{marginTop: -5, marginBottom: 0}}>
-                                Quantity: 3
+                            <div className="px-0 pt-0 pb-0 text-center pa-font-size-20 font-weight-bold">
+                                Yah, Kosong . . .
                             </div>
-                            <div className="px pt-1 pb-0">
-                                Rp.1.019.000
+                            <div className="pt-0 pb-3 text-center pa-dark-grey">
+                                Yuk diisi sama produk punya kita.
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="px-0 pt-5 pb-0 text-center">
-                    <img src={NotFound} width="40%" />
-                </div>
-                <div className="px-0 pt-0 pb-0 text-center pa-font-size-20 font-weight-bold">
-                    Lho, Kok Masih Kosong?
-                </div>
-                <div className="pt-0 pb-3 text-center pa-dark-grey">
-                    Mau diisi apa ya Bag sebesar ini?
-                </div>
+                        </>
+                }
             </div>
         )
     }
 }
 
-export default Transactions
+const mapStateToProps = (state) => {
+    return{
+        myTransactions: state.myTransactions
+    }
+}
+
+const mapDispatchToProps = { getMyTransactions, confirmMyTransaction }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transactions)

@@ -34,7 +34,9 @@ export class LandingPage extends Component {
         return(
           <div key={index + 1} className="px-1 py-0">
             <div>
-              <img src={'http://localhost:2000/public/product/' + String(value.url).split(',')[0]} alt={'Flash Sale Product Image ' + index + 1} width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+              <Link to={'/detail-product/' + value.id}>
+                <img src={'http://localhost:2000/public/product/' + String(value.url).split(',')[0]} alt={'Flash Sale Product Image ' + index + 1} width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+              </Link>
               <div className="px-3 py-4 pa-bg-light" style={{width: "100%", borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
                 <p className="pa-font-size-16">
                   {value.name}
@@ -70,7 +72,9 @@ export class LandingPage extends Component {
           return(
             <div key={index} className="col-6 col-md-3 px-3 py-3">
               <div className="pa-recomended-card">
-                <img src={'http://localhost:2000/public/product/' + value.url} alt={'Best Seller Product Image ' + index + 1} width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                <Link to={'/detail-product/' + value.id}>
+                  <img src={'http://localhost:2000/public/product/' + value.url} alt={'Best Seller Product Image ' + index + 1} width="100%" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}} />
+                </Link>
                 <div className="px-3 pt-2 pb-2 pa-bg-light-grey" style={{height: 100, borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
                   {value.name}
                   <p className="font-weight-bold pa-font-size-16 pa-secondary">

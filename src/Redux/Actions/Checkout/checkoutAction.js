@@ -1,61 +1,62 @@
 import Axios from 'axios';
 import { UrlAPI } from '../../../Support/Constants/UrlAPI';
-import { USERSTRANSACTIONS_LOADING, USERSTRANSACTIONS_SUCCESS, USERSTRANSACTIONS_ERROR } from './ActionTypes';
+import { CHECKOUTSHIPPINGADDRESS_LOADING, CHECKOUTSHIPPINGADDRESS_SUCCESS, CHECKOUTSHIPPINGADDRESS_ERROR } from '../UserProfile/ActionTypes';
 
-export const getUsersTransactions = (data) => {
+
+export const getUserCheckoutShippingAddress = (data) => {
     return (dispatch) => {
         dispatch({
-            type: USERSTRANSACTIONS_LOADING
+            type: CHECKOUTSHIPPINGADDRESS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/admin-dashboard/users-transaction/get-transactions', data)
+        Axios.post(UrlAPI + 'checkout/checkout-shipping-address', data)
         .then((res) => {
-            console.log(res)
+            console.log(res.data)
             if(res.data.error){
                 dispatch({
-                    type: USERSTRANSACTIONS_ERROR,
+                    type: CHECKOUTSHIPPINGADDRESS_ERROR,
                     payload: res.data.message
                 })
             }else{
                 dispatch({
-                    type: USERSTRANSACTIONS_SUCCESS,
+                    type: CHECKOUTSHIPPINGADDRESS_SUCCESS,
                     payload: res.data
                 })
             }
         })
         .catch((err) => {
             dispatch({
-                type: USERSTRANSACTIONS_ERROR,
+                type: CHECKOUTSHIPPINGADDRESS_ERROR,
                 payload: err.message
             })
         })    
     }
 }
 
-export const deliverProductsToCustomer = (data) => {
+export const geMyOrders = (data) => {
     return (dispatch) => {
         dispatch({
-            type: USERSTRANSACTIONS_LOADING
+            type: CHECKOUTSHIPPINGADDRESS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/admin-dashboard/users-transaction/deliver-product', data)
+        Axios.post(UrlAPI + 'checkout/checkout-Myorders', data)
         .then((res) => {
-            console.log(res)
+            console.log(res.data)
             if(res.data.error){
                 dispatch({
-                    type: USERSTRANSACTIONS_ERROR,
+                    type: CHECKOUTSHIPPINGADDRESS_ERROR,
                     payload: res.data.message
                 })
             }else{
                 dispatch({
-                    type: USERSTRANSACTIONS_SUCCESS,
+                    type: CHECKOUTSHIPPINGADDRESS_SUCCESS,
                     payload: res.data
                 })
             }
         })
         .catch((err) => {
             dispatch({
-                type: USERSTRANSACTIONS_ERROR,
+                type: CHECKOUTSHIPPINGADDRESS_ERROR,
                 payload: err.message
             })
         })    

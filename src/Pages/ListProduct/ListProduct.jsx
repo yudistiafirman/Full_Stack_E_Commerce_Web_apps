@@ -1,13 +1,16 @@
-import { faChevronDown, faChevronUp, faSearch, faSlidersH, faStar} from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faFilter, faSearch, faSlidersH, faStar} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState, useEffect } from 'react'
 import CardProduct from '../../Component/CardProduct'
 import './CardProduct.css'
 import './SortProduct.css'
-import { Collapse } from 'reactstrap';
+import { Collapse, Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import Axios from 'axios'
 import { ApiUrl } from '../../Constant/ApiUrl'
 import { getQuery } from '../../Support/Functions/getSeacrh'
+import ReactPaginate from 'react-paginate';
+import { set } from 'js-cookie'
+
 
 const ratingStar = [
     {star : 1}, {star : 2}, {star : 3}, {star : 4}, {star : 5}
@@ -40,15 +43,26 @@ const ListProduct = (props) => {
         price1 : '',
         price2 : ''
     })
+    const [pagin, setPagin] = useState({
+        offset : 0,
+        dataSlice : null,
+        perPage : 12,
+        currentPage : 0,
+        pageCount : 0
+    })
+    const [isiDropDown, setIsiDropDown] = useState('DEFAULT')
+
     
     useEffect(() => {
         getAllProduct()
         getFilter()
     },[])
 
-    console.log(filter.category)
+    useEffect(() => {
+        getProductByFilter()
+    },[isiDropDown])
 
-    
+   
     const onHandleCheckCategory = (e) => {
         if(e.target.checked === true){
             inputCategory.category.push(e.target.value)
@@ -56,7 +70,6 @@ const ListProduct = (props) => {
             inputCategory.category = inputCategory.category.filter(a => a !== e.target.value)
             
         }
-        
         getProductByFilter()
     }
 
@@ -66,7 +79,6 @@ const ListProduct = (props) => {
         }else{
             inputCategory.rating = inputCategory.rating.filter(a => a !== e.target.value)
         }
-        
         getProductByFilter()
     }
     const onHandleCheckBrands = (e) => {
@@ -89,19 +101,30 @@ const ListProduct = (props) => {
         setInputCategory({...inputCategory,price : [priceToInput.price1, priceToInput.price2]})
         console.log(inputCategory)
     }
-    console.log(priceToInput)
+
+    const onChangeSort = (e) =>{
+        
+        setIsiDropDown(e.target.value)
+        console.log(e.target.value)
+        
+    }
+    console.log(isiDropDown)
+    
     
    
     
     const getAllProduct = () => {
         let query = getQuery(props.location.search)
-        console.log(query)
-        console.log(inputCategory)
-        Axios.post(ApiUrl + 'products/filter/category', query)
+        Axios.post(ApiUrl + `products/filter/category`, query)
         .then((res) => {
             try {
                 if(res.data.error) throw new Error
                 setData(res.data.filterCategory)
+                let data = res.data.filterCategory
+                let slice = data.slice(pagin.offset, pagin.offset + pagin.perPage )
+                setPagin(
+                    {...pagin, pageCount: Math.ceil(data.length / pagin.perPage), dataSlice : slice}
+                )
             } catch (error) {
                 console.log(error)
             }
@@ -129,11 +152,16 @@ const ListProduct = (props) => {
     }
 
     const getProductByFilter = () => {
-        Axios.post(ApiUrl + 'products/filter/multi-category', inputCategory)
+        Axios.post(ApiUrl + `products/filter/multi-category?sort=${isiDropDown}`, inputCategory)
         .then((res) => {
             try {
                 if(res.data.error) throw new Error
                 setData(res.data.filterCategory)
+                let data = res.data.filterCategory
+                let slice = data.slice(pagin.offset, pagin.offset + pagin.perPage )
+                setPagin(
+                    {...pagin, pageCount: Math.ceil(data.length / pagin.perPage), dataSlice : slice}
+                )
             } catch (error) {
                 console.log(error)
             }
@@ -141,6 +169,23 @@ const ListProduct = (props) => {
         .catch((err) => {
             console.log(err)
         })
+    }
+
+    const handlePageClick = (e) => {
+        let dataToSlice = data;
+        const selectedPage = e.selected;
+        const offset = selectedPage * pagin.perPage;
+        const slice = dataToSlice.slice(offset, offset + pagin.perPage)
+
+        setPagin(
+            {
+                ...pagin, 
+                currentPage : selectedPage, 
+                offset : offset,
+                dataSlice : slice
+            }
+        )
+        
     }
 
     
@@ -154,12 +199,32 @@ const ListProduct = (props) => {
                 src='https://images.unsplash.com/photo-1513617332477-a365e97b52a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80' />
             </div>
             
-            <div className='row'>
-                <div className='col-md-3' style={{paddingRight : 30, paddingTop : 5, width : 270, }}>
-                    <div style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between', marginBottom : 20}}>
+            <div className='border-bottom border-top pt-3 pb-3 row' style={{display : 'flex', marginBottom : 20, alignItems : 'center'}}>
+                <div className='col-md-3' style={{paddingRight : 30}}>
+                    <div style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
                         <p style={{fontSize : 20}}>Filter</p>
                         <FontAwesomeIcon icon={faSlidersH} />
                     </div>
+                </div>
+                <div className='col-md-9' style={{display : 'flex', justifyContent : 'space-between'}}>
+                    <p>{data && data.length} Result </p>
+                    <div className="d-flex align-items-center sporteens-font-14">
+                        <div className="">
+                            <p>Sort By :</p>
+                        </div>
+                        <div className="ml-2">
+                        <select className='aa-option' onChange={(e) => onChangeSort(e)} defaultValue="DEFAULT">
+                            <option value="ASC">Price Low - High</option>
+                            <option value="DESC">Price High - Low</option>
+                            <option value="DEFAULT">Default</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col-md-3' style={{paddingRight : 30, paddingTop : 5, width : 270, }}>
+                    
                     <div>
                         <div onClick={() => setIsOpen({...isOpen, child_1 : !isOpen.child_1})} style={{display : 'flex',  alignItems : 'center', justifyContent : 'space-between'}} >
                             <p>Kategori</p>
@@ -214,7 +279,6 @@ const ListProduct = (props) => {
                                             })
                                             }
                                             </span>
-                                            
                                         </span>
                                     )
                                 })
@@ -307,55 +371,58 @@ const ListProduct = (props) => {
                     
                     
                 </div>
-                <div className='col-md-9 row'>
-                    {
-                        data && data.map((val, i) => {
-                            return(
-                                <CardProduct 
-                                name={val.name} 
-                                brands={val.brands_name} 
-                                price={val.price} 
-                                image1={val.url.split(',')[0]} 
-                                image2={val.url.split(',')[1]} 
-                                discount={val.discount}
-                                flashSale={val.is_flash_sale}
-                                starCount={val.rating}
-                                id={val.id}
-                                />
-                            )
-                        })
-                    }
-                    
+                {
+                    data !== null && data.length === 0 ?
+                    <div className='col-md-9 row'>
+                        <div className='' 
+                        style={{height : 400, width : '100%', display : 'flex', flexDirection : 'column', justifyContent : 'center', alignItems : 'center'}}>
+                            <p style={{fontSize : 25, fontWeight : 800}}>Product dengan kategori tersebut sedang kosong.</p>
+                            <p style={{fontSize : 14}}>Coba kamu ganti filternya</p>
+                        </div>
 
-                </div>
-                
+                    </div>
+                    :
+                    <div className='col-md-9 row'>
+                        {
+                            pagin.dataSlice && pagin.dataSlice.map((val, i) => {
+                                return(
+                                    <CardProduct 
+                                    name={val.name} 
+                                    brands={val.brands_name} 
+                                    price={val.price} 
+                                    image1={val.url.split(',')[0]} 
+                                    image2={val.url.split(',')[1]} 
+                                    discount={val.discount}
+                                    flashSale={val.is_flash_sale}
+                                    starCount={val.rating}
+                                    id={val.id}
+                                    />
+                                )
+                            })
+                        }
+                        <div className='w-100' style={{display : 'flex', justifyContent : 'center', alignItems : 'center'}}>
+                            <ReactPaginate
+                                previousLabel={'Previous'}
+                                nextLabel={'Next'}
+                                breakLabel={'...'}
+                                breakClassName={'break-me'}
+                                pageCount={pagin.pageCount}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={handlePageClick}
+                                containerClassName={'pagination'}
+                                subContainerClassName={'pages pagination'}
+                                activeClassName={'active'}
+                                pageClassName={'page-pagination'}
+                                />
+
+                        </div>
+                    </div>
+
+                }
             </div>
-            
         </div>
     )
 }
 
 export default ListProduct
-
-
-// useEffect(() => {
-    //     window.addEventListener('scroll', listenToScroll)
-    //     return function (){
-    //         window.removeEventListener('scroll', listenToScroll)
-    //       };
-    // }, [])
-
- // const listenToScroll = () => {
-    //     const winScroll =
-    //       document.body.scrollTop || document.documentElement.scrollTop
-      
-    //     const height =
-    //       document.documentElement.scrollHeight -
-    //       document.documentElement.clientHeight
-      
-    //     const scrolled = winScroll / height
-      
-    //     setHap(scrolled)
-    // }
-
-    // const [hap, setHap] = useState(0)

@@ -66,6 +66,15 @@
     display: block;
 }
 
+.navbar-carts-badge{
+  width: 15px;
+  position: absolute;
+  z-index: 1;
+  border-radius: 25px;
+  top: 10px;
+  font-size: 10px;
+} 
+
 .navbar-account-dropdown {
     position: relative;
     display: inline-block;
@@ -107,7 +116,7 @@
     padding-bottom: 0px;
     padding-left: 0px;
     padding-right: 0px;
-    z-index: 3;
+    z-index: 10;
   }
 
   .sidebar .menu-title {

@@ -3,32 +3,25 @@ import { UrlAPI } from '../../../Support/Constants/UrlAPI';
 import { SHIPPINGADDRESS_LOADING, SHIPPINGADDRESS_SUCCESS, SHIPPINGADDRESS_ERROR } from './ActionTypes';
 
 export const onSaveShippingAddress = (data) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: SHIPPINGADDRESS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/shipping-address/add-address', data)
-        .then((res) => {
-            console.log(res)
-            if(res.data.error){
-                dispatch({
-                    type: SHIPPINGADDRESS_ERROR,
-                    payload: res.data.message
-                })
-            }else{
-                dispatch({
-                    type: SHIPPINGADDRESS_SUCCESS,
-                    payload: res.data
-                })
-            }
-        })
-        .catch((err) => {
+        let res = await Axios.post(UrlAPI + 'member/shipping-address/add-address', data)
+        console.log(res)
+
+        if(res.data.error){
             dispatch({
                 type: SHIPPINGADDRESS_ERROR,
-                payload: err.message
+                payload: res.data.message
             })
-        })    
+        }else{
+            dispatch({
+                type: SHIPPINGADDRESS_SUCCESS,
+                payload: res.data
+            })
+        }   
     }
 }
 
@@ -40,6 +33,7 @@ export const onUpdateShippingAddress = (data) => {
 
         try {
             let res = await Axios.post(UrlAPI + 'member/shipping-address/update-address', data)
+            console.log(res)
 
             if(res.data.error){
                 dispatch({
@@ -63,11 +57,12 @@ export const onUpdateShippingAddress = (data) => {
 
 export const onDeleteShippingAddress = (data) => {
     return (dispatch) => {
+        console.log(data)
         dispatch({
             type: SHIPPINGADDRESS_LOADING
         })
-        console.log(data)
-        Axios.delete(UrlAPI + 'member/shipping-address/delete-address/' + data.address_id + '/' + data.users_id)
+
+        Axios.delete(UrlAPI + 'member/shipping-address/delete-address/' + data.token + '/' + data.address_id)
         .then((res) => {
             console.log(res)
             if(res.data.error){
@@ -91,15 +86,15 @@ export const onDeleteShippingAddress = (data) => {
     }
 }
 
-export const getUsersShippingAddress = (data) => {
+export const getUsersShippingAddress = (token) => {
     return (dispatch) => {
         dispatch({
             type: SHIPPINGADDRESS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/shipping-address', data)
+        Axios.post(UrlAPI + 'member/shipping-address', {token})
         .then((res) => {
-            console.log(res.data)
+            console.log(res)
             if(res.data.error){
                 dispatch({
                     type: SHIPPINGADDRESS_ERROR,

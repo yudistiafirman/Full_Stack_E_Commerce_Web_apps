@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
+import Statistic from './Statistic';
 import AddProduct from './AddProduct';
 import SeeTransactions from './SeeTransactions';
 import WarehouseInventory from './WarehouseInventory';
+import CustomerCare from './CustomerCare';
 import FlashSaleEvent from './FlashSaleEvent';
 
 export class Admin extends Component{
@@ -13,7 +15,7 @@ export class Admin extends Component{
             {
                 path: "/member/admin-dashboard",
                 exact: true,
-                page: () => <AddProduct />
+                page: () => <Statistic />
             },
             {
                 path: "/member/admin-dashboard/see-transactions",
@@ -24,6 +26,11 @@ export class Admin extends Component{
                 path: "/member/admin-dashboard/warehouse-inventory",
                 exact: true,
                 page: () => <WarehouseInventory />
+            },
+            {
+                path: "/member/admin-dashboard/customer-care",
+                exact: true,
+                page: () => <CustomerCare />
             },
             {
                 path: "/member/admin-dashboard/flash-sale",
@@ -48,9 +55,9 @@ export class Admin extends Component{
                     <div className="px-0 py-0">
                         <div className="row justify-content-start px-3 py-0">
                             <div>
-                                <Link to="/member/admin-dashboard" onClick={() => this.setState({activeLink: 'Add Product'})} className="pa-link">
-                                    <div className={this.state.activeLink === 'Add Product'? "px-3 py-1 pa-bg-main-light pa-light" : "px-3 py-1 pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
-                                        Products
+                                <Link to="/member/admin-dashboard" onClick={() => this.setState({activeLink: 'Statistic'})} className="pa-link">
+                                    <div className={this.state.activeLink === 'Statistic'? "px-3 py-1 pa-bg-main-light pa-light" : "px-3 py-1 pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
+                                        Statistic
                                     </div>
                                 </Link>
                             </div>
@@ -69,9 +76,11 @@ export class Admin extends Component{
                                 </Link>
                             </div>
                             <div className="px-0 py-0 px-md-2 py-md-0">
-                                <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
-                                    Customer Care
-                                </div>
+                                <Link to="/member/admin-dashboard/customer-care" onClick={() => this.setState({activeLink: 'Customer Care'})} className="pa-link">
+                                    <div className={this.state.activeLink === 'Customer Care'? "px-3 py-1 pa-bg-main-light pa-light" : "px-3 py-1 pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
+                                        Customer Care
+                                    </div>
+                                </Link>
                             </div>
                             <div className="px-2 py-0 px-md-0 py-md-0">
                                 <Link to="/member/admin-dashboard/flash-sale" onClick={() => this.setState({activeLink: 'Add Flash Sale'})} className="pa-link">

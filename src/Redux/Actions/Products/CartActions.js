@@ -1,63 +1,105 @@
 import Axios from 'axios';
 import { ApiUrl } from '../../../Constant/ApiUrl';
-import { CART_ERROR, CART_LOADED, CART_LOADING, UPDATE_CART_ERROR, UPDATE_CART_LOADED, UPDATE_CART_LOADING } from './ActionTypes';
+import { ADD_CART_ERROR, ADD_CART_LOADED, ADD_CART_LOADING, CART_ERROR, CART_LOADED, CART_LOADING, DELETE_CART_ERROR, DELETE_CART_LOADED, DELETE_CART_LOADING, UPDATE_CART_ERROR, UPDATE_CART_LOADED, UPDATE_CART_LOADING } from './ActionTypes';
 
 
 export const getCartData = (token) => {
-    return (dispatch) => {
+    return async(dispatch) => {
         dispatch({
             type: CART_LOADING
         })
-
-        Axios.post(ApiUrl + 'products/cart', {token : token})
-        .then((res) => {
-            if(res.data.error){
-                dispatch({
-                    type: CART_ERROR,
-                    payload: res.data.message
-                })
-            }else{
-                dispatch({
-                    type: CART_LOADED,
-                    payload: res.data.cartData
-                })
-            }
-        })
-        .catch((err) => {
+        try {
+            let res = await Axios.post(ApiUrl + 'products/cart', {token : token})
+                if(res.data.error){
+                    dispatch({
+                        type: CART_ERROR,
+                        payload: res.data.message
+                    })
+                }else{
+                    dispatch({
+                        type: CART_LOADED,
+                        payload: res.data.cartData
+                    })
+                }
+        } catch (error) {
             dispatch({
                 type: CART_ERROR,
-                payload: err.message
+                payload: error.message
             })
-        })    
+            
+        }  
     }
 }
 
 export const updateQty = (data) => {
-    return(dispatch) => {
+    return async(dispatch) => {
         dispatch({
             type : UPDATE_CART_LOADING
         })
+        try {
+            let res = await Axios.patch(ApiUrl + 'products/cart/update-cart', data)
+                if(res.data.error){
+                    dispatch({
+                        type : UPDATE_CART_ERROR,
+                        payload : res.data.message
+                    })
+                }else{
+                    dispatch({
+                        type : UPDATE_CART_LOADED,
+                        payload : res.data.message
+                    })
+                }
+            
+        } catch (error) {
+            dispatch({
+                type: UPDATE_CART_ERROR,
+                payload: error.message
+            })
+            
+        }
+    }
+}
 
-        Axios.patch(ApiUrl + 'products/cart/update-cart', data)
+export const deleteCart = (id) => {
+    return(dispatch) => {
+        dispatch({
+            type : DELETE_CART_LOADING
+        })
+
+        Axios.delete(ApiUrl + 'products/cart/delete-cart/' + id)
         .then((res) => {
             if(res.data.error){
                 dispatch({
-                    type : UPDATE_CART_ERROR,
+                    type : DELETE_CART_ERROR,
                     payload : res.data.message
                 })
             }else{
                 dispatch({
-                    type : UPDATE_CART_LOADED,
+                    type : DELETE_CART_LOADED,
                     payload : res.data.message
                 })
             }
         })
         .catch((err) => {
             dispatch({
-                type: UPDATE_CART_ERROR,
-                payload: err.message
+                type : DELETE_CART_ERROR,
+                payload : err.message
             })
         })
+    }
+}
+
+export const addCartSucces = (text) => {
+    return{
+        type : ADD_CART_LOADED,
+        payload : text
+    }
+}
+
+export const addCartGagal = (text) => {
+    return{
+        type : ADD_CART_ERROR,
+        payload : text
     }
 }
 
