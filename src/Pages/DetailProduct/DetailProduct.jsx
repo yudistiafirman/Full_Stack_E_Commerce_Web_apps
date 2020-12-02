@@ -11,18 +11,27 @@ import 'slick-carousel/slick/slick-theme.css';
 import Axios from 'axios';
 import { ApiUrl } from '../../Constant/ApiUrl';
 import CardReview from './DetailProductComponent/CardReview'
-import { Link } from 'react-router-dom'
+import {addCartGagal, addCartSucces} from './../../Redux/Actions/Products/CartActions'
+import { connect } from 'react-redux'
+import ModalCheckout from './DetailProductComponent/ModalToCart'
+import { css } from "@emotion/core";
+import BeatLoader from "react-spinners/BeatLoader";
+import { Redirect } from 'react-router-dom'
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 
-const data = [
-    'S', 'M', 'L', 'XL'
-]
 const DetailProduct = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [size, setSize] = useState({
         uk :'Pick a Size',
         price : 0,
-        variant_product_id : 0
+        variant_product_id : 0,
+        stock : 100
     })
     const [tabs, setTabs] = useState('review')
     const [dataApi, setDataApi] = useState({
@@ -32,6 +41,8 @@ const DetailProduct = (props) => {
         avgRating : null
     })
     const [review, setReview] = useState(null)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         getDetailData()
@@ -66,13 +77,44 @@ const DetailProduct = (props) => {
         })   
     }
 
-    // const renderPrice = () => {
-    //     if(dataApi.productInfo.discount)
-    // }
+    const onBtnAddToCart = () =>{
+        let data = {
+            token : localStorage.getItem('token'),
+            variant_product_id : size.variant_product_id,
+            qty : 1
+        }
+        if(data.token && data.variant_product_id !== 0){
+            setLoading(true)
+            Axios.post(ApiUrl + 'products/cart/add-to-cart', data)
+            .then((res) => {
+                if(res.data.error){
+                    props.addCartGagal(res.data.message)
+                    setLoading(false)
+                }else{
+                    setModalOpen(true)
+                    props.addCartSucces(res.data.message)
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+                setLoading(false)
+            })
+        }
+    }
 
+    console.log(dataApi)
     
     return (
         <div className='container' style={{paddingTop : 120}}>
+            <ModalCheckout 
+            isOpen={modalOpen}
+            imageModal={dataApi.image && dataApi.image[0].url}
+            brands={dataApi.productInfo && dataApi.productInfo.brands_name}
+            productName ={dataApi.productInfo && dataApi.productInfo.name}
+            price={size.price}
+            size={size.uk}
+            />
             <div className='row'>
                 <div className='col-md-7'>
                     <div className='pb-4 border-bottom'>
@@ -188,19 +230,42 @@ const DetailProduct = (props) => {
                         <div className='border pt-2 pb-2 pl-3 pr-4 mt-1 choice-size' style={{backgroundColor : '#fff',width : '85%',display : dropdownOpen ? 'block' : 'none', opacity : 1, position : 'absolute'}}>
                             {dataApi.size && dataApi.size.map((val, index) => {
                                 return(
-                                    <div onClick={() => {setSize({...size, uk : val.size, price : val.price, variant_product_id : val.variant_product_id});setDropdownOpen(false)}} style={{cursor : 'pointer'}}>{val.size}</div>
+                                    <div 
+                                    onClick={() => {setSize({...size, uk : val.size, price : val.price, variant_product_id : val.variant_product_id, stock : val.stock_customer});setDropdownOpen(false)}} 
+                                    style={{cursor : val.stock_customer > 0 ? 'pointer' : 'not-allowed'}}>{val.size}</div>
                                 )
                             })}
                         </div>
+                        {
+                            size.stock === 0 ? 
+                            <p style={{fontSize : 14, marginTop : 5, color : 'red'}}>Stock available : {size.stock} </p>
+                            :
+                            null
+                        }
                     </div>
                     <div style={{display : 'flex'}}>
-                        <div className={size.uk !== 'Pick a Size' ? 'border pt-2 pb-2 pl-3 pr-4 button-add-to-cart' : 'border pt-2 pb-2 pl-3 pr-4 button-add-to-cart-disable'} style={{flex : 1,display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
-                            <p>Add to Cart</p>
+                        <div className= 'border' style={{flex : 1,display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
+                            <button onClick={onBtnAddToCart} className={size.uk !== 'Pick a Size' && size.stock > 0? "aa-my-button" : 'aa-my-button-disabled'} disabled={size.uk !== 'Pick a Size' && size.stock > 0? false : true}>
+                                {
+                                    loading ?
+                                    <BeatLoader
+                                    css={override}
+                                    size={10}
+                                    color={"#000"}
+                                    loading={loading}
+                                    />
+                                    :
+                                    <p>Add to Cart</p>
+                                }
+                            </button>
                         </div>
+                        
                         <div className='border-top border-bottom border-right p-3' style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
                             <FontAwesomeIcon icon={faHeart} />
                         </div>
                     </div>
+                       
+                    
                     <div style={{marginTop : 10}}>
                         <p style={{fontSize : 12}}>Shipping rate information</p>
 
@@ -214,4 +279,15 @@ const DetailProduct = (props) => {
     )
 }
 
-export default DetailProduct
+const mapStateToProps = (state) => {
+    return{
+        stateAddCart : state.addCart
+    }
+}
+
+const mapDispatchToProps = {
+    addCartSucces,
+    addCartGagal
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (DetailProduct)

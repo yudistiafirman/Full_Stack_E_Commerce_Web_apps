@@ -5,12 +5,19 @@ import React, {useState} from 'react'
 import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline'
 import { connect } from 'react-redux'
 import { ApiUrl } from '../../../Constant/ApiUrl'
-import { updateQty } from '../../../Redux/Actions/Products/CartActions'
+import { updateQty, deleteCart } from '../../../Redux/Actions/Products/CartActions'
+import Swal from 'sweetalert2'
+import Axios from 'axios'
 
-const CardCart = ({stateUpdateQty, updateQty, productName, brand, price, discount, size, image, qty, stock, est, cityGudang, id, variant_product_id}) => {
+
+
+
+const CardCart = ({deleteCart,stateDeleteCart, stateUpdateQty, updateQty, productName, brand, price, discount, size, image, qty, stock, est, cityGudang, id, variant_product_id}) => {
 
     const [updateQtyLocal, setUpdateQtyLocal] = useState(qty && qty)
     const [errorMessage, setErrorMessage] = useState('')
+    const [showDialog, setShowDialog] = useState(false)
+
 
     const onUpdateQty = () => {
         let data = {
@@ -19,6 +26,7 @@ const CardCart = ({stateUpdateQty, updateQty, productName, brand, price, discoun
             token : localStorage.getItem('token'),
             qty : updateQtyLocal
         }
+        console.log(data)
 
         if(data.id && data.variant_product_id && data.token && data.qty !== qty){
             updateQty(data)
@@ -26,8 +34,24 @@ const CardCart = ({stateUpdateQty, updateQty, productName, brand, price, discoun
     }
 
     const onDeleteCart = () => {
-        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                if(id){
+                    deleteCart(id)
+                }
+            }
+          })
     }
+
+    console.log(stateDeleteCart.data)
     
     return (
         <div className='row border mb-3'>
@@ -91,13 +115,16 @@ const CardCart = ({stateUpdateQty, updateQty, productName, brand, price, discoun
 
 const mapStateToProps = (state) => {
     return{
-        stateUpdateQty : state.updateQty
+        stateUpdateQty : state.updateQty,
+        stateDeleteCart : state.deleteCart
     }
 }
 
 const mapDispatchToProps = {
-    updateQty
+    updateQty,
+    deleteCart
 }
 
 
 export default connect(mapStateToProps, mapDispatchToProps) (CardCart)
+

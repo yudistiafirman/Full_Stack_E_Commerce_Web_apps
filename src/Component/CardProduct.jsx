@@ -1,6 +1,6 @@
 import React, {useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCross, faSquare } from '@fortawesome/free-solid-svg-icons'
 import flash from './../Support/Images/flash-without-border.png'
 import MdHeart from 'react-ionicons/lib/MdHeart'
 import MdStar from 'react-ionicons/lib/MdStar'
@@ -8,6 +8,8 @@ import sbag from './../Support/Images/shopping-bag.png'
 import sbagWhite from './../Support/Images/shopping-bag-white.png'
 import { ApiUrl } from '../Constant/ApiUrl'
 import { Link } from 'react-router-dom'
+import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline'
+
 
 const star= [
     {rating : 1}, {rating : 3}, {rating : 5}
@@ -21,7 +23,7 @@ const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, 
     const [bagHover, setBagHover] = useState(false)
 
     return (
-        <div className='col-md-4' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center', marginBottom : 70}}>
+        <div className='col-md-4' style={{height : 500, padding : 10, backgroundSize: 'cover',backgroundPosition: 'center', marginBottom : 30}}>
             <div className='card-container' onMouseEnter={() => {setOnhover(true)}} onMouseLeave={() => {setOnhover(false)}} >
                 <div className=' container-image w-100' style={{padding : 10}} >
                     <img 
@@ -37,8 +39,8 @@ const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, 
                     src={flash} 
                     />
                 </span>
-                <span onMouseEnter={() => setColorHeart(true)} onMouseLeave={() => setColorHeart(false)} style={{position : 'absolute',bottom : 148, left : 25,}}>
-                    <MdHeart shake={colorHeart}  style={{width : 25, height : 25}} onClick={() => setColorHeart(!colorHeart)} fontSize="60px" color={ colorHeart ?  "#c44536" : 'rgba(52,52,52,0.7)' } />
+                <span  style={{position : 'absolute',bottom : 148, left : 25,}}>
+                    <MdHeart  style={{width : 25, height : 25}} onClick={() => setColorHeart(!colorHeart)} fontSize="60px" color={ colorHeart ?  "#c44536" : 'rgba(52,52,52,0.7)' } />
                 </span>
 
                 <span onMouseEnter={() => setBagHover(true)} onMouseLeave={() => setBagHover(false)} style={{visibility : onHover ? 'visible' : 'hidden',position : 'absolute',bottom : 180, right : 25, backgroundColor : bagHover ? 'black' : 'white', paddingTop : 4, paddingBottom : 4, paddingLeft : 8, paddingRight : 8}}>
@@ -47,6 +49,23 @@ const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, 
                         <img alt='bag' src={bagHover ? sbagWhite : sbag} style={{ height : 20, width : 20}}/>
                     </span>
                 </span>
+
+                {/* <div style={{marginTop : 5, padding : 10}}>
+                    <div className='p-2'>
+                        <div style={{display : 'flex', alignItems : 'center', justifyContent : 'space-between'}}>
+                            <p style={{fontSize : 12}}>Pick a Size :</p>
+                            <IosCloseCircleOutline 
+                                style={{cursor : 'pointer',width : 20, height : 20,}}  
+                                fontSize="60px" color='black' />
+                        </div>
+
+                        <div style={{display : 'flex', marginTop : 10, flexWrap : 'wrap',}}>
+                            <div className='border' style={{marginBottom : 10, marginLeft : 5, marginRight : 5,width : 30, height : 30, display : 'flex', justifyContent : 'center', alignItems : 'center'}} >
+                                <p style={{fontSize : 12}}>S</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
 
                 <div style={{marginTop : 10, padding : 10}}>
                     <p style={{fontSize : 12, color : 'green'}}>{brands}</p>
@@ -60,9 +79,9 @@ const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, 
                         <p style={{marginTop : 5}}>
                             {
                                 discount === 0 ?
-                                <span>Rp. {price.toLocaleString('id-ID')}</span>
+                                <span>Rp. {(parseInt(price)).toLocaleString('id-ID')}</span>
                                 :
-                                <s>Rp. {price.toLocaleString('id-ID')}</s>
+                                <s>Rp. {(parseInt(price)).toLocaleString('id-ID')}</s>
                             }
                         </p>
                         <p style={{color : "green", visibility : discount !== 0 ? 'visible' : 'hidden'}}>
@@ -73,30 +92,18 @@ const CardProduct = ({name, price, image1, image2, brands, discount, flashSale, 
                     <div style={{marginTop : 5}}>
                         {
                             starCount !== null ?
-                             Array.apply(null, {length: starCount}).map(Number.call, Number).map((val) => {
-                                return(
-                                    <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
-                                    
-                                )
-                            })
+                                Array.apply(null, {length: starCount}).map(Number.call, Number).map((val) => {
+                                   return(
+                                       <MdStar style={{width : 20, height : 20}}  fontSize="60px" color='orange' />
+                                   )
+                               })
                             :
                             null
                         }    
                     </div>
                 </div>
                     
-                <div className='choice-varian-container w-50' onMouseEnter={() => setColorsAvail(true)} onMouseLeave={() => setColorsAvail(false)}>
-                    {
-                        colorsAvail ? 
-                        <div>
-                            <FontAwesomeIcon icon={faSquare} className='icon-varian' style={{color : 'red'}} />
-                            <FontAwesomeIcon icon={faSquare} className='icon-varian' style={{color : 'black'}} />
-                        </div>
-                        :
-                        <p style={{fontSize : 12}}>2 colors available</p>
-                        
-                    }
-                </div>
+                
             </div>
         </div>
     )
