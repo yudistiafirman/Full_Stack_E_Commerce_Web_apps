@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { UrlAPI } from '../../../Support/Constants/UrlAPI';
-import { CHECKOUTSHIPPINGADDRESS_LOADING, CHECKOUTSHIPPINGADDRESS_SUCCESS, CHECKOUTSHIPPINGADDRESS_ERROR } from './ActionTypes';
+import { CHECKOUTSHIPPINGADDRESS_LOADING, CHECKOUTSHIPPINGADDRESS_SUCCESS, CHECKOUTSHIPPINGADDRESS_ERROR } from '../UserProfile/ActionTypes';
 
 
 export const getUserCheckoutShippingAddress = (data) => {
@@ -9,7 +9,7 @@ export const getUserCheckoutShippingAddress = (data) => {
             type: CHECKOUTSHIPPINGADDRESS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/checkout-shipping-address', data)
+        Axios.post(UrlAPI + 'checkout/checkout-shipping-address', data)
         .then((res) => {
             console.log(res.data)
             if(res.data.error){
@@ -39,7 +39,7 @@ export const geMyOrders = (data) => {
             type: CHECKOUTSHIPPINGADDRESS_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/checkout-Myorders', data)
+        Axios.post(UrlAPI + 'checkout/checkout-Myorders', data)
         .then((res) => {
             console.log(res.data)
             if(res.data.error){

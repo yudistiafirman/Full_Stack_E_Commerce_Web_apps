@@ -11,7 +11,7 @@ import warehouseInventoryReducer from './UserProfile/warehouseInventoryReducer';
 import flashSaleEventReducer from './UserProfile/flashSaleEventReducer';
 import cartReducer from './Products/CartProducts';
 import UpdateQtyReducer from './Products/UpdateQtyReducer';
-import checkoutReducer from './UserProfile/checkoutReducer';
+import checkoutReducer from './Checkout/checkoutReducer';
 
 const rootReducer = combineReducers({
     user: userProfileReducer,
