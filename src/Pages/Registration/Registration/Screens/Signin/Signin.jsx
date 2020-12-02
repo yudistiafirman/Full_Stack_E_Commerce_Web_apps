@@ -96,12 +96,16 @@ const sendGoogleToken = tokenId => {
       console.log('this is facebook login')
     }
     const responseFacebook=(response)=>{
+        if(!response.status==="unknown"){
             sendFacebookToken(response.userID, response.accessToken)
+        }
     }
 
     const responseGoogle = (response) => {
-        console.log(response);
-        sendGoogleToken(response.tokenId)
+        if(!response.error){
+            sendGoogleToken(response.tokenId)
+        }
+      
       }
 
       

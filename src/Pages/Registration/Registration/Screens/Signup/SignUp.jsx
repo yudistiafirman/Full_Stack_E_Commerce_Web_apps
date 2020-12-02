@@ -50,7 +50,7 @@ const SignUp =({myClass})=>{
         try {
             setFormData({...formData,loading:true})
             if(!username||!email||!password)  throw new Error('input field must be filled up')
-    
+
             Axios.post('http://localhost:2000/auth/register',{username,email,password})
             .then((response)=>{
                 console.log(response)
@@ -113,11 +113,15 @@ const SignUp =({myClass})=>{
       }
     const responseFacebook=(response)=>{
 
-        sendFacebookToken(response.userID, response.accessToken)
+        if(!response.status==="unknown"){
+            sendFacebookToken(response.userID, response.accessToken)
+        }
       }
     const responseGoogle = (response) => {
-        if(!response.error){}
-        sendGoogleToken(response.tokenId)
+        if(!response.error){
+            sendGoogleToken(response.tokenId)
+        }
+    
     }
      
 
@@ -129,9 +133,9 @@ return <form action="" className={myClass}>
       
     <h2 className="title">Sign up</h2>
        
-     <FhSocialButton type="sign-up-facebook" facebookClick={facebookClick}  onFailure={responseFacebook} responseFacebook={responseFacebook}/>
+     <FhSocialButton type="sign-up-facebook" disabled={checked?false:true} facebookClick={facebookClick}  onFailure={responseFacebook} responseFacebook={responseFacebook}/>
      
-     <FhSocialButton type="sign-up-google" onSuccessGoogle={responseGoogle} onFailureGooge={responseGoogle}/>
+     <FhSocialButton type="sign-up-google" disabled={checked?false:true} onSuccessGoogle={responseGoogle} onFailureGooge={responseGoogle}/>
    
 
     <FhInput label="username" icon={faTimesCircle} onChange={handleChange('username')} value={username} onClick={()=>onResetInput('username')} myClass={username?"reset-input display-inline":'reset-input'}/>

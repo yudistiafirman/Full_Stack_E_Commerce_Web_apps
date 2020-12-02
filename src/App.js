@@ -17,6 +17,8 @@ import Footer from './Component/Footer/Footer';
 import CardSimilarProduct from './Pages/DetailProduct/DetailProductComponent/CardSimilarProduct';
 import Registration from './Pages/Registration/Registration/Registration'
 import Cart from './Pages/Cart/Cart'
+import Verification from './Pages/Registration/Registration/Screens/verification/verficication'
+
 
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
@@ -36,6 +38,7 @@ const App = () => {
             <Route path='/test' component={CardSimilarProduct} />
             <Route path='/register' component={Registration}/>
             <Route path='/cart' component={Cart}/>
+            <Route path='/verification' component={Verification}/>
 
           </Switch>
 

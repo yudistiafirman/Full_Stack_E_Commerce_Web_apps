@@ -3,11 +3,11 @@ import '../MyInput/inputstyle.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-const FhInput=({onChange,value,label,inputType,onClick,myClass,icon})=>{
+const FhInput=({onChange,value,label,inputType,onClick,myClass,icon,maximum})=>{
 
  
     return    <div className="input-field">
-                <input type={inputType} onChange={onChange} value={value} required/>
+                <input type={inputType} onChange={onChange} value={value} maxLength="12" required/>
                 <label htmlFor={label}>{label}</label>
                 <FontAwesomeIcon onClick={onClick} className={myClass} icon={icon}/>
             </div>
