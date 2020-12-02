@@ -8,6 +8,7 @@ import rajaOngkirProvinceReducer from './UserProfile/rajaOngkirProvinceReducer';
 import rajaOngkirCityReducer from './UserProfile/rajaOngkirCityReducer';
 import shippingAddressReducer from './UserProfile/ShippingAddressReducer';
 import usersTransactionsReducer from './UserProfile/usersTransactionsReducer';
+import dataStatisticReducer from './UserProfile/dataStatisticReducer';
 import warehouseInventoryReducer from './UserProfile/warehouseInventoryReducer';
 import flashSaleEventReducer from './UserProfile/flashSaleEventReducer';
 import cartReducer from './Products/CartProducts';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     rajaOngkirCity: rajaOngkirCityReducer,
     shippingAddress: shippingAddressReducer,
     usersTransactions: usersTransactionsReducer,
+    dataStatistic: dataStatisticReducer,
     warehouseInventory: warehouseInventoryReducer,
     flashSaleEvent: flashSaleEventReducer,
     cart : cartReducer,
