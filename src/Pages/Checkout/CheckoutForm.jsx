@@ -7,6 +7,7 @@ import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import Loader from 'react-loader-spinner';
 import Billing from '../../Pages/Checkout/Checkout_components/Billing';
 
+
 export class Checkout extends React.Component {
 
     state = {
@@ -15,10 +16,6 @@ export class Checkout extends React.Component {
         paymentMethods1Toggle : false,
         paymentMethods2Toggle : false,
         paymentMethods3Toggle : false
-    }
-
-    componentDidMount(){
-        this.getDataUnpaid()
     }
 
     getDataUnpaid = () => {
@@ -85,17 +82,43 @@ export class Checkout extends React.Component {
         })
     }
 
+    mapUsersShippingAddress = () => {
+        return this.props.shippingAddress.data.data.map((value, index) => {
+            return(
+                <div key={index} className="mx-0 my-3 px-5 pt-3 pb-3 border rounded">
+                    <div className="row justify-content-between align-items-center px-3 py-0">
+                        <div className="font-weight-bold pa-font-size-18">
+                            {value.receiver_name}
+                        </div>
+                        <div>
+                            {
+                                value.is_main_address === 1?
+                                    <span className="px-2 py-1 rounded pa-bg-secondary pa-light">
+                                        Main Address
+                                    </span>
+                                :
+                                    null
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        {value.address_detail}, {value.city}, {value.province}
+                    </div>
+                    <div>
+                        Phone : {value.phone_number}
+                    </div>
+                </div>
+            )
+        })
+    }
+
     render(){
         return(
             <div>
                 {/* CHECKOUT SECTION */}
-                <div className="container-fluid my-5 px-5">
+                <div className="container-fluid my-0 px-5 py-5">
+                <div className="py-5"/>
                     <div className="row justify-content-center">
-                        {/* Page Title */}
-                        <div className="col-12">
-                            <h2 className="mx-3 text-center text-md-left font-weight-bold">Checkout Page</h2>
-                        </div>
-
                         {/* Shipping Address */}
                         <div className="col-12 col-md-6 py-3">
                             <div className="px-3 pt-3 pb-1">
@@ -117,7 +140,7 @@ export class Checkout extends React.Component {
                             </div>
                             
                             <div className="pt-3 pb-3">
-                                <Billing />
+                              
                             </div>
                         </div>
 
@@ -180,12 +203,6 @@ export class Checkout extends React.Component {
                                     </div>
                                     <div className="col-4 py-2 border border-top-0">
                                         Rp.10.000
-                                    </div>
-                                    <div className="col-8 py-2 border border-top-0 border-right-0">
-                                        <span className="font-weight-bold">Unique Digit</span>
-                                    </div>
-                                    <div className="col-4 py-2 border border-top-0">
-                                        Rp.200
                                     </div>
                                     <div className="col-8 py-2 border border-top-0 border-right-0">
                                         <span className="myCss-secondary font-weight-bold">Total</span>

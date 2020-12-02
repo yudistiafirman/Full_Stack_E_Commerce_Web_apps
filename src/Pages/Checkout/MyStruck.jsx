@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
-import LinkAPI from '../../Constant/ApiUrl';
+import { ApiUrl } from '../../Constant/ApiUrl';
 import Moment from 'moment';
 
 export class Checkout extends React.Component {
@@ -17,7 +17,7 @@ export class Checkout extends React.Component {
     getDataStruck = () => {
         var idStruck = this.props.match.params.idStruck
 
-        Axios.get(LinkAPI + 'transactions?id=' + idStruck)
+        Axios.get(ApiUrl + 'transactions?id=' + idStruck)
         .then((res) => {
             // console.log(res.data)
             this.setState({data : res.data})

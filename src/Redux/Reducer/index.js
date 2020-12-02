@@ -11,6 +11,7 @@ import warehouseInventoryReducer from './UserProfile/warehouseInventoryReducer';
 import flashSaleEventReducer from './UserProfile/flashSaleEventReducer';
 import cartReducer from './Products/CartProducts';
 import UpdateQtyReducer from './Products/UpdateQtyReducer';
+import checkoutReducer from './UserProfile/checkoutReducer';
 
 const rootReducer = combineReducers({
     user: userProfileReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
     warehouseInventory: warehouseInventoryReducer,
     flashSaleEvent: flashSaleEventReducer,
     cart : cartReducer,
-    updateQty : UpdateQtyReducer
+    updateQty : UpdateQtyReducer,
+    checkout : checkoutReducer
 })
 
 export default rootReducer
