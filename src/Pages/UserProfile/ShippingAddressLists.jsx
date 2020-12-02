@@ -12,11 +12,9 @@ import NotFound from './../../Support/Images/Not Found.webp';
 export class ShippingAddressLists extends Component{
 
     componentDidMount(){
-        const data = {
-            users_id: 1
-        }
+        const token = localStorage.getItem('token')
 
-        this.props.getUsersShippingAddress(data)
+        this.props.getUsersShippingAddress(token)
     }
 
     mapUsersShippingAddress = () => {
@@ -59,10 +57,13 @@ export class ShippingAddressLists extends Component{
         })
     }
 
-    deleteShippingAddress = (address_id, users_id) => {
-        if(window.confirm('Are You Sure Want To Delete This Address?')){
+    deleteShippingAddress = (address_id) => {
+        const token = localStorage.getItem('token')
+
+        if(window.confirm('Are you sure want to delete this address?')){
             const data = {
-                address_id, users_id
+                token, 
+                address_id
             }
             this.props.onDeleteShippingAddress(data)
         }

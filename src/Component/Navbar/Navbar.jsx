@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { onGetDataUsers } from './../../Redux/Actions/UserProfile/userProfileAction';
+import { getCartData } from './../../Redux/Actions/Products/CartActions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faChevronDown, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +12,7 @@ import ScrollFunction from './../../Support/Functions/NavbarScroll.js';
 
 import './../../Support/CSS-Utils/utils.css';
 import './Navbar.css';
+import Loader from 'react-loader-spinner';
 
 import PejoyLogo from './../../Support/Images/Pejoy Logo.png';
 import MenuIcon from './../../Support/Images/Menu.png';
@@ -40,10 +42,16 @@ export class Navbar extends Component {
     }
 
     componentDidMount(){
-        const data = {
-            id: 1
+        const token = localStorage.getItem('token')
+        
+        console.log(token)
+
+        if(token){
+            this.setState({loginStatus: true})
         }
-        this.props.onGetDataUsers(data)
+
+        this.props.onGetDataUsers(token)
+        this.props.getCartData(token)
 
         window.onscroll = function() { ScrollFunction() }
     }
@@ -56,12 +64,50 @@ export class Navbar extends Component {
         this.refs.sidebar.style.width = "0px";
     }
 
+    mapDataCart = () => {
+        return this.props.cart.data.map((value, index) => {
+            return(
+                <div className="row justify-content-between px-2 pt-2 pb-2 mx-2 my-0 border-bottom">
+                    <div className="col-2">
+                        <img src={'http://localhost:2000/public/product/' + value.url} alt={'Best Seller Product Image ' + index + 1} width="100%" />
+                    </div>
+                    <div className="col-5 px-0 py-0">
+                        <p className="text-left font-weight-bold">
+                            {value.brands_name + ' ' + value.name}
+                        </p>
+                        <p className="text-left pa-font-size-15 pa-dark-grey" style={{marginTop: -5, marginBottom: 0}}>
+                            Size : {value.size}
+                        </p>
+                    </div>
+                    <div className="text-right">
+                        <p className="pa-font-size-16">
+                            Rp.{(value.price - (value.price * (value.discount / 100))).toLocaleString('id-ID')}
+                        </p>
+                        {
+                            value.discount?
+                                <>
+                                    <p className="pa-font-size-12">
+                                        <del>Rp.{Number(value.price).toLocaleString('id-ID')}</del>
+                                    </p>
+                                    <p className="pa-font-size-12 pa-secondary">
+                                        {value.discount}% OFF
+                                    </p>
+                                </>
+                            :
+                                null
+                        }
+                    </div>
+                </div>
+            )
+        })
+    }
+
     render(){
         return(
             // NAVBAR
             <div>
                 {/* Mobile Section */}
-                <div id="navbar" className="px-0 py-3 pa-navbar-mobile-display" style={{transition: '0.3s', zIndex: 10}}>
+                <div id="navbar" className="px-0 py-3 pa-navbar-mobile-display" style={{transition: '0.3s', zIndex: 9}}>
                     <div className="container">
                         <div  className="row justify-content-center align-items-center">
                             <div onClick={() => this.onOpenSidebar()} className="col-1 pa-clickable-element">
@@ -230,11 +276,9 @@ export class Navbar extends Component {
                                                             </div>
                                                         </Link>
                                                     :
-                                                        <Link to='/products' className="pa-link">
                                                             <div className="px-3 py-1 pa-bg-main-dark rounded pa-light pa-clickable-element" style={{marginLeft: 0, marginRight: 6, marginTop: 6, marginBottom: 0}}> 
                                                                 <FontAwesomeIcon icon={faSearch} className="fa-md" />
                                                             </div>
-                                                        </Link>
                                                 }
                                             </div>
                                         </span>
@@ -243,18 +287,52 @@ export class Navbar extends Component {
                             </div>
                             <div onClick={() => this.setState({openCart: !this.state.openCart, openDropdown: false, openAccount: false})} className="col-1 px-0 py-3 text-center pa-clickable-element navbar-cart-dropdown">
                                 <img src={ShoppingBag} alt="Shopping Bag Icon" width="20" height="20" />
-
+                                <span className="pa-bg-danger navbar-carts-badge pa-light" style={{borderRadius: 100}}>
+                                    {
+                                        this.props.cart.data === null?
+                                            null
+                                        :    
+                                            this.props.cart.data.length
+                                    }
+                                </span>
                                 {
                                     this.state.openCart?
                                         <div className="navbar-cart-dropdown-content">
-                                            <img src={EmptyCart} alt="Empty Cart Image" width="300px" />
-
-                                            <div className="px-0 pt-3 pb-0 pa-font-size-20 font-weight-bold">
-                                                Lho, Kok Sepi?
-                                            </div>
-                                            <div className="pt-0 pb-3 pa-dark-grey">
-                                                Mau diisi apa ya Bag sebesar ini?
-                                            </div>
+                                            {   
+                                                this.state.loginStatus?
+                                                    this.props.cart.data === null?
+                                                        <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
+                                                    :
+                                                        this.props.cart.data.length > 0?
+                                                            <>
+                                                                {this.mapDataCart()}
+                                                                <div className="pt-2 pb-0 font-weight-bold pa-font-size-12 pa-secondary">
+                                                                    <Link to='/cart' className="pa-link">
+                                                                        See All
+                                                                    </Link>
+                                                                </div>
+                                                            </>
+                                                        :
+                                                            <>
+                                                            <img src={EmptyCart} alt="Empty Cart Image" width="300px" />
+                                                            <div className="px-0 pt-3 pb-0 pa-font-size-20 font-weight-bold">
+                                                                Lho, Kok Sepi?
+                                                            </div>
+                                                            <div className="pt-0 pb-3 pa-dark-grey">
+                                                                Mau diisi apa ya Bag sebesar ini?
+                                                            </div>
+                                                            </>
+                                                :
+                                                    <>
+                                                        <img src={EmptyCart} alt="Empty Cart Image" width="300px" />
+                                                        <div className="px-0 pt-3 pb-0 pa-font-size-20 font-weight-bold">
+                                                            Lho, Kok Sepi?
+                                                        </div>
+                                                        <div className="pt-0 pb-3 pa-dark-grey">
+                                                            Mau diisi apa ya Bag sebesar ini?
+                                                        </div>
+                                                    </>
+                                            }
                                         </div>
                                     :
                                         null
@@ -294,7 +372,9 @@ export class Navbar extends Component {
                                                                     <img src={HistoryTransactionIcon} width="30" />
                                                                 </div>
                                                                 <div className="px-3 py-0 align-self-center">
-                                                                    Transaction
+                                                                    <Link to='/member/transactions' onClick={() => this.setState({openAccount: false})} className="pa-link">
+                                                                        Transaction
+                                                                    </Link>
                                                                 </div>
                                                             </div>
                                                             <div className="row px-0 py-2 pa-dark">
@@ -310,14 +390,14 @@ export class Navbar extends Component {
                                                                     </span>
                                                                 </div>
                                                             </div>
-                                                            <div className="row px-0 py-2 pa-dark">
+                                                            {/* <div className="row px-0 py-2 pa-dark">
                                                                 <div>
                                                                     <img src={UploadIcon} width="30" />
                                                                 </div>
                                                                 <div className="px-3 py-0 align-self-center">
                                                                     Upload
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                     :
                                                         null
@@ -401,43 +481,74 @@ export class Navbar extends Component {
                         </Link>
                     </div>
                     <hr style={{marginLeft: 49, marginTop: -15, marginBottom: 0, backgroundColor: "#f3f3f3"}} />
-                    <div className="row justify-content-between align-items-center px-3 py-0">
-                        <div className="px-3 pt-4 pa-clickable-element sidebar-menu">
-                            Cart
-                        </div>
-                        <div>
-                            <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
-                                <span className="px-3 py-1 pa-font-size-12 pa-light">
-                                    5
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row justify-content-between align-items-center px-3 py-0">
-                        <div className="px-3 pt-4 pa-clickable-element sidebar-menu">
-                            Wishlist
-                        </div>
-                        <div>
-                            <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
-                                <span className="px-3 py-1 pa-font-size-12 pa-light">
-                                    10
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="px-3 pt-4 pb-2 sidebar-menu">
+                    {/* <div className="px-3 pt-4 pb-2 sidebar-menu">
                         Payment Upload
-                    </div>
-                    <div className="px-3 pt-4 pb-2 pa-clickable-element sidebar-menu">
-                        <Link onClick={() => this.onCloseSidebar(), () => window.location = '/member/transactions'} className="pa-link" >
-                            Transactions
-                        </Link>
-                    </div>
-                    <div className="px-3 pt-4 pb-0 pa-clickable-element sidebar-menu">
-                        <Link onClick={() => this.onCloseSidebar(), () => window.location = '/member'} className="pa-link" >
-                            Profile
-                        </Link>
-                    </div>
+                    </div> */}
+                    {
+                        this.state.loginStatus?
+                            <>
+                                <div className="row justify-content-between align-items-center px-3 py-0">
+                                    <div className="px-3 pt-4 pa-clickable-element sidebar-menu">
+                                        <Link to='/cart' className="pa-link">
+                                            Cart
+                                        </Link>
+                                    </div>
+                                    <div>
+                                        <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
+                                            <span className="px-3 py-1 pa-font-size-12 pa-light">
+                                                {
+                                                    this.props.cart.data === null?
+                                                        null
+                                                    :    
+                                                        this.props.cart.data.length
+                                                }
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row justify-content-between align-items-center px-3 py-0">
+                                    <div className="px-3 pt-4 pa-clickable-element sidebar-menu">
+                                        Wishlist
+                                    </div>
+                                    <div>
+                                        <div className="mx-3 my-0 pa-bg-danger" style={{borderRadius: 100}}>
+                                            <span className="px-3 py-1 pa-font-size-12 pa-light">
+                                                10
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="px-3 pt-4 pb-2 pa-clickable-element sidebar-menu">
+                                    <Link onClick={() => this.onCloseSidebar(), () => window.location = '/member/transactions'} className="pa-link" >
+                                        Transactions
+                                    </Link>
+                                </div>
+                                <div className="px-3 pt-4 pb-0 pa-clickable-element sidebar-menu">
+                                    <Link onClick={() => this.onCloseSidebar(), () => window.location = '/member'} className="pa-link" >
+                                        Profile
+                                    </Link>
+                                </div>
+                                {   
+                                    this.props.user.data === null?
+                                        null
+                                    :
+                                        this.props.user.data.data[0].user_role === 1?
+                                            <div className="px-3 pt-4 pb-2 pa-clickable-element sidebar-menu">
+                                                <Link onClick={() => this.onCloseSidebar(), () => window.location = '/member/admin-dashboard'} className="pa-link" >
+                                                    Admin
+                                                </Link>
+                                            </div>
+                                        :
+                                            null
+                                }
+                            </>    
+                        :
+                            <div className="px-3 pt-4 pb-2 pa-clickable-element sidebar-menu">
+                                <Link onClick={() => this.onCloseSidebar(), () => window.location = '/register'} className="pa-link" >
+                                    Daftar / Masuk
+                                </Link>
+                            </div>
+                    }
                 </div>
             </div>
         )
@@ -446,10 +557,11 @@ export class Navbar extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        user: state.user
+        user: state.user,
+        cart: state.cart
     }
 }
 
-const mapDispatchToProps = { onGetDataUsers }
+const mapDispatchToProps = { onGetDataUsers, getCartData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

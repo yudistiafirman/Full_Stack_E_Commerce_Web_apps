@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 
 import userProfileReducer from './UserProfile/userProfileReducer';
+import myTransactionsReducer from './UserProfile/myTransactionsReducer';
 import flashSaleReducer from './LandingPage/flashSaleReducer';
 import bestSellerProductsReducer from './LandingPage/bestSellerProducts';
 import rajaOngkirProvinceReducer from './UserProfile/rajaOngkirProvinceReducer';
@@ -17,6 +18,7 @@ import AddCartReducer from './Products/AddCartReducer'
 
 const rootReducer = combineReducers({
     user: userProfileReducer,
+    myTransactions: myTransactionsReducer,
     flashSale: flashSaleReducer,
     bestSellerProducts: bestSellerProductsReducer,
     rajaOngkirProvince: rajaOngkirProvinceReducer,

@@ -1,13 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faEnvelopeOpenText, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt, faEnvelopeOpenText, faTimes, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import './Footer.css';
 
 import PejoyLogo from './../../Support/Images/Pejoy Logo.png';
 import CustomerCareIcon from './../../Support/Images/Customer Care Icon.png';
+import AdminIcon from './../../Support/Images/Admin Chat Logo.png';
 
 export class Footer extends React.Component {
+
+    state = {
+        email: '',
+        room: '',
+        message: []
+    }
+
+    componentDidMount(){
+        this.props.io.on('send-message', (data) => {
+            console.log(data)
+            this.setState({message: [...this.state.message, ...data], typingMessage : false})
+        })
+    }
 
     openChatRoom = () => {
         this.refs.chatRoom.style.display = "block";
@@ -17,11 +33,68 @@ export class Footer extends React.Component {
         this.refs.chatRoom.style.display = "none";
     }
 
+    onStartChat = () => {
+        let email = this.email.value
+        let room = 'customer_' + this.email.value
+
+        this.props.io.emit('user-join', {email, room})
+        this.setState({email: email, room: room})
+    }
+
+    onSendButtonClick = () => {
+        var data = {
+            username : this.state.email,
+            message : this.message.value
+        }
+
+        this.props.io.emit('send-message', data)
+        this.message.value = ''
+    }
+
+    renderMessage = () => {
+        return this.state.message.map((value) => {
+            return(
+                <div>
+                    {
+                        value.bot === true? 
+                            <div className="row justify-content-start px-0 py-1">
+                                <div className="col-2 align-self-end">
+                                    <img src={AdminIcon} width="100%" />
+                                </div>
+                                <div className="col-10 text-right" style={{marginLeft: -20}}>
+                                    <div className="mx-0 my-1 px-3 py-1 text-left rounded-top-left pa-bg-main-light pa-light pa-font-size-12" style={{display : 'inline-block', borderRadius : '15px 15px 15px 3px'}}>
+                                        {value.message}
+                                    </div>
+                                </div>
+                            </div>
+                        :
+                            value.myMessage === true?
+                                <div className="row justify-content-end px-3 py-1">
+                                    <div className="col-12 text-right">
+                                        <div className="mx-0 my-1 px-3 py-1 text-left rounded-top-left pa-bg-light-grey pa-font-size-12" style={{display : 'inline-block', borderRadius : '15px 15px 3px 15px'}}>
+                                            {value.message}
+                                        </div>
+                                    </div>
+                                </div>
+                            :
+                                <div className="row justify-content-end px-3 py-1">
+                                    <div className="col-12 text-right">
+                                        <div className="mx-0 my-1 px-3 py-1 text-left rounded-top-left pa-bg-light-grey pa-font-size-12" style={{display : 'inline-block', borderRadius : '15px 15px 3px 15px'}}>
+                                            {value.message}
+                                        </div>
+                                    </div>
+                                </div>
+                    }
+                </div>
+            )
+        })
+    }
+
     render(){
         return(
             <div>
                 {/* FOOTER SECTION */}
-                <img src={CustomerCareIcon} onClick={() => this.openChatRoom()} className="chat-icon" />
+                <img src={CustomerCareIcon} onClick={() => this.openChatRoom()} className="d-none d-md-block chat-icon" />
 
                 <div ref="chatRoom" className="chat-popup">
                     <div className="row justify-content-between mx-0 my-0 px-3 py-3 pa-bg-main-light" style={{borderTopLeftRadius: 5, borderTopRightRadius: 5}}>
@@ -32,14 +105,33 @@ export class Footer extends React.Component {
                             <FontAwesomeIcon icon={faTimes} onClick={() => this.closeChatRoom()} className="pa-clickable-element pa-light" />
                         </div>
                     </div>
-                    <div className="px-4 py-3">
-                        <div className="form-group">
-                            <label>Email Address</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-                        </div>
-                        <button type="submit" className="btn btn-primary w-100">Mulai Chatting</button>
-                    </div>
+                    {
+                        this.state.email?
+                            <>
+                                <div className="px-3 py-2">
+                                    <div className="chat-room">
+                                        {this.renderMessage()}
+                                    </div>
+                                    <div className="row form-group position-bottom mx-0 my-2">
+                                        <div>
+                                            <input type="text" ref={(element) => this.message = element} className="form-control rounded-0 border-left-0 border-right-0 border-top-0 border-bottom border-primary pa-input" placeholder="Type something..." />
+                                        </div>
+                                        <div>
+                                            <button onClick={this.onSendButtonClick} className="btn w-100 h-100 px-3 rounded-0 pa-bg-main-light pa-light">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        :
+                            <div className="px-4 py-3">
+                                <div className="form-group">
+                                    <label>Email Address</label>
+                                    <input type="text" ref={(element) => this.email = element} value={this.props.user.data === null? null : this.props.user.data.data[0].email}  className="form-control" disabled />
+                                    <small className="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <button type="submit" onClick={() => this.onStartChat()} className="btn btn-primary w-100">Mulai Chatting</button>
+                            </div>
+                    }
                 </div>
                 
                 <div className="container-fluid border-top border-primary">
@@ -107,4 +199,10 @@ export class Footer extends React.Component {
     }
 }
 
-export default Footer
+const mapStateToProps = (state) => {
+    return{
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, null)(Footer)

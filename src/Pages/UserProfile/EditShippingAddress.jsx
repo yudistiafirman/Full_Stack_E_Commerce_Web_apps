@@ -124,7 +124,9 @@ export class EditShippingAddress extends Component{
             this.props.onUpdateShippingAddress(this.state.data)
 
             if(this.props.shippingAddress.data.error === false){
-                window.location = ("/member/shipping-address")
+                window.scrollTo(0,0)
+                this.setState({successMessage : 'Your Address Saved'})
+                setTimeout(function(){window.location = '/member/shipping-address'}, 3000)
             }
         }
       }
@@ -188,7 +190,17 @@ export class EditShippingAddress extends Component{
                         </div>
                     </div>
                 </div>
-                <div className="px-0 py-4">
+                <div className="px-0 pt-4 pb-2">
+                    {
+                        this.state.successMessage?
+                            <Alert isOpen={alert} toggle="" className="border-primary text-center font-weight-bold pa-bg-light pa-main-light" style={{borderRadius: 5}}>
+                                Your Address Saved
+                            </Alert>
+                        :
+                            null
+                    }
+                </div>
+                <div className="px-0 pt-0 pb-4">
                     <div className="form-group">
                         <label  className="pa-main-light">Consignee</label>
                         <input type="text" value={this.state.data.receiver_name} onChange={(e) => this.setState({data: {...this.state.data, receiver_name: e.target.value}})} className="form-control" placeholder="Ex. Widodo C. Putro" />
@@ -323,7 +335,7 @@ export class EditShippingAddress extends Component{
                     </div>
                     <div>
                         <div onClick={() => this.updateShippingAddress()} className="btn mx-0 my-2 px-5 py-2 font-weight-bold pa-button-submit pa-main-light" style={{borderRadius: 10}}>
-                            Add Address
+                            Save Address
                         </div>
                     </div>
                     <div className="px-0 py-3">
@@ -342,7 +354,7 @@ export class EditShippingAddress extends Component{
     }
 }
 
-const stateToProps = (state) => {
+const mapStateToProps = (state) => {
     return{
         shippingAddress: state.shippingAddress,
         rajaOngkirProvince: state.rajaOngkirProvince,
@@ -352,4 +364,4 @@ const stateToProps = (state) => {
 
 const mapDispatchToProps = { onUpdateShippingAddress, onGetProvinceIdRajaOngkir, onGetCityIdRajaOngkir }
 
-export default GoogleApiWrapper({ apiKey: ('AIzaSyBLVHqBpK4pTUHkxRLctTj6a3nHrt1d-uI') })(connect(stateToProps, mapDispatchToProps)(EditShippingAddress))
+export default GoogleApiWrapper({ apiKey: ('AIzaSyABdJX4vpQfi81cvzXoSz59pIYPaiMOQk0') })(connect(mapStateToProps, mapDispatchToProps)(EditShippingAddress))

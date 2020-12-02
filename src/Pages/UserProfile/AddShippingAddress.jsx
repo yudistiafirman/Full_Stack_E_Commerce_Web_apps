@@ -12,7 +12,7 @@ import { onGetCityIdRajaOngkir } from '../../Redux/Actions/UserProfile/rajaOngki
 import { Alert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
 
 import './UserProfile.css';
 
@@ -42,11 +42,16 @@ export class AddShippingAddress extends Component{
             nearest_place: ''
         },
         errorInput: '',
+        successMessage: '',
         dataRajaOngkirProvinceSuggestions: []
       }
 
       componentDidMount(){
-          this.props.onGetProvinceIdRajaOngkir()
+        const token = localStorage.getItem('token')
+        
+        this.setState({data: {...this.state.data, token}})
+
+        this.props.onGetProvinceIdRajaOngkir()
       }
 
       handleChange = address => {
@@ -82,15 +87,17 @@ export class AddShippingAddress extends Component{
         this.props.onGetCityIdRajaOngkir(data)
       }
 
-      saveShippingAddress = () => {
+      saveShippingAddress = async () => {
         if(!this.state.data.receiver_name || !this.state.data.phone_number || !this.state.data.address_detail || !this.state.data.city || !this.state.data.longitude || !this.state.data.latitude){
-            this.setState({errorInput: 'Please Fill Your Valid Data!'})
+            this.setState({errorInput: 'Please Fill Your Valid Data'})
         }
         else{
             this.props.onSaveShippingAddress(this.state.data)
             
             if(this.props.shippingAddress.data.error === false){
-                window.location = ("/member/shipping-address")
+                window.scrollTo(0,0)
+                this.setState({successMessage : 'Your Address Added Succesfully'})
+                setTimeout(function(){window.location = '/member/shipping-address'}, 3000)
             }
         }
       }
@@ -155,7 +162,17 @@ export class AddShippingAddress extends Component{
                         </div>
                     </div>
                 </div>
-                <div className="px-0 py-4">
+                <div className="px-0 pt-4 pb-2">
+                    {
+                        this.state.successMessage?
+                            <Alert isOpen={alert} toggle="" className="border-primary text-center font-weight-bold pa-bg-light pa-main-light" style={{borderRadius: 5}}>
+                                Your Address Added Successfully
+                            </Alert>
+                        :
+                            null
+                    }
+                </div>
+                <div className="px-0 pt-0 pb-4">
                     <div className="form-group">
                         <label  className="pa-main-light">Consignee</label>
                         <input type="text" onChange={(e) => this.setState({data: {...this.state.data, receiver_name: e.target.value}})} className="form-control" placeholder="Ex. Widodo C. Putro" />
@@ -296,7 +313,7 @@ export class AddShippingAddress extends Component{
                     <div className="px-0 py-3">
                         {
                             this.state.errorInput?
-                                <Alert isOpen={alert} toggle="" className="border-0 text-center pa-bg-danger pa-light" style={{borderRadius: 10}}>
+                                <Alert isOpen={alert} toggle="" className="border-danger text-center font-weight-bold pa-bg-light pa-danger" style={{borderRadius: 10}}>
                                     {this.state.errorInput}
                                 </Alert>
                             :
@@ -309,7 +326,7 @@ export class AddShippingAddress extends Component{
     }
 }
 
-const stateToProps = (state) => {
+const mapStateToProps = (state) => {
     return{
         shippingAddress: state.shippingAddress,
         rajaOngkirProvince: state.rajaOngkirProvince,
@@ -319,4 +336,4 @@ const stateToProps = (state) => {
 
 const mapDispatchToProps = { onSaveShippingAddress, onGetProvinceIdRajaOngkir, onGetCityIdRajaOngkir }
 
-export default GoogleApiWrapper({ apiKey: ('AIzaSyBLVHqBpK4pTUHkxRLctTj6a3nHrt1d-uI') })(connect(stateToProps, mapDispatchToProps)(AddShippingAddress))
+export default GoogleApiWrapper({ apiKey: ('AIzaSyABdJX4vpQfi81cvzXoSz59pIYPaiMOQk0') })(connect(mapStateToProps, mapDispatchToProps)(AddShippingAddress))

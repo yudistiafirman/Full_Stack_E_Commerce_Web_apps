@@ -6,15 +6,60 @@ import { getUsersTransactions, deliverProductsToCustomer } from './../../../Redu
 
 import NotFound from './../../../Support/Images/Not Found.webp';
 
+import { Alert } from 'reactstrap';
+
 export class SeeTransactions extends Component{
 
     state = {
-        moreProducts: 1
+        moreProducts: 1,
+        activeLink: null,
+        visible: true,
+        successMessage: ''
     }
 
     componentDidMount(){
         const data = {
+            status_name_id: 1
+        }
+
+        this.props.getUsersTransactions(data)
+    }
+
+    onGetTransactionsWaitingForPayment = () => {
+        this.setState({activeLink: 'Waiting For Payment'})
+        
+        const data = {
+            status_name_id: 1
+        }
+
+        this.props.getUsersTransactions(data)
+    }
+
+    onGetTransactionsPaid = () => {
+        this.setState({activeLink: 'Paid'})
+
+        const data = {
             status_name_id: 2
+        }
+
+        this.props.getUsersTransactions(data)
+    }
+
+    onGetTransactionsDeliver = () => {
+        this.setState({activeLink: 'Deliver'})
+        
+        const data = {
+            status_name_id: 3
+        }
+
+        this.props.getUsersTransactions(data)
+    }
+
+    onGetTransactionsComplete = () => {
+        this.setState({activeLink: 'Complete'})
+        
+        const data = {
+            status_name_id: 4
         }
 
         this.props.getUsersTransactions(data)
@@ -27,6 +72,11 @@ export class SeeTransactions extends Component{
         ]
 
         this.props.deliverProductsToCustomer(data)
+
+        if(this.props.usersTransactions.data.error === false){
+            window.scrollTo(0,0)
+            this.setState({successMessage : 'Customer Products Delivered Successfully'})
+        }
     }
 
     mapUsersTransactions = () => {
@@ -42,9 +92,14 @@ export class SeeTransactions extends Component{
                                 <p className="font-weight-bold pa-font-size-16 pa-main-light">
                                     PJY/TRNSCTNS/000{value.id}
                                 </p>
-                                <div onClick={() => this.onSendProduct()} className="btn mx-0 my-1 px-3 py-1 font-weight-bold pa-button-submit pa-font-size-12 pa-main-light" style={{borderRadius: 10}}>
-                                    Send Products
-                                </div>
+                                {
+                                    value.status === 'Paid'?
+                                        <div onClick={() => this.onSendProduct()} className="btn mx-0 my-1 px-3 py-1 font-weight-bold pa-button-submit pa-font-size-12 pa-main-light" style={{borderRadius: 10}}>
+                                            Send Products
+                                        </div>
+                                    :
+                                        null
+                                }
                             </div>
                             <div className="col-6 border-left text-center">
                                 <p className="pa-font-size-15">
@@ -121,9 +176,14 @@ export class SeeTransactions extends Component{
                                 <p className="font-weight-bold pa-font-size-16 pa-main-light">
                                     PJY/TRNSCTNS/000{value.id}
                                 </p>
-                                <div onClick={() => this.onSendProduct(value.transaction_to_update, value.detail_transaction_to_update)} className="btn mx-0 my-1 px-3 py-1 font-weight-bold pa-button-submit pa-font-size-12 pa-main-light" style={{borderRadius: 10}}>
-                                    Send Products
-                                </div>
+                                {
+                                    value.status === 'Paid'?
+                                        <div onClick={() => this.onSendProduct(value.id, value.detail_transaction_to_update)} className="btn mx-0 my-1 px-3 py-1 font-weight-bold pa-button-submit pa-font-size-12 pa-main-light" style={{borderRadius: 10}}>
+                                            Send Products
+                                        </div>
+                                    :
+                                        null
+                                }
                             </div>
                             <div className="col-4 border-left text-center">
                                 <p className="pa-font-size-15">
@@ -255,25 +315,33 @@ export class SeeTransactions extends Component{
                 <div className="mx-0 my-3 border-bottom">
 
                 </div>
+                {
+                    this.state.successMessage?
+                        <Alert isOpen={this.state.visible} toggle={() => this.setState({visible: false})} className="border-primary text-center font-weight-bold pa-bg-light pa-secondary" style={{borderRadius: 5}}>
+                            Customer Products Delivered Successfully
+                        </Alert>
+                    :
+                        null
+                }
                 <div className="px-0 py-0">
                     <div className="row justify-content-start px-3 py-0">
                         <div>
-                            <div className="px-3 py-1 pa-bg-main-light pa-light" style={{borderRadius: 100}}>
+                            <div onClick={() => this.onGetTransactionsWaitingForPayment()} className={this.state.activeLink === 'Waiting For Payment'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
                                 Waiting For Payment
                             </div>
                         </div>
                         <div className="px-2 py-0">
-                            <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                            <div onClick={() => this.onGetTransactionsPaid()} className={this.state.activeLink === 'Paid'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
                                 Paid
                             </div>
                         </div>
                         <div>
-                            <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                            <div onClick={() => this.onGetTransactionsDeliver()} className={this.state.activeLink === 'Deliver'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
                                 Deliver
                             </div>
                         </div>
                         <div className="px-2 py-2 px-md-2 py-md-0">
-                            <div className="px-3 py-1 pa-bg-light-grey pa-main-light" style={{borderRadius: 100}}>
+                            <div onClick={() => this.onGetTransactionsComplete()} className={this.state.activeLink === 'Complete'? "px-3 py-1 pa-clickable-element pa-bg-main-light pa-light" : "px-3 py-1 pa-clickable-element pa-bg-light-grey pa-main-light"} style={{borderRadius: 100}}>
                                 Complete
                             </div>
                         </div>
@@ -288,7 +356,7 @@ export class SeeTransactions extends Component{
                                 <img src={NotFound} width="40%" />
                             </div>
                             <div className="px-0 pt-0 pb-0 text-center pa-font-size-20 font-weight-bold">
-                                Semua Barang Udah Dikirim Kok
+                                Ciye, Nungguin Ya?
                             </div>
                             <div className="pt-0 pb-3 text-center pa-dark-grey">
                                 Tunggu Update Selanjutnya Ya Min!

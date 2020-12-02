@@ -1,31 +1,31 @@
 import Axios from 'axios';
 import { UrlAPI } from '../../../Support/Constants/UrlAPI';
-import { USERPROFILE_LOADING, USERPROFILE_SUCCESS, USERPROFILE_ERROR } from './ActionTypes';
+import { DATASTATISTIC_LOADING, DATASTATISTIC_SUCCESS, DATASTATISTIC_ERROR } from './ActionTypes';
 
-export const onGetDataUsers = (token) => {
+export const onGetDataStatistic = () => {
     return (dispatch) => {
         dispatch({
-            type: USERPROFILE_LOADING
+            type: DATASTATISTIC_LOADING
         })
 
-        Axios.post(UrlAPI + 'member/profile', {token})
+        Axios.get(UrlAPI + 'member/admin-dashboard/data-statistic')
         .then((res) => {
             console.log(res)
             if(res.data.error){
                 dispatch({
-                    type: USERPROFILE_ERROR,
+                    type: DATASTATISTIC_ERROR,
                     payload: res.data.message
                 })
             }else{
                 dispatch({
-                    type: USERPROFILE_SUCCESS,
+                    type: DATASTATISTIC_SUCCESS,
                     payload: res.data
                 })
             }
         })
         .catch((err) => {
             dispatch({
-                type: USERPROFILE_ERROR,
+                type: DATASTATISTIC_ERROR,
                 payload: err.message
             })
         })    

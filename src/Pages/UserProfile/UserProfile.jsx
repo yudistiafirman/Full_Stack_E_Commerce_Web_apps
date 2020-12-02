@@ -35,6 +35,13 @@ export class UserProfile extends Component{
         activeLink: null
     }
 
+    onLogout = () => {
+        if(window.confirm('Are you sure want to logout?')){
+            localStorage.removeItem('token')
+            window.location = '/'
+        }
+    }
+
     render(){
         if(this.props.user.data === null){
             return(
@@ -159,15 +166,23 @@ export class UserProfile extends Component{
                                                 </span>
                                             </Link>
                                         </div>
+                                        {   
+                                            this.props.user.data === null?
+                                                null
+                                            :
+                                                this.props.user.data.data[0].user_role === 1?
+                                                    <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                                        <Link to="/member/admin-dashboard" onClick={() => this.setState({activeLink: 'Dashboard'})} className="pa-link">
+                                                            <span className={this.state.activeLink === 'Dashboard'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                                Dashboard
+                                                            </span>
+                                                        </Link>
+                                                    </div>
+                                                :
+                                                    null
+                                        }
                                         <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
-                                            <Link to="/member/admin-dashboard" onClick={() => this.setState({activeLink: 'Dashboard'})} className="pa-link">
-                                                <span className={this.state.activeLink === 'Dashboard'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
-                                                    Dashboard
-                                                </span>
-                                            </Link>
-                                        </div>
-                                        <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
-                                            <Link to="/" onClick={() => this.setState({activeLink: 'Logout'})} className="pa-link">
+                                            <Link to="/" onClick={() => this.onLogout()} className="pa-link">
                                                 <span className={this.state.activeLink === 'Logout'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
                                                     Logout
                                                 </span>
