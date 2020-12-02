@@ -4,18 +4,36 @@ import { ApiUrl } from '../../Constant/ApiUrl';
 import { UncontrolledAlert } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import { Link, Route, Switch, BrowserRouter as Router} from "react-router-dom";
+import Skeleton from 'react-loading-skeleton';
 import Loader from 'react-loader-spinner';
 import Billing from '../../Pages/Checkout/Checkout_components/Billing';
+import {getUserCheckoutShippingAddress, geMyOrders} from './../../Redux/Actions/Checkout/checkoutAction'
+
 
 
 export class Checkout extends React.Component {
 
     state = {
-        data : null,
-        alertMessage : false,
-        paymentMethods1Toggle : false,
-        paymentMethods2Toggle : false,
-        paymentMethods3Toggle : false
+        routes: [
+            // {
+            //     path: "/checkout/checkout-shipping-address",
+            //     exact: true,
+            //     page: () => <CheckoutAddress />
+            // },
+            // {
+            //     path: "checkout/checkout-Myorders",
+            //     page: () => <Myorders />
+            // },
+        ],
+        activeLink: null
+    }
+
+    componentDidMount(){
+        const token = localStorage.getItem('token')
+
+        this.props.getUserCheckoutShippingAddress(token)
     }
 
     getDataUnpaid = () => {
@@ -113,6 +131,64 @@ export class Checkout extends React.Component {
     }
 
     render(){
+
+        // if(this.props.user.data === null){
+        //     return(
+        //         <div>
+        //             <div className="container px-0 py-5 px-md-0 py-md-5">
+        //                 <div className="px-0 py-4 px-md-0 py-md-5">
+        //                     <div className="px-3 py-0 px-md-3 py-md-3">
+        //                         <Router>
+        //                             <div className="row px-0 py-0 px-md-0 py-md-4">
+        //                                 <div className="d-none d-md-block col-3">
+        //                                     <div>
+        //                                         <Skeleton width={150} height={150} duration={1} />
+        //                                     </div>
+        //                                     <div>
+        //                                         <h3 className="font-weight-bold">
+        //                                             <Skeleton width={250} height={20} duration={1} />
+        //                                         </h3>
+        //                                     </div>
+        //                                     <div className="pa-font-size-15 pa-dark-grey" style={{marginTop: -10, marginBottom: 25}}>
+        //                                         <Skeleton width={150} height={10} duration={1} />
+        //                                     </div>
+        //                                     <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+        //                                         <Link to="/checkout/checkout-shipping-address" onClick={() => this.setState({activeLink: 'CheckoutAddress'})} className="pa-link">
+        //                                             <span className={this.state.activeLink === 'CheckoutAddress'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+        //                                                 <Skeleton width={150} height={10} duration={1} />
+        //                                             </span>
+        //                                         </Link>
+        //                                     </div>
+        //                                     <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+        //                                         <Link to="checkout/checkout-Myorders" onClick={() => this.setState({activeLink: 'Myorders'})} className="pa-link">
+        //                                             <span className={this.state.activeLink === 'Myorders'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+        //                                                 <Skeleton width={150} height={10} duration={1} />
+        //                                             </span>
+        //                                         </Link>
+        //                                     </div>
+        //                                 </div>
+        //                                 <div className="col-12 col-md-9">
+        //                                     <Switch>
+        //                                         {this.state.routes.map((route, index) => (
+        //                                             <Route
+        //                                                 key={index}
+        //                                                 path={route.path}
+        //                                                 exact={route.exact}
+        //                                                 children={<route.page />}
+        //                                             />
+        //                                         ))}
+        //                                     </Switch>
+        //                                 </div>
+        //                             </div>
+        //                         </Router>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     )
+        // }
+
+
         return(
             <div>
                 {/* CHECKOUT SECTION */}
@@ -142,7 +218,88 @@ export class Checkout extends React.Component {
                             <div className="pt-3 pb-3">
                               
                             </div>
+                        
+                <div className="container px-0 py-5 px-md-0 py-md-5">
+                    <div className="px-0 py-4 px-md-0 py-md-5">
+                        <div className="px-3 py-0 px-md-3 py-md-3">
+                            <Router>
+                                <div className="row px-0 py-0 px-md-0 py-md-4">
+                                    <div className="d-none d-md-block col-3">
+                                        <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                            <Link to="/checkout/checkout-shipping-address" onClick={() => this.setState({activeLink: 'CheckoutAddress'})} className="pa-link">
+                                                <span className={this.state.activeLink === 'CheckoutAddress'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                    Checkout Address
+                                                </span>
+                                            </Link>
+                                        </div>
+                                        <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                            <Link to="checkout/checkout-Myorders" onClick={() => this.setState({activeLink: 'Myorders'})} className="pa-link">
+                                                <span className={this.state.activeLink === 'Myorders'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                    My orders
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-md-9">
+                                        <Switch>
+                                            {this.state.routes.map((route, index) => (
+                                                <Route
+                                                    key={index}
+                                                    path={route.path}
+                                                    exact={route.exact}
+                                                    children={<route.page />}
+                                                />
+                                            ))}
+                                        </Switch>
+                                    </div>
+                                </div>
+                            </Router>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* <div>
+                <div className="container px-0 py-5 px-md-0 py-md-5">
+                    <div className="px-0 py-4 px-md-0 py-md-5">
+                        <div className="px-3 py-0 px-md-3 py-md-3">
+                            <Router>
+                                <div className="row px-0 py-0 px-md-0 py-md-4">
+                                    <div className="d-none d-md-block col-3">
+                                        <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                            <Link to="/checkout/checkout-shipping-address" onClick={() => this.setState({activeLink: 'CheckoutAddress'})} className="pa-link">
+                                                <span className={this.state.activeLink === 'CheckoutAddress'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                    Checkout Address
+                                                </span>
+                                            </Link>
+                                        </div>
+                                        <div className="mx-0 my-3 px-3 pt-0 pb-3 border-bottom">
+                                            <Link to="checkout/checkout-Myorders" onClick={() => this.setState({activeLink: 'Myorders'})} className="pa-link">
+                                                <span className={this.state.activeLink === 'Myorders'? "font-weight-bold pa-font-size-18 pa-secondary" : "pa-font-size-18 pa-main-light"}>
+                                                    My orders
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-md-9">
+                                        <Switch>
+                                            {this.state.routes.map((route, index) => (
+                                                <Route
+                                                    key={index}
+                                                    path={route.path}
+                                                    exact={route.exact}
+                                                    children={<route.page />}
+                                                />
+                                            ))}
+                                        </Switch>
+                                    </div>
+                                </div>
+                            </Router>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
+
 
                         {/* My Orders & Payment Methods */}
                         <div className="col-12 col-md-6 py-3">
@@ -296,8 +453,25 @@ export class Checkout extends React.Component {
                 </div>
             </div>
         )
-    }
 
+
+
+
+    }
 }
 
-export default Checkout
+
+
+            
+    
+
+
+const mapStateToProps = (state) => {
+    return{
+        shippingAddress: state.shippingAddress
+    }
+}
+
+const mapDispatchToProps = { getUserCheckoutShippingAddress, geMyOrders }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
