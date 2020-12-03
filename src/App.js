@@ -19,6 +19,7 @@ import CardSimilarProduct from './Pages/DetailProduct/DetailProductComponent/Car
 import Registration from './Pages/Registration/Registration/Registration'
 import Cart from './Pages/Cart/Cart'
 import Verification from './Pages/Registration/Registration/Screens/verification/verficication'
+import ResetPass from './Pages/Registration/Registration/Screens/Reset/ResetPass'
 
 
 
@@ -41,6 +42,7 @@ const App = () => {
             <Route path='/register' component={Registration}/>
             <Route path='/cart' component={Cart}/>
             <Route path='/verification' component={Verification}/>
+            <Route path='/resetpassword/:token' component={ResetPass}/>
 
           </Switch>
 

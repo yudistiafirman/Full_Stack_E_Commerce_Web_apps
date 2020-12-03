@@ -31,7 +31,7 @@ import UploadIcon from './../../Support/Images/Upload.png';
 
 export class Navbar extends Component {
     state = {
-        loginStatus: false,
+        loginStatus: true,
         loginErrorMessage: '',
         openDropdown: false,
         openCart: false,
