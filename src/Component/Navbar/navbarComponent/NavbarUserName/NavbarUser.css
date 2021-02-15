@@ -1,0 +1,21 @@
+
+ .user-email{
+    width: 120px;
+    height: 40px;
+    color: #ffff;
+    font-weight: 500;
+    position: fixed;
+    right: 67px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+  }
+  #icon-down{
+    display: inline;
+  }
+@media (max-width:1141px){
+  #icon-down{
+    display: none;
+  }
+}

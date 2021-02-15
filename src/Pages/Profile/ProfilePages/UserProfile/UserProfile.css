@@ -1,0 +1,137 @@
+.user-profile-container{
+    position: absolute;
+    width: 80%;
+    top:80px;
+    left:310px;
+    height: 110vh;
+ 
+    text-align: left;
+}
+
+.user-profile-container form{
+    margin: 0;
+    display: inline;
+    height: 120%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-left: -50px;
+    transition: all 0.2s 0.7s;
+    
+}
+
+
+.profile-title{
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 1.5;
+ 
+    margin-left: 30px;
+}
+
+
+.error-message{
+    position: absolute;
+    color: #ef3b42;
+    font-size: 12px;
+    top:16%;
+    left:3%
+}
+
+.error-date{
+    position: absolute;
+    color: #ef3b42;
+    font-size: 12px;
+    bottom: 110px;
+    left:3%
+}
+
+.error-email{
+    position: absolute;
+    color: #ef3b42;
+    font-size: 12px;
+    bottom:-15%;
+    left:3%
+}
+
+#day-generator{
+    margin: 10px;
+    border-bottom: 1px solid #d6d6d6;
+    cursor: pointer;
+   
+}
+
+#day-generator:hover{
+    background-color: #65d6ce;
+}
+
+
+
+
+
+.notif-title{
+    font-size: 16px;
+    margin-bottom: -20px;
+    font-weight: bold;
+}
+
+.notification-choice {
+ 
+    width: 25%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.radio-container{
+    display: flex;
+    width: 45%;
+    flex-direction: row;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+
+
+
+.information-box{
+width: 50%;
+height: 50px;
+background-color: #c1ebff;
+border-radius: 16px;
+position: absolute;
+top:63.5%;
+left: 3%;
+
+}
+
+
+
+.dob-container{
+    width: 50%;
+    height: 80px;
+  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.dob-container button{
+    background:none;
+    outline: none;
+}
+
+.dropdown-container{
+    display: flex;
+    flex-direction: column;
+position:absolute;
+    width: 150px;
+    background-color: #eff8ff;
+
+    border-radius: 20px;
+    overflow: auto;
+    height: 230px;
+}

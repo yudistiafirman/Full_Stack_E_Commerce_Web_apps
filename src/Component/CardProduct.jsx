@@ -1,6 +1,5 @@
 import React, {useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCross, faSquare } from '@fortawesome/free-solid-svg-icons'
+
 import flash from './../Support/Images/flash-without-border.png'
 import MdHeart from 'react-ionicons/lib/MdHeart'
 import MdStar from 'react-ionicons/lib/MdStar'

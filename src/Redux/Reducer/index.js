@@ -16,8 +16,10 @@ import UpdateQtyReducer from './Products/UpdateQtyReducer';
 import checkoutReducer from './Checkout/checkoutReducer';
 import DeleteCartReducer from './Products/DeleteCartReducer'
 import AddCartReducer from './Products/AddCartReducer'
+import modalMaskReducer from './Modalmask/ModalmaskReduces';
 
 const rootReducer = combineReducers({
+    modal:modalMaskReducer,
     user: userProfileReducer,
     myTransactions: myTransactionsReducer,
     flashSale: flashSaleReducer,

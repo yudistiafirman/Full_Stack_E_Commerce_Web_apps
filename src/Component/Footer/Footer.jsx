@@ -12,44 +12,44 @@ import AdminIcon from './../../Support/Images/Admin Chat Logo.png';
 
 export class Footer extends React.Component {
 
-    state = {
-        email: '',
-        room: '',
-        message: []
-    }
+    // state = {
+    //     email: '',
+    //     room: '',
+    //     message: []
+    // }
 
-    componentDidMount(){
-        this.props.io.on('send-message', (data) => {
-            console.log(data)
-            this.setState({message: [...this.state.message, ...data], typingMessage : false})
-        })
-    }
+    // componentDidMount(){
+    //     this.props.io.on('send-message', (data) => {
+    //         console.log(data)
+    //         this.setState({message: [...this.state.message, ...data], typingMessage : false})
+    //     })
+    // }
 
-    openChatRoom = () => {
-        this.refs.chatRoom.style.display = "block";
-      }
+    // openChatRoom = () => {
+    //     this.refs.chatRoom.style.display = "block";
+    //   }
       
-    closeChatRoom = () => {
-        this.refs.chatRoom.style.display = "none";
-    }
+    // closeChatRoom = () => {
+    //     this.refs.chatRoom.style.display = "none";
+    // }
 
-    onStartChat = () => {
-        let email = this.email.value
-        let room = 'customer_' + this.email.value
+    // onStartChat = () => {
+    //     let email = this.email.value
+    //     let room = 'customer_' + this.email.value
 
-        this.props.io.emit('user-join', {email, room})
-        this.setState({email: email, room: room})
-    }
+    //     this.props.io.emit('user-join', {email, room})
+    //     this.setState({email: email, room: room})
+    // }
 
-    onSendButtonClick = () => {
-        var data = {
-            username : this.state.email,
-            message : this.message.value
-        }
+    // onSendButtonClick = () => {
+    //     var data = {
+    //         username : this.state.email,
+    //         message : this.message.value
+    //     }
 
-        this.props.io.emit('send-message', data)
-        this.message.value = ''
-    }
+    //     this.props.io.emit('send-message', data)
+    //     this.message.value = ''
+    // }
 
     renderMessage = () => {
         return this.state.message.map((value) => {

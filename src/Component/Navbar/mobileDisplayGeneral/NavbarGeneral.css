@@ -1,0 +1,88 @@
+.general-signin{
+    position: fixed;
+    width: 120px;
+    height: 40px;
+    top: 15px;
+    right:  20px;
+    cursor: pointer;
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    box-shadow: 0 0 16px -4px rgba(0, 0, 0, 0.2);
+}
+.navbar-general-searchbox{
+    width: 50%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 20px;
+    justify-content:space-around;
+    cursor: pointer;
+    top:10px;
+   position: fixed;
+    left:150px;
+    box-shadow: 0 0 16px -4px rgba(0, 0, 0, 0.2);
+  }
+
+  #rab-logo-general{
+    position: fixed;
+
+    left:-70px;
+    top: -5px;
+
+  }
+  
+  .navbar-general-searchbox input{
+  
+    outline: none;
+    height: 30px;
+      width: 70%;
+      padding-left: 5px;
+      border: none;
+      font-size: 14px;
+      font-family: Effra,Helvetica,Arial,sans-serif;
+      border-right: 2px solid #d0e8f2;
+      color: #456268;
+      margin-left: 20px;
+  }
+  .navbar-general-search-icon{
+    width: 40px;
+    height: 30px;
+    background-color: #892cdc;
+    border-radius: 10px;
+    display: flex;
+    margin-right: 10px;
+  
+  
+    justify-content: 'center';
+    align-items: center;
+  }
+.navbar-general{
+    display: none;
+  
+}
+
+@media (max-width:1141px){
+    .navbar-general{
+        display: inline;
+    }
+    .navbar-general #rab-logo-general{
+        display: inline;
+    }
+
+}
+
+
+@media (max-width:760px){
+.navbar-general-searchbox{
+  top:60px;
+  width: 100%;
+  left: 0;
+}
+
+.general-signin{
+  right: -20px;
+}
+}

@@ -1,0 +1,22 @@
+.radio-circle{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #41c3ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+
+
+
+.radio-label{
+    font-size: 13px;
+    color: #282828
+}
+
+.display-none{
+    display: none;
+}

@@ -47,7 +47,7 @@ const FhSocialButton =({type,facebookClick,responseFacebook,onFailure,onSuccessG
         return   <FacebookLogin
         appId={`${process.env.REACT_APP_FACEBOOK_CLIENT}`}
          autoLoad={false}
-         buttonStyle={{outline:"none",border:'none'}}
+         buttonStyle={{outline:"none",border:'none',cursor:'pointer'}}
         isDisabled={disabled}
          fields="name,email,picture"
          onClick={facebookClick}
@@ -64,7 +64,7 @@ const FhSocialButton =({type,facebookClick,responseFacebook,onFailure,onSuccessG
         return <GoogleLogin
         clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
          buttonText="Login"
-          render={renderProps=> ( <button style={{textDecoration:'none',outline:'none',cursor:disabled?"not-allowed":"pointer"}} disabled={disabled}  onClick={renderProps.onClick} className="reg-social-icon-button google-button">
+          render={renderProps=> ( <button style={{textDecoration:'none',outline:'none',cursor:"pointer",marginBottom:'20px'}} disabled={disabled}  onClick={renderProps.onClick} className="reg-social-icon-button google-button">
     
           <img alt="#" src={GoogleLogo} className="google-image"/>
           <p style={{marginRight:'15px'}} >google</p>

@@ -1,0 +1,26 @@
+.disabled input{
+    color:#ffc1fa;
+    font-weight: normal;
+}
+.disabled label{
+    color: #ffc1fa;
+    top:0;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+
+.side-label{
+    position: absolute;
+    right: 30px;
+    top:15px;
+    color:#0072a7;
+    cursor: pointer;
+}
+
+.verified-phone{
+    color: rgba(0,0,0,0.38);
+    font-size: 12px;
+    flex: auto;
+    cursor:default
+}

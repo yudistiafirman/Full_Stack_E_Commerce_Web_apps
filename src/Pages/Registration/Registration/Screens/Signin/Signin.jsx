@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import '../Signin/style.css'
 import {  faEye, faTimesCircle,faEyeSlash} from '@fortawesome/free-solid-svg-icons'
 import FhInput from '../../../CompOfRegistration/MyInput/input'
@@ -6,61 +6,94 @@ import FhBtn from '../../../CompOfRegistration/MyButton/button'
 import FhSocialButton from '../../../CompOfRegistration/SocialButton/SocialButton'
 import FhLoading from '../../../CompOfRegistration/Loading/Loading'
 import LoginToast from '../../../CompOfRegistration/toast/logintoast'
+import {authenticate,isAuth}from '../../helper/auth'
 import Axios from 'axios'
+import { useHistory } from 'react-router-dom'
+import Error from '../../../CompOfRegistration/errorcontainer/error'
+import { ValidateEmail, ValidatePassword } from '../../helper/validator'
 
 const SignIn = ({onClick,myClass})=>{
 
     const [formLogin,setFormLogin]=useState({
         loading:false,
         email:'',
+        error_email:'',
         password:'',
+        error_password:'',
         reveal_pass:false,
         error:'',
+        enabled:false
 
     })
+    let history=useHistory()
   
-    const {error,email,password,reveal_pass,loading}=formLogin
-
-    const handleChange = text => e => {
-        setFormLogin({ ...formLogin, [text]: e.target.value });
+    const {error,email,password,reveal_pass,loading,enabled,error_email,error_password}=formLogin
+    
+useEffect(()=>{
+    let validateMail=ValidateEmail(email)
+    
+    if(!validateMail){
+        setFormLogin({...formLogin,error_email:'invalid email format',enabled:false})
+    }else{
+        setFormLogin({...formLogin,enabled:true,error_email:''})
     }
-    const onResetInput=text=>{
-    setFormLogin({...formLogin,[text]:''})
+
+},[email])
+useEffect(()=>{
+       
+
+let validatePass=ValidatePassword(password)
+if(!validatePass){
+    setFormLogin({...formLogin,enabled:false,error_password:' minimum 6 length contain 1 number'})
+}else{
+    setFormLogin({...formLogin,enabled:true,error_password:''})
+}
+    },[password])
+
+
+
+        const handleChange=text=>e=>{
+            setFormLogin({...formLogin,[text]:e.target.value})
+        }
+    const onResetInput=()=>{
+    setFormLogin({...formLogin,email:''})
     }
 
     const handleSubmit= (e)=>{
-    e.preventDefault()
-
-    try {
+        e.preventDefault()
         setFormLogin({...formLogin,loading:true})
-        if(!email||!password) throw new Error('input field must be filled up')
+   
 
         Axios.post('http://localhost:2000/auth/login',{email,password})
         .then((response)=>{
-            console.log(response)
-            setFormLogin({...formLogin,loading:false,password:'',email:'',error:''})
+            authenticate(response,()=>{
+                setFormLogin({...formLogin,loading:false,password:'',email:'',error:''})
+                isAuth()&&isAuth().user_role==='admin'
+                ?history.push('/')
+                :isAuth()&&isAuth().is_verified===0?
+                history.push('/verification')
+                :history.push('/')
+            })
+         
         }).catch((err)=>{
-
-            
+       
             setFormLogin({...formLogin,error:err.response.data.message,loading:true})
             setTimeout(()=>{
                 setFormLogin({...formLogin,error:'',loading:false})
             },4000)
-          
 
         })
+    }
+  
+
+              
+            
+          
+
       
        
-    } catch (error) {
-        setFormLogin({...formLogin,error:error.message,loading:true})
-        setTimeout(()=>{
-           setFormLogin({...formLogin,error:'',loading:false})
-       },4000)
-     
-        
-    }
+   
 
-}
 
 const sendGoogleToken = tokenId => {
     Axios
@@ -68,10 +101,12 @@ const sendGoogleToken = tokenId => {
         idToken: tokenId
       })
       .then(res => {
-        console.log(res.data);
+          console.log(res.data)
+            informParent(res)
     
       })
       .catch(error => {
+        
         setFormLogin({...formLogin,error:error.res.data.message,disabled:true,loading:true})
         setTimeout(()=>{
         setFormLogin({...formLogin,error:'',disabled:false,loading:false})
@@ -79,27 +114,40 @@ const sendGoogleToken = tokenId => {
       
       });
   };
+  const informParent = response => {
+    authenticate(response, () => {
+    
+      isAuth()&&isAuth().user_role==='admin'
+                ?window.location='/'
+                :isAuth()&&isAuth().is_verified===0?
+                history.push('/verification')
+                :history.push('/')
+    });
+  };
 
-  const sendFacebookToken =  (userID, accessToken) => {
-    Axios.post('http://localhost:2000/auth/register/facebook',{userID,accessToken})
-            .then((response)=>{
-                console.log(response.data)
-            })
-            .catch((error)=>{
-                setFormLogin({...formLogin,error:error.response.data.message,disabled:true,loading:true})
-                setTimeout(()=>{
-                    setFormLogin({...formLogin,error:'',disabled:false,loading:false})
-                },4000)
-            })
-}
+ 
+  
+   
+
     const facebookClick=()=>{
       console.log('this is facebook login')
     }
     const responseFacebook=(response)=>{
-        if(!response.status==="unknown"){
-            sendFacebookToken(response.userID, response.accessToken)
+      
+      
+         
+            Axios.post('http://localhost:2000/auth/register/facebook',{userID:response.userID,accessToken:response.accessToken})
+            .then((response)=>{
+           informParent(response)
+            })
+            .catch((error)=>{
+                // setFormLogin({...formLogin,error:error.response.data.message,disabled:true,loading:true})
+                setTimeout(()=>{
+                    setFormLogin({...formLogin,error:'',disabled:false,loading:false})
+                },4000)
+            })
         }
-    }
+    
 
     const responseGoogle = (response) => {
         if(!response.error){
@@ -109,15 +157,26 @@ const sendGoogleToken = tokenId => {
       }
 
       
-    const onRevealPass=text=>{
-        setFormLogin({...formLogin,[text]:!formLogin[text]})
+    const onRevealPass=()=>{
+        setFormLogin({...formLogin,reveal_pass:!reveal_pass})
     }
-    return  <form className={myClass}>
+
+    
+    return  <form className={myClass} >
         
             <h2 className="title">Sign in</h2>
-
-            <FhInput label="email" icon={faTimesCircle} onChange={handleChange('email')} value={email} onClick={()=>onResetInput('email')} myClass={email?"reset-input display-inline":'reset-input'}/>
-            <FhInput label="password" icon={reveal_pass? faEyeSlash:faEye}value={password} onChange={handleChange('password')} onClick={()=>onRevealPass('reveal_pass')} inputType={reveal_pass?"text":'password'} myClass="hide-password"/>
+         
+            {email.length>2 &&    <div className="invalid-email">
+             <Error error={email.length>2?error_email:null}/>
+            </div>
+           }
+            <FhInput label="email" icon={faTimesCircle} onChange={handleChange('email')} value={email} onClick={onResetInput} myClass={email?"reset-input display-inline":'reset-input'}/>
+            
+            {password.length>2 &&    <div className="invalid-password">
+             <Error error={password.length>2?error_password:null}/>
+            </div>
+           }
+            <FhInput label="password" icon={reveal_pass? faEyeSlash:faEye}value={password} onChange={handleChange('password')} onClick={onRevealPass} inputType={reveal_pass?"text":'password'} myClass="hide-password"/>
     
             <div className="forgot-text-container">
                 <p style={{cursor:'pointer'}} onClick={onClick}>forgot password?</p>
@@ -125,7 +184,7 @@ const sendGoogleToken = tokenId => {
 
 
            
-            <FhBtn onSubmit={handleSubmit}   label={loading?<FhLoading/>:"Sign in"} disabled={loading?true:false} buttonType="solid"/>
+            <FhBtn onSubmit={handleSubmit}   label={loading?<FhLoading/>:"Sign in"} disabled={error_email||error_password?true:loading?true:false} buttonType="solid"/>
 
             <p className="social-text">Or Sign in with social platforms</p>
 

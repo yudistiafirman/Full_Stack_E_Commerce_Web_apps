@@ -64,17 +64,17 @@ export const isAuth = () => {
     }
 };
 
-export const signout = next => {
+export const signout = ()=> {
     removeCookie('token');
     removeLocalStorage('user');
-    next();
+    window.location='/'
 };
 
 export const updateUser = (response, next) => {
     console.log('UPDATE USER IN LOCALSTORAGE HELPERS', response);
     if (typeof window !== 'undefined') {
         let auth = JSON.parse(localStorage.getItem('user'));
-        auth = response.data;
+        auth = response.data[0];
         localStorage.setItem('user', JSON.stringify(auth));
     }
     next();

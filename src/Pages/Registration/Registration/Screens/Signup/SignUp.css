@@ -14,7 +14,13 @@
     vertical-align: middle;
     width: 50%;
   }
-  
+  .sign-up-title {
+    font-size: 2.2rem;
+    color: #444;
+    margin-bottom: 5px;
+    text-align: center;
+
+  }
   .middle-vertical-line:before {
     right: 0.5em;
     margin-left: -50%;
@@ -24,15 +30,62 @@
     left: 0.5em;
     margin-right: -50%;
   }
-
+  .signup-invalid-password{
+    position: absolute;
+    width: 73%;
+    top:61.5%;
+    left: 23%;
+    right: 0;
+    bottom:0;
+    
+  }
   
- 
+  .signup-invalid-email{
+    position: absolute;
+    width: 60%;
+    top:45.4%;
+    left:26%;
+    bottom:0;
+    
+   
+  
+  }
+  .signup-invalid-username{
+    position: absolute;
+    width: 60%;
+    top:29.3%;
+    left:26%;
+    bottom:0;
+   }
 
 @media (max-width: 870px) {
     .term-container{
         width: 60%;
     }
-
+    .signup-invalid-password{
+      position: absolute;
+      width: 70%;
+      top:60.5%;
+      left: 25%;
+      right: 0;
+      bottom:0;
+    }
+    .signup-invalid-email{
+      position: absolute;
+      width: 55%;
+      top:43.5%;
+      left:29%;
+      bottom:0;
+     
+    
+    }
+    .signup-invalid-username{
+      position: absolute;
+      width: 60%;
+      top:27%;
+      left:28%;
+      bottom:0;
+     }
 }
 
 @media (max-width: 570px) {
@@ -44,6 +97,31 @@
         width: 70%;
     }
    
+   .signup-invalid-password{
+     position: absolute;
+     width: 90%;
+     top:60.5%;
+     left: 16%;
+     right: 0;
+     bottom:0;
+   }
+
+   .signup-invalid-email{
+     position: absolute;
+     width: 90%;
+     top:44%;
+     left:16%;
+     bottom:0;
+    
    
+   }
+
+   .signup-invalid-username{
+    position: absolute;
+    width: 90%;
+    top:27%;
+    left:16%;
+    bottom:0;
+   }
 
 }
